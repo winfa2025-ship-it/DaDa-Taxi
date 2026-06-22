@@ -132,7 +132,7 @@
     .nav-item span { font-size: 11px; }
     
     /* Page */
-    .page { display: none; padding: 20px; padding-top: 120px; animation: fadeIn 0.3s; }
+    .page { display: none; padding: 20px; padding-top: 120px; animation: fadeIn 0.3s; position: relative; z-index: 1; }
     .page.active { display: block; }
     
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -1009,7 +1009,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.6);
-      z-index: 990;
+      z-index: 9998;
       display: none;
     }
     
@@ -1022,7 +1022,7 @@
       bottom: 0;
       width: 280px;
       background: var(--darkGray);
-      z-index: 1000;
+      z-index: 9999;
       transform: translateX(-100%);
       transition: transform 0.3s;
       overflow-y: auto;
