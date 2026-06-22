@@ -2906,11 +2906,8 @@
       
       // Show/hide menu button
       const menuBtn = document.getElementById('menuBtn');
-      if (page === 'messages') {
-        menuBtn.style.display = 'none';
-      } else {
-        menuBtn.style.display = (state.isLoggedIn && mainPages.includes(page)) ? 'block' : 'none';
-      }
+      // Always show menu on main pages
+      menuBtn.style.display = mainPages.includes(page) ? 'block' : 'none';
       
       // Update header title
       const titles = {
