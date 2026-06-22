@@ -1022,8 +1022,8 @@
       bottom: 0;
       width: 280px;
       background: var(--darkGray);
-      z-index: 9999;
-      transform: translateX(-100%);
+      z-index: 9999; display: block;
+      transform: translateX(0);
       transition: transform 0.3s;
       overflow-y: auto;
     }
@@ -1171,11 +1171,16 @@
       padding: 8px;
       cursor: pointer;
       transition: all 0.2s;
+      display: inline-block;
     }
     
     .menu-btn:active {
       background: rgba(255,255,255,0.3);
       transform: scale(0.95);
+    }
+    
+    .menu-btn[style*="block"] {
+      display: inline-block !important;
     }
     
     /* Ride Active Status */
@@ -2933,8 +2938,13 @@
     
     // Toggle Sidebar
     function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('show');
-      document.getElementById('sidebarOverlay').classList.toggle('show');
+      console.log('toggleSidebar called');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      sidebar.classList.toggle('show');
+      overlay.classList.toggle('show');
+      console.log('sidebar classes:', sidebar.className);
+      console.log('overlay classes:', overlay.className);
     }
     
     function closeSidebar() {
