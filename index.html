@@ -993,14 +993,20 @@
       
       <div class="card" style="margin-top: 20px;">
         <h3 style="margin-bottom: 15px;" data-i18n="kyc">KYC Verification</h3>
-        <div style="display: flex; align-items: center; gap: 15px;">
-          <div style="width: 50px; height: 50px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <div id="kycStatus">
+          <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+            <div style="width: 50px; height: 50px; background: #f59e0b; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <h4 style="margin-bottom: 3px; color: #f59e0b;">Pending Verification</h4>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Complete identity verification to unlock all features</p>
+            </div>
           </div>
-          <div style="flex: 1;">
-            <h4 style="margin-bottom: 3px;" data-i18n="verified">Verified</h4>
-            <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Your identity is verified</p>
-          </div>
+          <button class="btn btn-primary" onclick="goTo('kycVerify')" style="margin-bottom: 10px;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+            Verify with Stripe Identity
+          </button>
         </div>
       </div>
       
@@ -1056,6 +1062,58 @@
         <h3 style="margin-bottom: 10px;">3. Information Sharing</h3>
         <p style="color: rgba(255,255,255,0.7);">We may share your information with drivers and other users as necessary to provide our services. We may also share information with our affiliates, service providers, and when required by law.</p>
       </div>
+    </div>
+  </div>
+  
+  <!-- KYC Verification Page -->
+  <div class="page" id="page-kycVerify">
+    <button class="back-btn" onclick="goTo('profile')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;">Identity Verification</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 30px;">Powered by Stripe Identity</p>
+      
+      <div style="text-align: center; margin-bottom: 30px;">
+        <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #635bff, #a259ff); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 48px;">🪪</div>
+      </div>
+      
+      <div class="card">
+        <h3 style="margin-bottom: 15px;">What we verify:</h3>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+          <div style="width: 32px; height: 32px; background: rgba(34,197,94,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Government ID (Passport, Driver's License)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+          <div style="width: 32px; height: 32px; background: rgba(34,197,94,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Selfie verification</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 32px; height: 32px; background: rgba(34,197,94,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <svg width="16" height="16" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span>Address verification</span>
+        </div>
+      </div>
+      
+      <div class="card" style="background: rgba(99,91,255,0.1); border: 1px solid rgba(99,91,255,0.3);">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <svg width="20" height="20" fill="none" stroke="#635bff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span style="font-weight: 600; color: #635bff;">Your data is protected</span>
+        </div>
+        <p style="font-size: 13px; color: rgba(255,255,255,0.6);">Stripe encrypts your data and never shares your ID number with DaDa Taxi.</p>
+      </div>
+      
+      <button class="btn btn-primary" onclick="startStripeKYC()" style="margin-top: 20px; padding: 18px;">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Start Verification
+      </button>
+      
+      <p style="text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 15px;">Verification typically takes 2-3 minutes</p>
     </div>
   </div>
   
@@ -1945,7 +2003,7 @@
     ];
     
     // Navigation pages that show bottom nav
-    const mainPages = ['home', 'rideRequest', 'messages', 'orders', 'profile', 'safety', 'subscription', 'cancelOrder', 'rideActive', 'privacy', 'editProfile'];
+    const mainPages = ['home', 'rideRequest', 'messages', 'orders', 'profile', 'safety', 'subscription', 'cancelOrder', 'rideActive', 'privacy', 'editProfile', 'kycVerify'];
     
     // Initialize
     function init() {
@@ -2247,6 +2305,119 @@
       document.getElementById('profileInitial').textContent = (name || 'U')[0].toUpperCase();
       
       goTo('profile');
+    }
+    
+    // Stripe KYC Identity Verification
+    function startStripeKYC() {
+      // Show loading state
+      const btn = event.target.closest('button');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<span style="display: inline-flex; align-items: center;"><svg width="20" height="20" style="animation: spin 1s linear infinite; margin-right: 8px;" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="60" stroke-dashoffset="20"/></svg> Connecting to Stripe...</span>';
+      btn.disabled = true;
+      
+      // Simulate Stripe Identity verification flow
+      // In production, this would call your backend to create a Stripe Identity verification session
+      setTimeout(() => {
+        // For demo purposes, show simulated verification steps
+        showKYCLoading();
+      }, 1500);
+    }
+    
+    function showKYCLoading() {
+      // Simulate verification steps
+      const steps = [
+        { icon: '📄', text: 'Scanning document...' },
+        { icon: '📸', text: 'Taking selfie...' },
+        { icon: '🔍', text: 'Verifying authenticity...' },
+        { icon: '✅', text: 'Verification complete!' }
+      ];
+      
+      let stepIndex = 0;
+      const container = document.querySelector('#page-kycVerify .container');
+      const originalContent = container.innerHTML;
+      
+      container.innerHTML = `
+        <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;">Verifying Your Identity</h2>
+        <div style="text-align: center; margin-bottom: 40px;">
+          <div id="kycStepIcon" style="width: 100px; height: 100px; background: rgba(99,91,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 48px;">📄</div>
+        </div>
+        <div id="kycStepText" style="text-align: center; font-size: 18px; color: rgba(255,255,255,0.8);">${steps[0].text}</div>
+        <div style="margin-top: 30px; padding: 20px; background: var(--darkGray); border-radius: 12px;">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 10px;">
+            <span>Step ${stepIndex + 1} of ${steps.length}</span>
+            <span id="kycPercent">25%</span>
+          </div>
+          <div style="height: 6px; background: var(--lightGray); border-radius: 3px; overflow: hidden;">
+            <div id="kycProgress" style="height: 100%; background: linear-gradient(90deg, #635bff, #a259ff); width: 25%; transition: width 0.5s;"></div>
+          </div>
+        </div>
+        <style>
+          @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        </style>
+      `;
+      
+      const interval = setInterval(() => {
+        stepIndex++;
+        if (stepIndex >= steps.length) {
+          clearInterval(interval);
+          setTimeout(() => completeStripeKYC(), 500);
+          return;
+        }
+        document.getElementById('kycStepIcon').textContent = steps[stepIndex].icon;
+        document.getElementById('kycStepText').textContent = steps[stepIndex].text;
+        document.getElementById('kycPercent').textContent = Math.round((stepIndex + 1) / steps.length * 100) + '%';
+        document.getElementById('kycProgress').style.width = Math.round((stepIndex + 1) / steps.length * 100) + '%';
+      }, 1200);
+    }
+    
+    function completeStripeKYC() {
+      // Mark as verified
+      state.user = { ...state.user, kycVerified: true };
+      
+      const container = document.querySelector('#page-kycVerify .container');
+      container.innerHTML = `
+        <div style="text-align: center; padding: 40px 0;">
+          <div style="width: 120px; height: 120px; background: rgba(34,197,94,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; font-size: 60px;">✅</div>
+          <h2 style="font-size: 28px; margin-bottom: 15px; color: #22c55e;">Identity Verified!</h2>
+          <p style="color: rgba(255,255,255,0.6); margin-bottom: 30px;">Your identity has been successfully verified via Stripe Identity.</p>
+          <div class="card" style="text-align: left;">
+            <h4 style="margin-bottom: 15px;">Verification Details:</h4>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--lightGray);">
+              <span style="color: rgba(255,255,255,0.6);">Status</span>
+              <span style="color: #22c55e; font-weight: 600;">Verified</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--lightGray);">
+              <span style="color: rgba(255,255,255,0.6);">Method</span>
+              <span>Stripe Identity</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+              <span style="color: rgba(255,255,255,0.6);">Verified At</span>
+              <span>${new Date().toLocaleString()}</span>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="goTo('profile')" style="margin-top: 25px;">Back to Profile</button>
+        </div>
+      `;
+      
+      // Update profile page KYC status
+      updateKYCStatus();
+    }
+    
+    function updateKYCStatus() {
+      const kycStatus = document.getElementById('kycStatus');
+      if (kycStatus && state.user?.kycVerified) {
+        kycStatus.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 15px;">
+            <div style="width: 50px; height: 50px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+              <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div style="flex: 1;">
+              <h4 style="margin-bottom: 3px; color: #22c55e;">Verified</h4>
+              <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Your identity is verified via Stripe</p>
+            </div>
+          </div>
+        `;
+      }
     }
     
     // Handle Login
