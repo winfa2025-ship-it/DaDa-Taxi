@@ -1033,9 +1033,10 @@
     .sidebar-header {
       background: var(--primary);
       padding: 20px;
+      padding-top: 70px;
     }
     
-    .sidebar-menu { padding: 15px; }
+    .sidebar-menu { padding: 15px; padding-top: 0; }
     
     .sidebar-item {
       display: flex;
@@ -1163,6 +1164,20 @@
       cursor: pointer;
     }
     
+    .menu-btn {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .menu-btn:active {
+      background: rgba(255,255,255,0.3);
+      transform: scale(0.95);
+    }
+    
     /* Ride Active Status */
     .ride-status {
       background: rgba(34,197,94,0.2);
@@ -1280,9 +1295,9 @@
   
   <!-- Header -->
   <header class="header">
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <button class="back-btn" onclick="toggleSidebar()" style="display: none;" id="menuBtn">
-        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <div style="display: flex; align-items: center; gap: 15px;">
+      <button class="menu-btn" onclick="toggleSidebar()" id="menuBtn" style="display: none;">
+        <svg width="26" height="26" fill="none" stroke="white" stroke-width="2.5"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <h1 class="header-title" id="pageTitle">DaDa Taxi</h1>
     </div>
