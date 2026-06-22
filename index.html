@@ -1,547 +1,1195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DaDa Taxi - User Version</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#FF6B00',
-            dark: '#1a1a1a',
-            darkGray: '#2d2d2d',
-            lightGray: '#3d3d3d'
-          }
-        }
-      }
-    }
-  </script>
+  <title>DaDa Taxi - 用家版</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #FF6B00;
+      --dark: #1a1a1a;
+      --darkGray: #2d2d2d;
+      --lightGray: #3d3d3d;
+    }
+    
     body {
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #1a1a1a;
-      color: #ffffff;
+      font-family: 'Noto Sans TC', -apple-system, sans-serif;
+      background: var(--dark);
+      color: white;
       min-height: 100vh;
-      overflow-x: hidden;
+      padding-bottom: 80px;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    
+    .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+    
+    /* Header */
+    .header {
+      background: var(--primary);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
-    @keyframes slideIn {
-      from { transform: translateX(-100%); }
-      to { transform: translateX(0); }
+    
+    .header-title { font-size: 18px; font-weight: 700; color: white; }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+    
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
     }
-    .animate-fade-in { animation: fadeIn 0.3s ease-out; }
-    .animate-slide-in { animation: slideIn 0.3s ease-out; }
-    .animate-pulse-slow { animation: pulse 2s ease-in-out infinite; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #2d2d2d; }
-    ::-webkit-scrollbar-thumb { background: #FF6B00; border-radius: 3px; }
-    .btn-primary {
-      background-color: #FF6B00;
-      color: white;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 12px;
-      transition: all 0.3s;
-      border: none;
-      cursor: pointer;
+    
+    .logo-text { font-size: 14px; font-weight: 700; color: white; }
+    .logo-sub { font-size: 10px; color: white; opacity: 0.9; }
+    
+    /* Buttons */
+    .btn {
       width: 100%;
+      padding: 15px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
     }
-    .btn-primary:hover { filter: brightness(1.1); }
+    
+    .btn-primary { background: var(--primary); color: white; }
     .btn-primary:active { transform: scale(0.98); }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-black {
-      background-color: #000000;
-      color: white;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 12px;
-      transition: all 0.3s;
-      border: none;
-      cursor: pointer;
-    }
-    .btn-black:hover { filter: brightness(0.9); }
-    .btn-outline {
-      border: 2px solid #FF6B00;
-      color: #FF6B00;
-      font-weight: 600;
-      padding: 12px 24px;
-      border-radius: 12px;
-      transition: all 0.3s;
-      background: transparent;
-      cursor: pointer;
-    }
-    .btn-outline:hover { background: #FF6B00; color: white; }
-    .input-field {
+    
+    .btn-black { background: #000; color: white; }
+    .btn-outline { border: 2px solid var(--primary); color: var(--primary); background: transparent; }
+    
+    /* Input */
+    .input {
       width: 100%;
-      background-color: #2d2d2d;
-      border: 1px solid #3d3d3d;
-      color: white;
+      padding: 15px;
+      background: var(--darkGray);
+      border: 1px solid var(--lightGray);
       border-radius: 12px;
-      padding: 12px 16px;
+      color: white;
+      font-size: 16px;
       outline: none;
-      transition: border-color 0.3s;
     }
-    .input-field:focus { border-color: #FF6B00; }
+    
+    .input:focus { border-color: var(--primary); }
+    
+    /* Card */
     .card {
-      background-color: #2d2d2d;
+      background: var(--darkGray);
       border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin-bottom: 15px;
     }
+    
+    /* Bottom Nav */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--darkGray);
+      border-top: 1px solid var(--lightGray);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 100;
+    }
+    
     .nav-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 8px 12px;
-      color: rgba(255,255,255,0.7);
-      transition: color 0.3s;
+      gap: 4px;
+      color: rgba(255,255,255,0.6);
       cursor: pointer;
-      font-size: 12px;
+      padding: 5px 15px;
+      transition: color 0.3s;
     }
-    .nav-item:hover, .nav-item.active { color: #FF6B00; }
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 50; }
-    .sidebar {
+    
+    .nav-item.active { color: var(--primary); }
+    .nav-item svg { width: 24px; height: 24px; }
+    .nav-item span { font-size: 11px; }
+    
+    /* Page */
+    .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+    .page.active { display: block; }
+    
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    
+    /* Welcome */
+    .welcome-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      text-align: center;
+    }
+    
+    .welcome-logo {
+      width: 120px;
+      height: 120px;
+      background: var(--primary);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 60px rgba(255,107,0,0.3);
+    }
+    
+    .welcome-title { font-size: 32px; font-weight: 700; margin-bottom: 10px; }
+    .welcome-title span { color: var(--primary); }
+    .welcome-sub { color: rgba(255,255,255,0.6); font-size: 16px; margin-bottom: 40px; }
+    
+    /* Vehicle Cards */
+    .vehicle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0; }
+    
+    .vehicle-card {
+      background: var(--darkGray);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+    
+    .vehicle-card.selected { border-color: var(--primary); }
+    .vehicle-card:active { transform: scale(0.98); }
+    
+    .vehicle-icon { font-size: 40px; margin-bottom: 10px; }
+    .vehicle-name { font-weight: 600; margin-bottom: 5px; }
+    .vehicle-desc { font-size: 12px; color: rgba(255,255,255,0.5); }
+    
+    /* Safety Grid */
+    .safety-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    
+    .safety-item {
+      background: var(--darkGray);
+      border-radius: 16px;
+      padding: 20px 10px;
+      text-align: center;
+    }
+    
+    .safety-item svg { color: var(--primary); margin-bottom: 10px; }
+    .safety-item span { font-size: 12px; }
+    
+    /* Subscription Plans */
+    .plan-card {
+      background: var(--darkGray);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .plan-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--primary);
+      color: white;
+      padding: 5px 15px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 0 16px 0 12px;
+    }
+    
+    .plan-price { font-size: 28px; font-weight: 700; margin-bottom: 5px; }
+    .plan-period { color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 15px; }
+    
+    /* Language Selector */
+    .lang-list { display: flex; flex-direction: column; gap: 10px; }
+    
+    .lang-item {
+      background: var(--lightGray);
+      border-radius: 12px;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .lang-item:active { transform: scale(0.98); }
+    .lang-item.selected { background: var(--primary); }
+    .lang-flag { font-size: 24px; }
+    .lang-name { flex: 1; }
+    .lang-check { color: var(--primary); }
+    
+    /* Message Input */
+    .message-input-container {
+      position: fixed;
+      bottom: 70px;
+      left: 0;
+      right: 0;
+      background: var(--darkGray);
+      padding: 15px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .message-list { max-height: 60vh; overflow-y: auto; padding-bottom: 80px; }
+    
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+    
+    .message.sent { background: var(--primary); margin-left: auto; border-bottom-right-radius: 4px; }
+    .message.received { background: var(--darkGray); border-bottom-left-radius: 4px; }
+    .message-time { font-size: 11px; opacity: 0.7; margin-top: 5px; }
+    
+    /* Ad Banner */
+    .ad-banner {
+      background: linear-gradient(to right, #fbbf24, #fb923c, #fbbf24);
+      color: black;
+      padding: 8px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
       position: fixed;
       top: 0;
       left: 0;
-      width: 280px;
-      height: 100%;
-      background: #2d2d2d;
-      z-index: 51;
-      animation: slideIn 0.3s ease-out;
-      display: flex;
-      flex-direction: column;
+      right: 0;
+      z-index: 200;
     }
+    
+    /* Order Item */
+    .order-item { border-bottom: 1px solid var(--lightGray); padding-bottom: 15px; margin-bottom: 15px; }
+    .order-item:last-child { border: none; margin: 0; padding: 0; }
+    
+    .order-header { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .order-id { font-weight: 700; }
+    .order-status { padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+    .order-status.completed { background: rgba(34,197,94,0.2); color: #22c55e; }
+    .order-status.cancelled { background: rgba(239,68,68,0.2); color: #ef4444; }
+    
+    .order-route { margin-bottom: 10px; }
+    .order-route div { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 14px; }
+    .order-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .order-dot.start { background: #22c55e; }
+    .order-dot.end { background: var(--primary); }
+    
+    .order-footer { display: flex; justify-content: space-between; font-size: 13px; }
+    .order-date { color: rgba(255,255,255,0.5); }
+    .order-price { font-weight: 700; color: var(--primary); }
+    
+    /* Sidebar */
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 500;
+      display: none;
+    }
+    
+    .sidebar-overlay.show { display: block; }
+    
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 280px;
+      background: var(--darkGray);
+      z-index: 600;
+      transform: translateX(-100%);
+      transition: transform 0.3s;
+    }
+    
+    .sidebar.show { transform: translateX(0); }
+    
+    .sidebar-header {
+      background: var(--primary);
+      padding: 20px;
+    }
+    
+    .sidebar-menu { padding: 15px; }
+    
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: rgba(255,255,255,0.7);
+      transition: all 0.3s;
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-item:active { transform: scale(0.98); }
+    .sidebar-item.active { background: var(--primary); color: white; }
+    
+    .sidebar-item svg { width: 20px; height: 20px; }
+    
+    /* Driver Card */
+    .driver-avatar {
+      width: 80px;
+      height: 80px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 auto 15px;
+    }
+    
+    .driver-name { text-align: center; font-size: 20px; font-weight: 700; margin-bottom: 5px; }
+    .driver-rating { display: flex; align-items: center; justify-content: center; gap: 5px; color: #fbbf24; margin-bottom: 20px; }
+    
+    .driver-info { margin-bottom: 20px; }
+    .driver-info div { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--lightGray); }
+    .driver-info div:last-child { border: none; }
+    
+    /* Alert */
+    .alert {
+      background: rgba(239,68,68,0.2);
+      border: 1px solid rgba(239,68,68,0.5);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .alert-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #ef4444; font-weight: 700; }
+    
+    /* Country Select */
+    .country-grid { display: grid; gap: 10px; }
+    
+    .country-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: var(--darkGray);
+      border-radius: 12px;
+      padding: 15px;
+      cursor: pointer;
+    }
+    
+    .country-item:active { transform: scale(0.98); }
+    .country-item.selected { background: var(--primary); }
+    .country-flag { font-size: 28px; }
+    .country-name { flex: 1; font-weight: 500; }
+    
+    /* Profile */
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 auto 20px;
+    }
+    
+    .vip-badge {
+      background: linear-gradient(to right, #fbbf24, #f97316);
+      color: black;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .profile-info { margin-bottom: 20px; }
+    .profile-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--lightGray); }
+    
+    /* Google Button */
+    .google-btn {
+      width: 100%;
+      padding: 15px;
+      background: white;
+      color: #333;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    /* Or Divider */
+    .divider { display: flex; align-items: center; gap: 15px; margin: 20px 0; }
+    .divider-line { flex: 1; height: 1px; background: var(--lightGray); }
+    .divider-text { color: rgba(255,255,255,0.5); font-size: 14px; }
+    
+    /* Back Button */
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      padding: 5px;
+      cursor: pointer;
+    }
+    
+    /* Ride Active Status */
+    .ride-status {
+      background: rgba(34,197,94,0.2);
+      border: 1px solid rgba(34,197,94,0.5);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .ride-status-icon {
+      width: 50px;
+      height: 50px;
+      background: #22c55e;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    
+    /* Location Route */
+    .route { position: relative; padding-left: 30px; }
+    .route-dot { position: absolute; left: 0; width: 12px; height: 12px; border-radius: 50%; }
+    .route-start { background: #22c55e; }
+    .route-end { background: var(--primary); }
+    .route-line { position: absolute; left: 5px; top: 15px; bottom: 0; width: 2px; background: var(--lightGray); }
+    
+    .route-item { margin-bottom: 20px; }
+    .route-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 3px; }
+    .route-value { font-weight: 500; }
+    
+    /* Subscription Active */
+    .subscription-active {
+      background: linear-gradient(to bottom right, var(--primary), #ea580c);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .subscription-active-icon {
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    .subscription-active h3 { font-size: 18px; margin-bottom: 5px; }
+    .subscription-active p { opacity: 0.8; font-size: 14px; }
+    
+    /* Button Row */
+    .btn-row { display: flex; gap: 10px; }
+    .btn-row .btn { flex: 1; }
+    
+    /* Search */
+    .search-container { margin-bottom: 20px; }
   </style>
 </head>
 <body>
-  <div id="app"></div>
+  <!-- Ad Banner -->
+  <div class="ad-banner">🎉 限時優惠：輸入 DADA20 首次乘車8折！🎉</div>
+  
+  <!-- Header -->
+  <header class="header">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button class="back-btn" onclick="toggleSidebar()" style="display: none;" id="menuBtn">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h1 class="header-title" id="pageTitle">DaDa Taxi</h1>
+    </div>
+    <div class="logo">
+      <div class="logo-icon">🚕</div>
+      <div>
+        <div class="logo-text">DaDa</div>
+        <div class="logo-sub">Taxi</div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Sidebar -->
+  <div class="sidebar-overlay" onclick="toggleSidebar()" id="sidebarOverlay"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="logo">
+          <div class="logo-icon">🚕</div>
+          <div>
+            <div class="logo-text">DaDa</div>
+            <div class="logo-sub">Taxi</div>
+          </div>
+        </div>
+        <button class="back-btn" onclick="toggleSidebar()">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="sidebar-menu" id="sidebarMenu"></div>
+  </div>
+  
+  <!-- Welcome Page -->
+  <div class="page active" id="page-welcome">
+    <div class="welcome-page">
+      <div class="welcome-logo">🚕</div>
+      <h1 class="welcome-title">DaDa <span>Taxi</span></h1>
+      <p class="welcome-sub" data-i18n="welcome_sub">您可信賴的出行夥伴</p>
+      <button class="btn btn-primary" onclick="goTo('login')" data-i18n="get_started">開始使用</button>
+    </div>
+  </div>
+  
+  <!-- Login Page -->
+  <div class="page" id="page-login">
+    <button class="back-btn" onclick="goTo('welcome')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;" data-i18n="login">登入</h2>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="email">電郵</label>
+        <input type="email" class="input" placeholder="email@example.com" id="loginEmail">
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="password">密碼</label>
+        <input type="password" class="input" placeholder="••••••••" id="loginPassword">
+      </div>
+      
+      <button class="btn btn-primary" onclick="handleLogin()" id="loginBtn" data-i18n="sign_in">登入</button>
+      
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text" data-i18n="or">或</span>
+        <div class="divider-line"></div>
+      </div>
+      
+      <button class="google-btn" onclick="handleGoogleLogin()">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        <span data-i18n="continue_google">使用 Google 登入</span>
+      </button>
+      
+      <p style="text-align: center; margin-top: 20px; color: var(--primary);">
+        <span data-i18n="no_account">還沒有帳戶？</span>
+        <a href="#" onclick="goTo('register'); return false;" data-i18n="sign_up">註冊</a>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Register Page -->
+  <div class="page" id="page-register">
+    <button class="back-btn" onclick="goTo('welcome')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;" data-i18n="register">註冊</h2>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="email">電郵</label>
+        <input type="email" class="input" placeholder="email@example.com" id="regEmail">
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="password">密碼</label>
+        <input type="password" class="input" placeholder="••••••••" id="regPassword">
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="confirm_password">確認密碼</label>
+        <input type="password" class="input" placeholder="••••••••" id="regConfirm">
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="invite_code">邀請碼（可選）</label>
+        <input type="text" class="input" placeholder="VIP888" id="regCode" maxlength="10">
+      </div>
+      
+      <button class="btn btn-primary" onclick="handleRegister()" data-i18n="sign_up">註冊</button>
+      
+      <p style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.7);">
+        <span data-i18n="has_account">已經有帳戶？</span>
+        <a href="#" onclick="goTo('login'); return false;" data-i18n="sign_in">登入</a>
+      </p>
+    </div>
+  </div>
+  
+  <!-- Country Select Page -->
+  <div class="page" id="page-country">
+    <button class="back-btn" onclick="goTo('welcome')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;" data-i18n="select_country">選擇國家/地區</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 20px;">Select your service area</p>
+      
+      <div class="search-container">
+        <input type="text" class="input" placeholder="搜尋國家..." id="countrySearch" oninput="filterCountries()">
+      </div>
+      
+      <div class="country-grid" id="countryList"></div>
+    </div>
+  </div>
+  
+  <!-- Home Page -->
+  <div class="page" id="page-home">
+    <div class="container">
+      <!-- Subscription Alert -->
+      <div class="alert" id="subscriptionAlert" style="display: none;">
+        <div class="alert-header">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span data-i18n="subscription_required">需要訂閱</span>
+        </div>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: 14px;" data-i18n="kyc_required">需要驗證才能使用服務</p>
+        <button class="btn btn-primary" onclick="goTo('subscription')" data-i18n="subscribe_now">立即訂閱</button>
+      </div>
+      
+      <!-- Country Selector -->
+      <div class="card" id="countrySelector" style="display: none;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <span style="font-size: 28px;" id="selectedCountryFlag"></span>
+          <div style="flex: 1;">
+            <div style="font-weight: 600;" id="selectedCountryName"></div>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.5);" id="selectedCountryCurrency"></div>
+          </div>
+          <a href="#" onclick="goTo('country'); return false;" style="color: var(--primary); font-size: 14px;" data-i18n="change">更改</a>
+        </div>
+      </div>
+      
+      <h2 style="margin: 20px 0 15px;" data-i18n="select_vehicle">選擇車輛類型</h2>
+      
+      <div class="vehicle-grid">
+        <div class="vehicle-card selected" onclick="selectVehicle(this, 'sedan')">
+          <div class="vehicle-icon">🚗</div>
+          <div class="vehicle-name" data-i18n="sedan">轎車</div>
+          <div class="vehicle-desc">4 座位</div>
+        </div>
+        <div class="vehicle-card" onclick="selectVehicle(this, 'suv')">
+          <div class="vehicle-icon">🚙</div>
+          <div class="vehicle-name" data-i18n="suv">SUV</div>
+          <div class="vehicle-desc">6 座位</div>
+        </div>
+        <div class="vehicle-card" onclick="selectVehicle(this, 'truck')">
+          <div class="vehicle-icon">🚚</div>
+          <div class="vehicle-name" data-i18n="truck">貨車</div>
+          <div class="vehicle-desc">載貨</div>
+        </div>
+        <div class="vehicle-card" onclick="selectVehicle(this, 'premium')">
+          <div class="vehicle-icon">✨</div>
+          <div class="vehicle-name" data-i18n="premium">豪華轎車</div>
+          <div class="vehicle-desc">奢華</div>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" onclick="goTo('rideRequest')" data-i18n="request_ride">發出請求</button>
+      
+      <h2 style="margin: 30px 0 15px;" data-i18n="safety_features">安全功能</h2>
+      <div class="safety-grid">
+        <div class="safety-item">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span data-i18n="gps">GPS定位</span>
+        </div>
+        <div class="safety-item">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span data-i18n="emergency">緊急按鈕</span>
+        </div>
+        <div class="safety-item">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          <span data-i18n="share">分享行程</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Ride Request Page -->
+  <div class="page" id="page-rideRequest">
+    <button class="back-btn" onclick="goTo('home')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 20px;" data-i18n="ride_request">叫車</h2>
+      
+      <div class="card">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></div>
+          <input type="text" class="input" placeholder="上車地點" id="pickupInput">
+        </div>
+        <div style="height: 1px; background: var(--lightGray); margin-left: 5px; margin-bottom: 15px;"></div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--primary);"></div>
+          <input type="text" class="input" placeholder="目的地" id="dropoffInput">
+        </div>
+      </div>
+      
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+          <span style="font-weight: 500;" data-i18n="estimated_fare">預計車費</span>
+          <span style="font-size: 24px; font-weight: 700; color: var(--primary);" id="fareEstimate">$15-25</span>
+        </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 13px;">價格可能因路況而異</p>
+      </div>
+      
+      <button class="btn btn-primary" onclick="requestRide()" style="padding: 18px;" data-i18n="confirm_ride">確認叫車</button>
+    </div>
+  </div>
+  
+  <!-- Ride Active Page -->
+  <div class="page" id="page-rideActive">
+    <div class="container">
+      <div class="ride-status">
+        <div class="ride-status-icon">🚕</div>
+        <div>
+          <h3 style="font-size: 18px; margin-bottom: 5px;" data-i18n="ride_active">行程進行中</h3>
+          <p style="opacity: 0.8; font-size: 14px;">司機正在趕來</p>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="driver-avatar">J</div>
+        <div class="driver-name">John D.</div>
+        <div class="driver-rating">
+          <svg width="16" height="16" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>4.9</span>
+        </div>
+        
+        <div class="driver-info">
+          <div>
+            <span style="color: rgba(255,255,255,0.6);" data-i18n="plate">車牌</span>
+            <span style="font-weight: 500;">ABC 1234</span>
+          </div>
+          <div>
+            <span style="color: rgba(255,255,255,0.6);">車輛</span>
+            <span style="font-weight: 500;">Toyota Camry</span>
+          </div>
+        </div>
+        
+        <div class="btn-row">
+          <button class="btn btn-black">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span data-i18n="call_driver">致電司機</span>
+          </button>
+          <button class="btn btn-primary" onclick="goTo('messages')">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span>訊息</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 20px;">
+        <div class="route">
+          <div class="route-line"></div>
+          <div class="route-item">
+            <div class="route-dot route-start"></div>
+            <div class="route-label">上車</div>
+            <div class="route-value">123 Main Street</div>
+          </div>
+          <div class="route-item">
+            <div class="route-dot route-end"></div>
+            <div class="route-label">目的地</div>
+            <div class="route-value">456 Destination Ave</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Messages Page -->
+  <div class="page" id="page-messages">
+    <div class="message-list container" id="messageList" style="padding-bottom: 150px;"></div>
+    <div class="message-input-container">
+      <input type="text" class="input" placeholder="輸入訊息..." id="messageInput" onkeypress="if(event.key==='Enter')sendMessage()">
+      <button class="btn btn-primary" onclick="sendMessage()" style="flex: 0 0 auto; padding: 15px 20px;">發送</button>
+    </div>
+  </div>
+  
+  <!-- Orders Page -->
+  <div class="page" id="page-orders">
+    <div class="container">
+      <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="my_orders">我的訂單</h2>
+      <div id="ordersList"></div>
+    </div>
+  </div>
+  
+  <!-- Cancel Order Page -->
+  <div class="page" id="page-cancelOrder">
+    <div class="container">
+      <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="canceled_orders">已取消訂單</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); padding: 50px 0;">暫無已取消的訂單</p>
+    </div>
+  </div>
+  
+  <!-- Safety Page -->
+  <div class="page" id="page-safety">
+    <div class="container">
+      <div class="card" style="background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.5); margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div style="width: 50px; height: 50px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <h3 style="font-size: 18px; margin-bottom: 5px;">行程保護已啟用</h3>
+            <p style="opacity: 0.8; font-size: 14px;">您的行程正在被監控</p>
+          </div>
+        </div>
+      </div>
+      
+      <h2 style="font-size: 18px; margin-bottom: 15px;" data-i18n="safety_features">安全功能</h2>
+      
+      <div class="card" style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+        <div style="width: 50px; height: 50px; background: rgba(255,107,0,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div style="flex: 1;">
+          <h4 style="margin-bottom: 3px;" data-i18n="gps">GPS定位</h4>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">即時位置分享</p>
+        </div>
+        <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      
+      <div class="card" style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+        <div style="width: 50px; height: 50px; background: rgba(255,107,0,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div style="flex: 1;">
+          <h4 style="margin-bottom: 3px;" data-i18n="emergency">緊急按鈕</h4>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">快速聯絡緊急服務</p>
+        </div>
+        <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      
+      <div class="card" style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+        <div style="width: 50px; height: 50px; background: rgba(255,107,0,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+          <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </div>
+        <div style="flex: 1;">
+          <h4 style="margin-bottom: 3px;" data-i18n="share">分享行程</h4>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">與可信賴的聯絡人分享</p>
+        </div>
+        <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      
+      <button class="btn btn-outline" onclick="window.location='mailto:support@uber.com'" data-i18n="contact_uber">聯絡 Uber 客服</button>
+    </div>
+  </div>
+  
+  <!-- Subscription Page -->
+  <div class="page" id="page-subscription">
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;" data-i18n="choose_plan">選擇計劃</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 25px;" data-i18n="subscription_required">需要訂閱才能使用服務</p>
+      
+      <div id="subscriptionPlans"></div>
+      
+      <div class="card" style="margin-top: 25px;">
+        <h3 style="margin-bottom: 15px;" data-i18n="features">功能</h3>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <svg width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="unlimited">無限次乘車</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <svg width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="priority">優先客服</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-i18n="exclusive">獨家優惠</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Profile Page -->
+  <div class="page" id="page-profile">
+    <div class="container">
+      <div class="card">
+        <div class="profile-avatar" id="profileInitial">U</div>
+        <div style="text-align: center;">
+          <h2 style="font-size: 22px; margin-bottom: 5px;" id="profileName">User</h2>
+          <span class="vip-badge" id="vipBadge" style="display: none;">VIP</span>
+        </div>
+        
+        <div class="profile-info">
+          <div class="profile-row">
+            <span style="color: rgba(255,255,255,0.6);" data-i18n="phone">電話</span>
+            <span id="profilePhone">+1 234 567 890</span>
+          </div>
+          <div class="profile-row">
+            <span style="color: rgba(255,255,255,0.6);" data-i18n="email">電郵</span>
+            <span id="profileEmail">user@example.com</span>
+          </div>
+        </div>
+        
+        <button class="btn btn-outline" onclick="goTo('editProfile')" data-i18n="edit">編輯</button>
+      </div>
+      
+      <div class="card" style="margin-top: 20px;">
+        <h3 style="margin-bottom: 15px;" data-i18n="kyc">KYC驗證</h3>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div style="width: 50px; height: 50px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div style="flex: 1;">
+            <h4 style="margin-bottom: 3px;" data-i18n="verified">已驗證</h4>
+            <p style="font-size: 13px; color: rgba(255,255,255,0.5);">您的身份已驗證</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top: 20px;">
+        <h3 style="margin-bottom: 15px;" data-i18n="language">語言</h3>
+        <div class="lang-list" id="langList"></div>
+      </div>
+      
+      <button class="btn btn-outline" style="margin-top: 20px; color: #ef4444; border-color: #ef4444;" onclick="logout()" data-i18n="logout">登出</button>
+    </div>
+  </div>
+  
+  <!-- Privacy Page -->
+  <div class="page" id="page-privacy">
+    <button class="back-btn" onclick="goTo('profile')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="font-size: 24px; margin-bottom: 20px;">隱私政策</h2>
+      <div class="card">
+        <p style="margin-bottom: 15px; line-height: 1.8;">感謝您使用 DaDa Taxi。我們致力於保護您的個人隱私。</p>
+        <h3 style="margin-bottom: 10px;">1. 資料收集</h3>
+        <p style="margin-bottom: 15px; color: rgba(255,255,255,0.7);">我們收集您直接提供的信息，例如創建帳戶、預訂行程或聯絡客服時的信息。這包括您的姓名、電郵地址、電話號碼、支付信息和位置數據。</p>
+        <h3 style="margin-bottom: 10px;">2. 資料使用</h3>
+        <p style="margin-bottom: 15px; color: rgba(255,255,255,0.7);">我們使用收集的信息來提供、維護和改進服務，處理交易，發送技術通知和支援消息，並回覆您的評論和問題。</p>
+        <h3 style="margin-bottom: 10px;">3. 資料共享</h3>
+        <p style="color: rgba(255,255,255,0.7);">我們可能會與司機和其他用戶分享必要的信息以提供服務。我們也可能與附屬機構、服務提供商以及法律要求時分享信息。</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" id="bottomNav">
+    <div class="nav-item active" onclick="goTo('home')">
+      <svg fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span data-i18n="home">主頁</span>
+    </div>
+    <div class="nav-item" onclick="goTo('rideRequest')">
+      <svg fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <span data-i18n="ride">叫車</span>
+    </div>
+    <div class="nav-item" onclick="goTo('messages')">
+      <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+      <span data-i18n="msg">訊息</span>
+    </div>
+    <div class="nav-item" onclick="goTo('orders')">
+      <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span data-i18n="orders">訂單</span>
+    </div>
+    <div class="nav-item" onclick="goTo('profile')">
+      <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span data-i18n="my">我的</span>
+    </div>
+  </nav>
 
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <script type="text/babel">
-    const { useState, useEffect, createContext, useContext } = React;
-
+  <script>
+    // App State
+    const state = {
+      isLoggedIn: false,
+      user: null,
+      hasSubscription: false,
+      selectedCountry: null,
+      selectedVehicle: 'sedan',
+      selectedLanguage: 'zh',
+      currentPage: 'welcome'
+    };
+    
     // Translations
-    const translations = {
-      en: {
-        welcome: 'Welcome to DaDa Taxi',
-        login: 'Login',
-        register: 'Register',
-        email: 'Email',
-        password: 'Password',
-        confirmPassword: 'Confirm Password',
-        invitationCode: 'Invitation Code (Optional)',
-        noAccount: "Don't have an account?",
-        hasAccount: 'Already have an account?',
-        signUp: 'Sign Up',
-        signIn: 'Sign In',
-        or: 'OR',
-        continueWithGoogle: 'Continue with Google',
-        home: 'Home',
-        rideRequest: 'Ride Request',
-        messages: 'Messages',
-        orders: 'My Orders',
-        cancelOrder: 'Cancel Order',
-        safety: 'Safety',
-        subscription: 'Subscription',
-        profile: 'My Profile',
-        selectLanguage: 'Select Language',
-        selectCountry: 'Select Country/Region',
-        subscribeNow: 'Subscribe Now',
-        activeSubscription: 'Active Subscription',
-        monthly: 'Monthly',
-        quarterly: '3 Months',
-        semiannual: '6 Months',
-        annual: 'Annual',
-        perMonth: '/month',
-        save: 'Save',
-        cancel: 'Cancel',
-        callDriver: 'Call Driver',
-        sendMessage: 'Send Message',
-        estimatedFare: 'Estimated Fare',
-        requestRide: 'Request Ride',
-        pickupLocation: 'Pickup Location',
-        dropoffLocation: 'Drop-off Location',
-        selectVehicle: 'Select Vehicle Type',
-        sedan: 'Sedan',
-        suv: 'SUV',
-        truck: 'Truck',
-        premium: 'Premium',
-        driverName: 'Driver Name',
-        rating: 'Rating',
-        vehiclePlate: 'Vehicle Plate',
-        contactUberSupport: 'Contact Uber Support',
-        privacyPolicy: 'Privacy Policy',
-        logout: 'Logout',
-        kycVerification: 'KYC Verification',
-        completeKyc: 'Complete KYC',
-        verified: 'Verified',
-        pending: 'Pending',
-        personalInfo: 'Personal Information',
-        phone: 'Phone',
-        address: 'Address',
-        editProfile: 'Edit Profile',
-        orderHistory: 'Order History',
-        noOrders: 'No orders yet',
-        orderNumber: 'Order #',
-        completed: 'Completed',
-        cancelled: 'Cancelled',
-        active: 'Active',
-        typeMessage: 'Type a message...',
-        noMessages: 'No messages yet',
-        safetyFeatures: 'Safety Features',
-        gpsTracking: 'GPS Tracking',
-        emergencyButton: 'Emergency Button',
-        shareTrip: 'Share Trip',
-        getStarted: 'Get Started',
-        vipFree: 'VIP Free Access',
-        subscriptionRequired: 'Subscription Required',
-        choosePlan: 'Choose Your Plan',
-        features: 'Features',
-        unlimitedRides: 'Unlimited Rides',
-        prioritySupport: 'Priority Support',
-        exclusivePromo: 'Exclusive Promotions',
-        kycRequired: 'KYC verification required to use the service'
-      },
+    const i18n = {
       zh: {
-        welcome: '歡迎使用 DaDa Taxi',
+        welcome_sub: '您可信賴的出行夥伴',
+        get_started: '開始使用',
         login: '登入',
-        register: '註冊',
-        email: '電子郵件',
+        email: '電郵',
         password: '密碼',
-        confirmPassword: '確認密碼',
-        invitationCode: '邀請碼（可選）',
-        noAccount: '還沒有帳戶？',
-        hasAccount: '已經有帳戶？',
-        signUp: '註冊',
-        signIn: '登入',
+        confirm_password: '確認密碼',
+        invite_code: '邀請碼（可選）',
+        sign_in: '登入',
+        sign_up: '註冊',
         or: '或',
-        continueWithGoogle: '使用 Google 登入',
+        continue_google: '使用 Google 登入',
+        no_account: '還沒有帳戶？',
+        has_account: '已經有帳戶？',
+        register: '註冊',
+        select_country: '選擇國家/地區',
         home: '主頁',
-        rideRequest: '叫車',
-        messages: '訊息',
-        orders: '我的訂單',
-        cancelOrder: '取消訂單',
-        safety: '安全',
-        subscription: '訂閱',
-        profile: '我的',
-        selectLanguage: '選擇語言',
-        selectCountry: '選擇國家/地區',
-        subscribeNow: '立即訂閱',
-        activeSubscription: '已訂閱',
-        monthly: '月費',
-        quarterly: '3個月',
-        semiannual: '半年',
-        annual: '年費',
-        perMonth: '/月',
-        save: '儲存',
-        cancel: '取消',
-        callDriver: '致電司機',
-        sendMessage: '發送訊息',
-        estimatedFare: '預計車費',
-        requestRide: '發出請求',
-        pickupLocation: '上車地點',
-        dropoffLocation: '目的地',
-        selectVehicle: '選擇車輛類型',
+        ride: '叫車',
+        msg: '訊息',
+        orders: '訂單',
+        my: '我的',
+        select_vehicle: '選擇車輛類型',
         sedan: '轎車',
         suv: 'SUV',
         truck: '貨車',
         premium: '豪華轎車',
-        driverName: '司機姓名',
-        rating: '評分',
-        vehiclePlate: '車牌',
-        contactUberSupport: '聯絡 Uber 客服',
-        privacyPolicy: '隱私政策',
-        logout: '登出',
-        kycVerification: 'KYC 驗證',
-        completeKyc: '完成 KYC',
-        verified: '已驗證',
-        pending: '待驗證',
-        personalInfo: '個人資料',
+        request_ride: '發出請求',
+        safety_features: '安全功能',
+        gps: 'GPS定位',
+        emergency: '緊急按鈕',
+        share: '分享行程',
+        subscription_required: '需要訂閱',
+        kyc_required: '需要驗證才能使用服務',
+        subscribe_now: '立即訂閱',
+        change: '更改',
+        ride_request: '叫車',
+        pickup: '上車地點',
+        dropoff: '目的地',
+        estimated_fare: '預計車費',
+        confirm_ride: '確認叫車',
+        ride_active: '行程進行中',
+        plate: '車牌',
+        call_driver: '致電司機',
+        my_orders: '我的訂單',
+        canceled_orders: '已取消訂單',
+        contact_uber: '聯絡 Uber 客服',
+        choose_plan: '選擇計劃',
+        features: '功能',
+        unlimited: '無限次乘車',
+        priority: '優先客服',
+        exclusive: '獨家優惠',
+        monthly: '月費',
+        quarterly: '3個月',
+        semiannual: '半年',
+        annual: '年費',
         phone: '電話',
-        address: '地址',
-        editProfile: '編輯資料',
-        orderHistory: '訂單記錄',
-        noOrders: '暫無訂單',
-        orderNumber: '訂單 #',
+        kyc: 'KYC驗證',
+        verified: '已驗證',
+        language: '語言',
+        logout: '登出',
+        edit: '編輯',
+        contact_uber_support: '聯絡 Uber 客服',
+        privacy_policy: '隱�私政策',
+        cancel_order: '取消訂單',
+        safety: '安全',
+        subscription: '訂閱',
+        profile: '個人資料',
         completed: '已完成',
         cancelled: '已取消',
-        active: '進行中',
-        typeMessage: '輸入訊息...',
-        noMessages: '暫無訊息',
-        safetyFeatures: '安全功能',
-        gpsTracking: 'GPS 定位',
-        emergencyButton: '緊急按鈕',
-        shareTrip: '分享行程',
-        getStarted: '開始使用',
-        vipFree: 'VIP 免費使用',
-        subscriptionRequired: '需要訂閱',
-        choosePlan: '選擇計劃',
-        features: '功能',
-        unlimitedRides: '無限次乘車',
-        prioritySupport: '優先客服',
-        exclusivePromo: '獨家優惠',
-        kycRequired: '需要 KYC 驗證才能使用服務'
+        type_message: '輸入訊息...',
+        send: '發送',
+        vip_free: 'VIP 免費使用',
+        active_subscription: '已訂閱',
+        per_month: '/月'
       },
-      ja: {
-        welcome: 'DaDa Taxiへようこそ',
-        login: 'ログイン',
-        register: '登録',
-        email: 'メールアドレス',
-        password: 'パスワード',
-        confirmPassword: 'パスワード確認',
-        invitationCode: '招待コード（任意）',
-        noAccount: 'アカウントをお持ちでない方',
-        hasAccount: 'アカウントをお持ちの方',
-        signUp: '新規登録',
-        signIn: 'ログイン',
-        or: 'または',
-        continueWithGoogle: 'Googleで続ける',
-        home: 'ホーム',
-        rideRequest: '配車依頼',
-        messages: 'メッセージ',
-        orders: '注文履歴',
-        cancelOrder: 'キャンセル',
-        safety: '安全',
-        subscription: 'サブスクリプション',
-        profile: 'マイページ',
-        selectLanguage: '言語を選択',
-        selectCountry: '国/地域を選択',
-        subscribeNow: '今すぐ購読',
-        activeSubscription: 'サブスクリプション中',
-        monthly: '月額',
-        quarterly: '3ヶ月',
-        semiannual: '6ヶ月',
-        annual: '年間',
-        perMonth: '/月',
-        save: '保存',
-        cancel: 'キャンセル',
-        callDriver: '運転手に電話',
-        sendMessage: 'メッセージを送る',
-        estimatedFare: '見積もり料金',
-        requestRide: '依頼する',
-        pickupLocation: '乗車地点',
-        dropoffLocation: '降車地点',
-        selectVehicle: '車両タイプ',
-        sedan: 'セダン',
+      en: {
+        welcome_sub: 'Your trusted ride partner',
+        get_started: 'Get Started',
+        login: 'Login',
+        email: 'Email',
+        password: 'Password',
+        confirm_password: 'Confirm Password',
+        invite_code: 'Invitation Code (Optional)',
+        sign_in: 'Sign In',
+        sign_up: 'Sign Up',
+        or: 'OR',
+        continue_google: 'Continue with Google',
+        no_account: "Don't have an account?",
+        has_account: 'Already have an account?',
+        register: 'Register',
+        select_country: 'Select Country/Region',
+        home: 'Home',
+        ride: 'Ride',
+        msg: 'Messages',
+        orders: 'Orders',
+        my: 'Profile',
+        select_vehicle: 'Select Vehicle',
+        sedan: 'Sedan',
         suv: 'SUV',
-        truck: 'トラック',
-        premium: 'プレミアム',
-        driverName: 'ドライバー名',
-        rating: '評価',
-        vehiclePlate: '車両番号',
-        contactUberSupport: 'Uberサポートに連絡',
-        privacyPolicy: 'プライバシーポリシー',
-        logout: 'ログアウト',
-        kycVerification: 'KYC認証',
-        completeKyc: 'KYCを完了',
-        verified: '認証済み',
-        pending: '保留中',
-        personalInfo: '個人情報',
-        phone: '電話番号',
-        address: '住所',
-        editProfile: 'プロフィール編集',
-        orderHistory: '注文履歴',
-        noOrders: '注文はありません',
-        orderNumber: '注文 #',
-        completed: '完了',
-        cancelled: 'キャンセル',
-        active: 'アクティブ',
-        typeMessage: 'メッセージを入力...',
-        noMessages: 'メッセージはありません',
-        safetyFeatures: '安全機能',
-        gpsTracking: 'GPS追跡',
-        emergencyButton: '緊急ボタン',
-        shareTrip: 'トリップを共有',
-        getStarted: '始める',
-        vipFree: 'VIP無料アクセス',
-        subscriptionRequired: 'サブスクリプションが必要です',
-        choosePlan: 'プランを選択',
-        features: '機能',
-        unlimitedRides: '乗り放題',
-        prioritySupport: '優先サポート',
-        exclusivePromo: '限定キャンペーン',
-        kycRequired: 'サービスを使用するにはKYC認証が必要です'
-      },
-      ko: {
-        welcome: 'DaDa Taxi에 오신 것을 환영합니다',
-        login: '로그인',
-        register: '注册',
-        email: '이메일',
-        password: '비밀번호',
-        confirmPassword: '비밀번호 확인',
-        invitationCode: '초대 코드 (선택)',
-        noAccount: '계정이 없으신가요?',
-        hasAccount: '이미 계정이 있으신가요?',
-        signUp: '회원가입',
-        signIn: '로그인',
-        or: '또는',
-        continueWithGoogle: 'Google로 계속',
-        home: '홈',
-        rideRequest: '택시 요청',
-        messages: '메시지',
-        orders: '내 주문',
-        cancelOrder: '주문 취소',
-        safety: '안전',
-        subscription: '구독',
-        profile: '내 정보',
-        selectLanguage: '언어 선택',
-        selectCountry: '국가/지역 선택',
-        subscribeNow: '지금 구독',
-        activeSubscription: '활성 구독',
-        monthly: '월간',
-        quarterly: '3개월',
-        semiannual: '6개월',
-        annual: '연간',
-        perMonth: '/월',
-        save: '저장',
-        cancel: '취소',
-        callDriver: '기사에게 전화',
-        sendMessage: '메시지 보내기',
-        estimatedFare: '예상 요금',
-        requestRide: '요청하기',
-        pickupLocation: '승차 위치',
-        dropoffLocation: '하차 위치',
-        selectVehicle: '차량 유형',
-        sedan: '세단',
-        suv: 'SUV',
-        truck: '트럭',
-        premium: '프리미엄',
-        driverName: '기사 이름',
-        rating: '평점',
-        vehiclePlate: '번호판',
-        contactUberSupport: 'Uber 지원에 연락',
-        privacyPolicy: '개인정보 처리방침',
-        logout: '로그아웃',
-        kycVerification: 'KYC 인증',
-        completeKyc: 'KYC 완료',
-        verified: '인증됨',
-        pending: '대기중',
-        personalInfo: '개인정보',
-        phone: '전화번호',
-        address: '주소',
-        editProfile: '프로필 편집',
-        orderHistory: '주문 내역',
-        noOrders: '주문 내역이 없습니다',
-        orderNumber: '주문 #',
-        completed: '완료',
-        cancelled: '취소',
-        active: '진행중',
-        typeMessage: '메시지 입력...',
-        noMessages: '메시지가 없습니다',
-        safetyFeatures: '안전 기능',
-        gpsTracking: 'GPS 추적',
-        emergencyButton: '긴급 버튼',
-        shareTrip: '여행 공유',
-        getStarted: '시작하기',
-        vipFree: 'VIP 무료 이용',
-        subscriptionRequired: '구독 필요',
-        choosePlan: '플랜 선택',
-        features: '기능',
-        unlimitedRides: '무제한 탑승',
-        prioritySupport: '우선 지원',
-        exclusivePromo: '독점 혜택',
-        kycRequired: '서비스를 사용하려면 KYC 인증이 필요합니다'
-      },
-      es: {
-        welcome: 'Bienvenido a DaDa Taxi',
-        login: 'Iniciar sesión',
-        register: 'Registrarse',
-        email: 'Correo electrónico',
-        password: 'Contraseña',
-        confirmPassword: 'Confirmar contraseña',
-        invitationCode: 'Código de invitación (Opcional)',
-        noAccount: '¿No tienes cuenta?',
-        hasAccount: '¿Ya tienes cuenta?',
-        signUp: 'Registrarse',
-        signIn: 'Iniciar sesión',
-        or: 'O',
-        continueWithGoogle: 'Continuar con Google',
-        home: 'Inicio',
-        rideRequest: 'Solicitar viaje',
-        messages: 'Mensajes',
-        orders: 'Mis pedidos',
-        cancelOrder: 'Cancelar pedido',
-        safety: 'Seguridad',
-        subscription: 'Suscripción',
-        profile: 'Mi perfil',
-        selectLanguage: 'Seleccionar idioma',
-        selectCountry: 'Seleccionar país/región',
-        subscribeNow: 'Suscribirse ahora',
-        activeSubscription: 'Suscripción activa',
-        monthly: 'Mensual',
-        quarterly: '3 Meses',
-        semiannual: '6 Meses',
-        annual: 'Anual',
-        perMonth: '/mes',
-        save: 'Guardar',
-        cancel: 'Cancelar',
-        callDriver: 'Llamar al conductor',
-        sendMessage: 'Enviar mensaje',
-        estimatedFare: 'Tarifa estimada',
-        requestRide: 'Solicitar viaje',
-        pickupLocation: 'Ubicación de recogida',
-        dropoffLocation: 'Ubicación de destino',
-        selectVehicle: 'Seleccionar tipo de vehículo',
-        sedan: 'Sedán',
-        suv: 'SUV',
-        truck: 'Camión',
+        truck: 'Truck',
         premium: 'Premium',
-        driverName: 'Nombre del conductor',
-        rating: 'Calificación',
-        vehiclePlate: 'Placa del vehículo',
-        contactUberSupport: 'Contactar soporte Uber',
-        privacyPolicy: 'Política de privacidad',
-        logout: 'Cerrar sesión',
-        kycVerification: 'Verificación KYC',
-        completeKyc: 'Completar KYC',
-        verified: 'Verificado',
-        pending: 'Pendiente',
-        personalInfo: 'Información personal',
-        phone: 'Teléfono',
-        address: 'Dirección',
-        editProfile: 'Editar perfil',
-        orderHistory: 'Historial de pedidos',
-        noOrders: 'Sin pedidos aún',
-        orderNumber: 'Pedido #',
-        completed: 'Completado',
-        cancelled: 'Cancelado',
-        active: 'Activo',
-        typeMessage: 'Escribe un mensaje...',
-        noMessages: 'Sin mensajes aún',
-        safetyFeatures: 'Funciones de seguridad',
-        gpsTracking: 'Rastreo GPS',
-        emergencyButton: 'Botón de emergencia',
-        shareTrip: 'Compartir viaje',
-        getStarted: 'Comenzar',
-        vipFree: 'Acceso VIP gratis',
-        subscriptionRequired: 'Suscripción requerida',
-        choosePlan: 'Elegir plan',
-        features: 'Características',
-        unlimitedRides: 'Viajes ilimitados',
-        prioritySupport: 'Soporte prioritario',
-        exclusivePromo: 'Promociones exclusivas',
-        kycRequired: 'Se requiere verificación KYC para usar el servicio'
+        request_ride: 'Request Ride',
+        safety_features: 'Safety Features',
+        gps: 'GPS Tracking',
+        emergency: 'Emergency',
+        share: 'Share Trip',
+        subscription_required: 'Subscription Required',
+        kyc_required: 'KYC verification required',
+        subscribe_now: 'Subscribe Now',
+        change: 'Change',
+        ride_request: 'Ride Request',
+        pickup: 'Pickup',
+        dropoff: 'Dropoff',
+        estimated_fare: 'Estimated Fare',
+        confirm_ride: 'Confirm Ride',
+        ride_active: 'Ride Active',
+        plate: 'Plate',
+        call_driver: 'Call Driver',
+        my_orders: 'My Orders',
+        canceled_orders: 'Cancelled Orders',
+        contact_uber: 'Contact Uber Support',
+        choose_plan: 'Choose Plan',
+        features: 'Features',
+        unlimited: 'Unlimited Rides',
+        priority: 'Priority Support',
+        exclusive: 'Exclusive Deals',
+        monthly: 'Monthly',
+        quarterly: '3 Months',
+        semiannual: '6 Months',
+        annual: 'Annual',
+        phone: 'Phone',
+        kyc: 'KYC Verification',
+        verified: 'Verified',
+        language: 'Language',
+        logout: 'Logout',
+        edit: 'Edit',
+        contact_uber_support: 'Contact Uber Support',
+        privacy_policy: 'Privacy Policy',
+        cancel_order: 'Cancel Order',
+        safety: 'Safety',
+        subscription: 'Subscription',
+        profile: 'Profile',
+        completed: 'Completed',
+        cancelled: 'Cancelled',
+        type_message: 'Type a message...',
+        send: 'Send',
+        vip_free: 'VIP Free Access',
+        active_subscription: 'Active Subscription',
+        per_month: '/month'
       }
     };
-
-    // Countries list
+    
+    // Countries
     const countries = [
       { code: 'US', name: 'United States', flag: '🇺🇸', currency: 'USD' },
       { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', currency: 'GBP' },
@@ -551,1373 +1199,379 @@
       { code: 'FR', name: 'France', flag: '🇫🇷', currency: 'EUR' },
       { code: 'JP', name: 'Japan', flag: '🇯🇵', currency: 'JPY' },
       { code: 'KR', name: 'South Korea', flag: '🇰🇷', currency: 'KRW' },
-      { code: 'SG', name: 'Singapore', flag: '🇸🇬', currency: 'SGD' },
       { code: 'HK', name: 'Hong Kong', flag: '🇭🇰', currency: 'HKD' },
       { code: 'TW', name: 'Taiwan', flag: '🇹🇼', currency: 'TWD' },
+      { code: 'SG', name: 'Singapore', flag: '🇸🇬', currency: 'SGD' },
       { code: 'TH', name: 'Thailand', flag: '🇹🇭', currency: 'THB' },
       { code: 'MY', name: 'Malaysia', flag: '🇲🇾', currency: 'MYR' },
       { code: 'IN', name: 'India', flag: '🇮🇳', currency: 'INR' },
       { code: 'BR', name: 'Brazil', flag: '🇧🇷', currency: 'BRL' },
       { code: 'MX', name: 'Mexico', flag: '🇲🇽', currency: 'MXN' },
       { code: 'AE', name: 'UAE', flag: '🇦🇪', currency: 'AED' },
-      { code: 'ZA', name: 'South Africa', flag: '🇿🇦', currency: 'ZAR' },
       { code: 'NL', name: 'Netherlands', flag: '🇳🇱', currency: 'EUR' },
       { code: 'ES', name: 'Spain', flag: '🇪🇸', currency: 'EUR' },
+      { code: 'ZA', name: 'South Africa', flag: '🇿🇦', currency: 'ZAR' }
     ];
-
-    // Subscription plans
-    const subscriptionPlans = [
-      { id: 'monthly', price: 1, period: 'monthly', priceId: 'fZu7sL6qhh1p5DL8lV6J20c', label: 'monthly' },
-      { id: 'quarterly', price: 2.6, period: '3months', priceId: '9B68wPdSJaD11nvgSr6J20d', label: 'quarterly' },
-      { id: 'semiannual', price: 5, period: '6months', priceId: '8x2eVd9CtaD14zH45F6J203', label: 'semiannual' },
-      { id: 'annual', price: 10, period: '12months', priceId: '4gM14n4i93az8PX0Tt6J205', label: 'annual' },
+    
+    // Subscription Plans
+    const plans = [
+      { id: 'monthly', price: 1, label: 'monthly', priceId: 'fZu7sL6qhh1p5DL8lV6J20c' },
+      { id: 'quarterly', price: 2.6, label: 'quarterly', priceId: '9B68wPdSJaD11nvgSr6J20d' },
+      { id: 'semiannual', price: 5, label: 'semiannual', priceId: '8x2eVd9CtaD14zH45F6J203' },
+      { id: 'annual', price: 10, label: 'annual', priceId: '4gM14n4i93az8PX0Tt6J205', badge: 'BEST VALUE' }
     ];
-
-    // Icons
-    const Car = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/>
-        <circle cx="7" cy="17" r="2"/>
-        <path d="M9 17h6"/>
-        <circle cx="17" cy="17" r="2"/>
-      </svg>
-    );
-
-    const Truck = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 17h4V5H2v12h3"/>
-        <path d="M20 17h2v-3.34a4 4 0 0 0-1.17-2.83L19 9h-5v8h1"/>
-        <circle cx="7.5" cy="17.5" r="2.5"/>
-        <circle cx="17.5" cy="17.5" r="2.5"/>
-      </svg>
-    );
-
-    const Star = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-      </svg>
-    );
-
-    const Home = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
-    );
-
-    const Send = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="22" y1="2" x2="11" y2="13"/>
-        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-      </svg>
-    );
-
-    const MessageCircle = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-      </svg>
-    );
-
-    const FileText = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/>
-        <line x1="16" y1="17" x2="8" y2="17"/>
-        <polyline points="10 9 9 9 8 9"/>
-      </svg>
-    );
-
-    const XCircle = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="15" y1="9" x2="9" y2="15"/>
-        <line x1="9" y1="9" x2="15" y2="15"/>
-      </svg>
-    );
-
-    const Shield = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-    );
-
-    const CreditCard = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-        <line x1="1" y1="10" x2="23" y2="10"/>
-      </svg>
-    );
-
-    const User = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-    );
-
-    const Menu = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <line x1="3" y1="18" x2="21" y2="18"/>
-      </svg>
-    );
-
-    const X = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"/>
-        <line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    );
-
-    const ArrowLeft = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"/>
-        <polyline points="12 19 5 12 12 5"/>
-      </svg>
-    );
-
-    const Phone = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-      </svg>
-    );
-
-    const MapPin = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-        <circle cx="12" cy="10" r="3"/>
-      </svg>
-    );
-
-    const Clock = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-      </svg>
-    );
-
-    const Check = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
-    );
-
-    const AlertTriangle = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-        <line x1="12" y1="9" x2="12" y2="13"/>
-        <line x1="12" y1="17" x2="12.01" y2="17"/>
-      </svg>
-    );
-
-    const Bell = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-      </svg>
-    );
-
-    const Share2 = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="18" cy="5" r="3"/>
-        <circle cx="6" cy="12" r="3"/>
-        <circle cx="18" cy="19" r="3"/>
-        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-      </svg>
-    );
-
-    const Gift = ({ className }) => (
-      <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 12 20 22 4 22 4 12"/>
-        <rect x="2" y="7" width="20" height="5"/>
-        <line x1="12" y1="22" x2="12" y2="7"/>
-        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/>
-        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-      </svg>
-    );
-
-    // Logo Component
-    const Logo = () => (
-      <div className="flex items-center gap-2">
-        <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-          <Car className="w-6 h-6 text-white" />
-        </div>
-        <div className="flex flex-col">
-          <span className="font-bold text-lg text-white">DaDa</span>
-          <span className="text-xs text-primary font-medium -mt-1">Taxi</span>
-        </div>
-      </div>
-    );
-
-    // Ad Banner
-    const AdBanner = () => (
-      <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-400 p-2 text-center text-black text-xs font-medium z-50">
-        🎉 Special Offer: Use code DADA20 for 20% off your first ride! 🎉
-      </div>
-    );
-
-    // Top Bar Component
-    const TopBar = ({ title, onMenuClick, showBack, onBack }) => (
-      <div className="sticky top-0 z-30 bg-primary">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-3">
-            {showBack ? (
-              <button onClick={onBack} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                <ArrowLeft className="w-6 h-6 text-white" />
-              </button>
-            ) : (
-              <button onClick={onMenuClick} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                <Menu className="w-6 h-6 text-white" />
-              </button>
-            )}
-            <h1 className="text-lg font-semibold text-white">{title}</h1>
-          </div>
-          <Logo />
-        </div>
-      </div>
-    );
-
-    // Bottom Navigation
-    const BottomNav = ({ t, page, setPage }) => {
-      const navItems = [
-        { id: 'home', icon: Home, label: t.home },
-        { id: 'rideRequest', icon: Send, label: t.rideRequest },
-        { id: 'messages', icon: MessageCircle, label: t.messages },
-        { id: 'orders', icon: FileText, label: t.orders },
-        { id: 'profile', icon: User, label: t.profile },
-      ];
-
-      return (
-        <div className="fixed bottom-0 left-0 right-0 bg-darkGray border-t border-lightGray z-40">
-          <div className="flex justify-around items-center py-2 px-2">
-            {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => setPage(item.id)}
-                className={`nav-item ${page === item.id ? 'active' : ''}`}
-              >
-                <item.icon className="w-6 h-6 mb-1" />
-                <span className="text-xs">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      );
-    };
-
-    // Sidebar
-    const Sidebar = ({ isOpen, onClose, t, setPage }) => {
-      const menuItems = [
-        { id: 'home', icon: Home, label: t.home },
-        { id: 'rideRequest', icon: Send, label: t.rideRequest },
-        { id: 'messages', icon: MessageCircle, label: t.messages },
-        { id: 'orders', icon: FileText, label: t.orders },
-        { id: 'cancelOrder', icon: XCircle, label: t.cancelOrder },
-        { id: 'safety', icon: Shield, label: t.safety },
-        { id: 'subscription', icon: CreditCard, label: t.subscription },
-        { id: 'profile', icon: User, label: t.profile },
-      ];
-
-      if (!isOpen) return null;
-
-      return (
-        <div className="fixed inset-0 z-50 flex">
-          <div className="absolute inset-0 overlay" onClick={onClose} />
-          <div className="relative sidebar overflow-y-auto">
-            <div className="p-4 bg-primary">
-              <div className="flex items-center justify-between mb-4">
-                <Logo />
-                <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-lg transition-colors">
-                  <X className="w-6 h-6 text-white" />
-                </button>
-              </div>
-            </div>
-
-            <nav className="p-4">
-              {menuItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => { setPage(item.id); onClose(); }}
-                  className={`w-full flex items-center gap-3 py-3 px-4 rounded-xl mb-2 transition-all ${
-                    page === item.id
-                      ? 'bg-primary text-white'
-                      : 'text-white/70 hover:bg-lightGray'
-                  }`}
-                >
-                  <item.icon className="w-5 h-5" />
-                  <span className="font-medium">{item.label}</span>
-                </button>
-              ))}
-            </nav>
-
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-dark border-t border-lightGray">
-              <div className="text-white/50 text-xs text-center">
-                DaDa Taxi v1.0.0
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // Welcome Page
-    const WelcomePage = ({ t, setPage }) => (
-      <div className="min-h-screen bg-dark flex flex-col items-center justify-center p-6 animate-fade-in">
-        <div className="w-32 h-32 bg-primary rounded-3xl flex items-center justify-center mb-8 shadow-lg" style={{boxShadow: '0 0 60px rgba(255,107,0,0.3)'}}>
-          <Car className="w-16 h-16 text-white" />
-        </div>
-
-        <h1 className="text-4xl font-bold text-white mb-4 text-center">
-          DaDa <span className="text-primary">Taxi</span>
-        </h1>
-
-        <p className="text-white/60 text-center mb-8 text-lg">
-          {t.welcomeSubtitle || 'Your trusted ride partner'}
-        </p>
-
-        <button
-          onClick={() => setPage('login')}
-          className="btn-primary max-w-sm mb-4 text-lg"
-        >
-          {t.getStarted}
-        </button>
-      </div>
-    );
-
-    // Login Page
-    const LoginPage = ({ t, setPage, setUser, setIsLoggedIn, setShowCountrySelect }) => {
-      const [email, setEmail] = useState('');
-      const [password, setPassword] = useState('');
-      const [isLoading, setIsLoading] = useState(false);
-
-      const handleLogin = (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setTimeout(() => {
-          setUser({ email, isVip: false, hasSubscription: false });
-          setIsLoggedIn(true);
-          setShowCountrySelect(true);
-          setIsLoading(false);
-        }, 1500);
-      };
-
-      const handleGoogleLogin = () => {
-        setIsLoading(true);
-        setTimeout(() => {
-          setUser({ email: 'user@gmail.com', isVip: false, hasSubscription: false });
-          setIsLoggedIn(true);
-          setShowCountrySelect(true);
-          setIsLoading(false);
-        }, 1500);
-      };
-
-      return (
-        <div className="min-h-screen bg-dark p-6 animate-fade-in">
-          <div className="max-w-md mx-auto">
-            <button onClick={() => setPage('welcome')} className="mb-8">
-              <ArrowLeft className="w-6 h-6 text-white" />
-            </button>
-
-            <div className="flex items-center justify-center mb-8">
-              <Logo />
-            </div>
-
-            <h2 className="text-2xl font-bold text-white text-center mb-8">{t.login}</h2>
-
-            <form onSubmit={handleLogin} className="space-y-4 mb-6">
-              <div>
-                <label className="block text-white/70 text-sm mb-2">{t.email}</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="input-field"
-                  placeholder="email@example.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-white/70 text-sm mb-2">{t.password}</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-
-              <button type="submit" className="btn-primary" disabled={isLoading}>
-                {isLoading ? '...' : t.signIn}
-              </button>
-            </form>
-
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex-1 h-px bg-lightGray" />
-              <span className="text-white/50 text-sm">{t.or}</span>
-              <div className="flex-1 h-px bg-lightGray" />
-            </div>
-
-            <button onClick={handleGoogleLogin} className="google-btn mb-6" disabled={isLoading}>
-              <svg className="w-5 h-5" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              {t.continueWithGoogle}
-            </button>
-
-            <button
-              onClick={() => setPage('register')}
-              className="text-primary hover:underline text-center w-full"
-            >
-              {t.noAccount} {t.signUp}
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    // Register Page
-    const RegisterPage = ({ t, setPage, setUser, setIsLoggedIn, setShowCountrySelect }) => {
-      const [email, setEmail] = useState('');
-      const [password, setPassword] = useState('');
-      const [confirmPassword, setConfirmPassword] = useState('');
-      const [invitationCode, setInvitationCode] = useState('');
-      const [isLoading, setIsLoading] = useState(false);
-
-      const handleRegister = (e) => {
-        e.preventDefault();
-
-        if (password !== confirmPassword) {
-          alert('Passwords do not match');
-          return;
-        }
-
-        setIsLoading(true);
-        const isVip = invitationCode === 'VIP888';
-        setTimeout(() => {
-          setUser({ email, isVip, hasSubscription: isVip });
-          setIsLoggedIn(true);
-          setShowCountrySelect(true);
-          setIsLoading(false);
-        }, 1500);
-      };
-
-      return (
-        <div className="min-h-screen bg-dark p-6 animate-fade-in">
-          <div className="max-w-md mx-auto">
-            <button onClick={() => setPage('welcome')} className="mb-8">
-              <ArrowLeft className="w-6 h-6 text-white" />
-            </button>
-
-            <div className="flex items-center justify-center mb-8">
-              <Logo />
-            </div>
-
-            <h2 className="text-2xl font-bold text-white text-center mb-8">{t.register}</h2>
-
-            <form onSubmit={handleRegister} className="space-y-4 mb-6">
-              <div>
-                <label className="block text-white/70 text-sm mb-2">{t.email}</label>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="input-field"
-                  placeholder="email@example.com"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-white/70 text-sm mb-2">{t.password}</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="input-field"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-white/70 text-sm mb-2">{t.confirmPassword}</label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="input-field"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-white/70 text-sm mb-2">{t.invitationCode}</label>
-                <input
-                  type="text"
-                  value={invitationCode}
-                  onChange={(e) => setInvitationCode(e.target.value.toUpperCase())}
-                  className="input-field"
-                  placeholder="VIP888"
-                  maxLength={10}
-                />
-              </div>
-
-              <button type="submit" className="btn-primary" disabled={isLoading}>
-                {isLoading ? '...' : t.signUp}
-              </button>
-            </form>
-
-            <button
-              onClick={() => setPage('login')}
-              className="text-primary hover:underline text-center w-full"
-            >
-              {t.hasAccount} {t.signIn}
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    // Country Select Page
-    const CountrySelectPage = ({ t, setShowCountrySelect, selectedCountry, setSelectedCountry, setPage }) => {
-      const [search, setSearch] = useState('');
-
-      const filteredCountries = countries.filter(c =>
-        c.name.toLowerCase().includes(search.toLowerCase())
-      );
-
-      const handleSelect = (country) => {
-        setSelectedCountry(country);
-        setShowCountrySelect(false);
-        setPage('subscription');
-      };
-
-      return (
-        <div className="fixed inset-0 bg-dark z-50 overflow-y-auto">
-          <div className="p-6 max-w-md mx-auto">
-            <h2 className="text-2xl font-bold text-white text-center mb-2">{t.selectCountry}</h2>
-            <p className="text-white/60 text-center mb-6">Select your service area</p>
-
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="input-field mb-4"
-              placeholder="Search country..."
-            />
-
-            <div className="space-y-2 pb-20">
-              {filteredCountries.map((country) => (
-                <button
-                  key={country.code}
-                  onClick={() => handleSelect(country)}
-                  className={`w-full flex items-center gap-4 p-4 rounded-xl transition-all ${
-                    selectedCountry?.code === country.code
-                      ? 'bg-primary'
-                      : 'bg-darkGray hover:bg-lightGray'
-                  }`}
-                >
-                  <span className="text-2xl">{country.flag}</span>
-                  <div className="text-left flex-1">
-                    <div className="text-white font-medium">{country.name}</div>
-                    <div className="text-white/50 text-sm">{country.currency}</div>
-                  </div>
-                  {selectedCountry?.code === country.code && (
-                    <Check className="w-5 h-5 text-white" />
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // Subscription Page
-    const SubscriptionPage = ({ t, user, setUser, selectedCountry, setPage }) => {
-      const handleSubscribe = (plan) => {
-        window.open(`https://buy.stripe.com/${plan.priceId}`, '_blank');
-      };
-
-      if (user?.isVip || user?.hasSubscription) {
-        return (
-          <div className="min-h-screen bg-dark pb-24">
-            <TopBar title={t.subscription} showBack onBack={() => setPage('home')} />
-
-            <div className="p-6 animate-fade-in">
-              <div className="card bg-gradient-to-br from-primary to-orange-600 mb-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                    <Gift className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-bold text-lg">{t.vipFree}</h3>
-                    <p className="text-white/70 text-sm">{t.activeSubscription}</p>
-                  </div>
-                </div>
-              </div>
-
-              <button onClick={() => setPage('home')} className="btn-black w-full">
-                {t.home}
-              </button>
-            </div>
-          </div>
-        );
+    
+    // Languages
+    const languages = [
+      { code: 'zh', name: '中文', flag: '🇨🇳' },
+      { code: 'en', name: 'English', flag: '🇺🇸' },
+      { code: 'ja', name: '日本語', flag: '🇯🇵' },
+      { code: 'ko', name: '한국어', flag: '🇰🇷' },
+      { code: 'es', name: 'Español', flag: '🇪🇸' }
+    ];
+    
+    // Messages
+    const messages = [
+      { text: 'Hello, I am on my way!', sender: 'driver', time: '10:30 AM' },
+      { text: 'Thank you!', sender: 'user', time: '10:31 AM' }
+    ];
+    
+    // Orders
+    const orders = [
+      { id: 'DD001', date: '2024-01-15', pickup: '123 Main St', dropoff: '456 Oak Ave', fare: 25.50, status: 'completed' },
+      { id: 'DD002', date: '2024-01-14', pickup: '789 Pine Rd', dropoff: '321 Elm St', fare: 18.75, status: 'completed' }
+    ];
+    
+    // Navigation pages that show bottom nav
+    const mainPages = ['home', 'rideRequest', 'messages', 'orders', 'profile', 'safety', 'subscription', 'cancelOrder', 'rideActive', 'privacy'];
+    
+    // Initialize
+    function init() {
+      renderCountries();
+      renderPlans();
+      renderLanguages();
+      renderOrders();
+      renderMessages();
+      renderSidebarMenu();
+      applyTranslations();
+    }
+    
+    // Go to page
+    function goTo(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const pageEl = document.getElementById('page-' + page);
+      if (pageEl) pageEl.classList.add('active');
+      
+      // Update nav
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      const navItem = document.querySelector(`.nav-item[onclick="goTo('${page}')"]`);
+      if (navItem) navItem.classList.add('active');
+      
+      // Show/hide bottom nav
+      const bottomNav = document.getElementById('bottomNav');
+      if (mainPages.includes(page) && state.isLoggedIn) {
+        bottomNav.style.display = 'flex';
+      } else {
+        bottomNav.style.display = 'none';
       }
-
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.subscription} showBack onBack={() => setPage('home')} />
-
-          <div className="p-6 animate-fade-in">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-white mb-2">{t.choosePlan}</h2>
-              <p className="text-white/60">{t.subscriptionRequired}</p>
-            </div>
-
-            <div className="space-y-4">
-              {subscriptionPlans.map((plan, index) => (
-                <div key={plan.id} className="card relative overflow-hidden">
-                  {index === 3 && (
-                    <div className="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
-                      BEST VALUE
-                    </div>
-                  )}
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-white font-bold text-lg">
-                        ${plan.price}
-                      </h3>
-                      <p className="text-white/60 text-sm">
-                        {t[plan.label]} {t.perMonth}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => handleSubscribe(plan)}
-                    className="btn-primary w-full"
-                  >
-                    {t.subscribeNow}
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 p-4 bg-darkGray rounded-xl">
-              <h4 className="text-white font-medium mb-3">{t.features}</h4>
-              <ul className="space-y-2 text-white/70 text-sm">
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  {t.unlimitedRides}
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  {t.prioritySupport}
-                </li>
-                <li className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-primary" />
-                  {t.exclusivePromo}
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // Home Page
-    const HomePage = ({ t, setPage, user, selectedCountry, setShowCountrySelect }) => {
-      const [selectedRideType, setSelectedRideType] = useState('sedan');
-
-      const rideTypes = [
-        { id: 'sedan', icon: Car, name: t.sedan, description: '4 seats', priceMultiplier: 1 },
-        { id: 'suv', icon: Car, name: t.suv, description: '6 seats', priceMultiplier: 1.3 },
-        { id: 'truck', icon: Truck, name: t.truck, description: 'Cargo', priceMultiplier: 2 },
-        { id: 'premium', icon: Star, name: t.premium, description: 'Luxury', priceMultiplier: 2.5 },
+      
+      // Show/hide menu button
+      const menuBtn = document.getElementById('menuBtn');
+      menuBtn.style.display = (state.isLoggedIn && mainPages.includes(page)) ? 'block' : 'none';
+      
+      // Update header title
+      const titles = {
+        home: 'DaDa Taxi',
+        rideRequest: '叫車',
+        messages: '訊息',
+        orders: '我的訂單',
+        profile: '個人資料',
+        safety: '安全',
+        subscription: '訂閱',
+        cancelOrder: '取消訂單',
+        rideActive: '行程中',
+        privacy: '隱私政策',
+        country: '選擇地區',
+        login: '登入',
+        register: '註冊'
+      };
+      document.getElementById('pageTitle').textContent = titles[page] || 'DaDa Taxi';
+      
+      state.currentPage = page;
+      closeSidebar();
+    }
+    
+    // Toggle Sidebar
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('show');
+      document.getElementById('sidebarOverlay').classList.toggle('show');
+    }
+    
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('show');
+      document.getElementById('sidebarOverlay').classList.remove('show');
+    }
+    
+    // Render Sidebar Menu
+    function renderSidebarMenu() {
+      const menu = document.getElementById('sidebarMenu');
+      const items = [
+        { id: 'home', icon: '🏠', label: i18n[state.selectedLanguage]?.home || '主頁' },
+        { id: 'rideRequest', icon: '🚕', label: i18n[state.selectedLanguage]?.ride || '叫車' },
+        { id: 'messages', icon: '💬', label: i18n[state.selectedLanguage]?.msg || '訊息' },
+        { id: 'orders', icon: '📋', label: i18n[state.selectedLanguage]?.orders || '訂單' },
+        { id: 'cancelOrder', icon: '❌', label: i18n[state.selectedLanguage]?.cancel_order || '取消訂單' },
+        { id: 'safety', icon: '🛡️', label: i18n[state.selectedLanguage]?.safety || '安全' },
+        { id: 'subscription', icon: '💳', label: i18n[state.selectedLanguage]?.subscription || '訂閱' },
+        { id: 'profile', icon: '👤', label: i18n[state.selectedLanguage]?.profile || '個人資料' }
       ];
-
-      if (!user?.hasSubscription && !user?.isVip) {
-        return (
-          <div className="min-h-screen bg-dark pb-24">
-            <TopBar title={t.home} onMenuClick={() => setPage('menu')} />
-
-            <div className="p-6 animate-fade-in">
-              <div className="card bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 mb-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <AlertTriangle className="w-6 h-6 text-red-400" />
-                  <h3 className="text-white font-bold">{t.subscriptionRequired}</h3>
-                </div>
-                <p className="text-white/70 text-sm mb-4">{t.kycRequired}</p>
-                <button onClick={() => setPage('subscription')} className="btn-primary w-full">
-                  {t.subscribeNow}
-                </button>
-              </div>
-            </div>
+      
+      menu.innerHTML = items.map(item => 
+        `<div class="sidebar-item ${state.currentPage === item.id ? 'active' : ''}" onclick="goTo('${item.id}')">
+          <span style="font-size: 20px;">${item.icon}</span>
+          <span>${item.label}</span>
+        </div>`
+      ).join('') + `
+        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--lightGray);">
+          <div class="sidebar-item" onclick="logout()" style="color: #ef4444;">
+            <span style="font-size: 20px;">🚪</span>
+            <span>${i18n[state.selectedLanguage]?.logout || '登出'}</span>
           </div>
-        );
+        </div>
+      `;
+    }
+    
+    // Render Countries
+    function renderCountries() {
+      const list = document.getElementById('countryList');
+      list.innerHTML = countries.map(c => `
+        <div class="country-item ${state.selectedCountry?.code === c.code ? 'selected' : ''}" onclick="selectCountry('${c.code}')">
+          <span class="country-flag">${c.flag}</span>
+          <span class="country-name">${c.name}</span>
+          <span style="color: rgba(255,255,255,0.5); font-size: 13px;">${c.currency}</span>
+        </div>
+      `).join('');
+    }
+    
+    function filterCountries() {
+      const search = document.getElementById('countrySearch').value.toLowerCase();
+      const filtered = countries.filter(c => c.name.toLowerCase().includes(search));
+      const list = document.getElementById('countryList');
+      list.innerHTML = filtered.map(c => `
+        <div class="country-item ${state.selectedCountry?.code === c.code ? 'selected' : ''}" onclick="selectCountry('${c.code}')">
+          <span class="country-flag">${c.flag}</span>
+          <span class="country-name">${c.name}</span>
+          <span style="color: rgba(255,255,255,0.5); font-size: 13px;">${c.currency}</span>
+        </div>
+      `).join('');
+    }
+    
+    function selectCountry(code) {
+      state.selectedCountry = countries.find(c => c.code === code);
+      document.getElementById('selectedCountryFlag').textContent = state.selectedCountry.flag;
+      document.getElementById('selectedCountryName').textContent = state.selectedCountry.name;
+      document.getElementById('selectedCountryCurrency').textContent = state.selectedCountry.currency;
+      document.getElementById('countrySelector').style.display = 'flex';
+      goTo('subscription');
+    }
+    
+    // Render Plans
+    function renderPlans() {
+      const container = document.getElementById('subscriptionPlans');
+      const t = i18n[state.selectedLanguage] || i18n.zh;
+      
+      if (state.hasSubscription || state.user?.isVip) {
+        container.innerHTML = `
+          <div class="subscription-active">
+            <div class="subscription-active-icon">
+              <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            </div>
+            <h3>${t.vip_free || 'VIP 免費使用'}</h3>
+            <p>${t.active_subscription || '已訂閱'}</p>
+          </div>
+          <button class="btn btn-black" onclick="goTo('home')">${t.home || '主頁'}</button>
+        `;
+      } else {
+        container.innerHTML = plans.map(plan => `
+          <div class="plan-card">
+            ${plan.badge ? `<div class="plan-badge">${plan.badge}</div>` : ''}
+            <div class="plan-price">$${plan.price}</div>
+            <div class="plan-period">${t[plan.label]} ${t.per_month}</div>
+            <button class="btn btn-primary" onclick="subscribe('${plan.priceId}')">${t.subscribe_now || '立即訂閱'}</button>
+          </div>
+        `).join('');
       }
-
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.home} onMenuClick={() => setPage('menuOpen')} />
-
-          <div className="p-6 animate-fade-in">
-            {selectedCountry && (
-              <div className="card mb-6 flex items-center gap-3">
-                <span className="text-2xl">{selectedCountry.flag}</span>
-                <div>
-                  <div className="text-white font-medium">{selectedCountry.name}</div>
-                  <div className="text-white/50 text-sm">{selectedCountry.currency}</div>
-                </div>
-                <button
-                  onClick={() => setShowCountrySelect(true)}
-                  className="ml-auto text-primary text-sm"
-                >
-                  {t.selectCountry}
-                </button>
-              </div>
-            )}
-
-            <h2 className="text-white font-bold text-xl mb-4">{t.selectVehicle}</h2>
-
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              {rideTypes.map((type) => (
-                <button
-                  key={type.id}
-                  onClick={() => setSelectedRideType(type.id)}
-                  className={`card p-4 transition-all ${
-                    selectedRideType === type.id
-                      ? 'ring-2 ring-primary'
-                      : 'hover:bg-lightGray'
-                  }`}
-                >
-                  <div className={`w-12 h-12 rounded-xl mb-3 flex items-center justify-center ${
-                    selectedRideType === type.id ? 'bg-primary' : 'bg-lightGray'
-                  }`}>
-                    <type.icon className={`w-6 h-6 ${selectedRideType === type.id ? 'text-white' : 'text-white/70'}`} />
-                  </div>
-                  <h3 className="text-white font-medium mb-1">{type.name}</h3>
-                  <p className="text-white/50 text-sm">{type.description}</p>
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setPage('rideRequest')}
-              className="btn-primary text-lg"
-            >
-              {t.requestRide}
-            </button>
-
-            <div className="mt-8">
-              <h3 className="text-white font-bold mb-4">{t.safetyFeatures}</h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="card text-center">
-                  <MapPin className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="text-white text-xs">{t.gpsTracking}</p>
-                </div>
-                <div className="card text-center">
-                  <Bell className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="text-white text-xs">{t.emergencyButton}</p>
-                </div>
-                <div className="card text-center">
-                  <Share2 className="w-8 h-8 text-primary mx-auto mb-2" />
-                  <p className="text-white text-xs">{t.shareTrip}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+    }
+    
+    function subscribe(priceId) {
+      window.open(`https://buy.stripe.com/${priceId}`, '_blank');
+    }
+    
+    // Render Languages
+    function renderLanguages() {
+      const list = document.getElementById('langList');
+      list.innerHTML = languages.map(lang => `
+        <div class="lang-item ${state.selectedLanguage === lang.code ? 'selected' : ''}" onclick="setLanguage('${lang.code}')">
+          <span class="lang-flag">${lang.flag}</span>
+          <span class="lang-name">${lang.name}</span>
+          ${state.selectedLanguage === lang.code ? '<svg class="lang-check" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
         </div>
-      );
-    };
-
-    // Ride Request Page
-    const RideRequestPage = ({ t, selectedCountry, setPage }) => {
-      const [pickup, setPickup] = useState('');
-      const [dropoff, setDropoff] = useState('');
-      const [isLoading, setIsLoading] = useState(false);
-
-      const handleRequest = () => {
-        if (!pickup || !dropoff) return;
-
-        setIsLoading(true);
-        setTimeout(() => {
-          setIsLoading(false);
-          setPage('rideActive');
-        }, 2000);
-      };
-
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.rideRequest} showBack onBack={() => setPage('home')} />
-
-          <div className="p-6 animate-fade-in">
-            <div className="card mb-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <input
-                  type="text"
-                  value={pickup}
-                  onChange={(e) => setPickup(e.target.value)}
-                  className="flex-1 bg-transparent text-white outline-none"
-                  placeholder={t.pickupLocation}
-                />
-              </div>
-
-              <div className="h-px bg-lightGray ml-6 mb-4" />
-
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-primary" />
-                <input
-                  type="text"
-                  value={dropoff}
-                  onChange={(e) => setDropoff(e.target.value)}
-                  className="flex-1 bg-transparent text-white outline-none"
-                  placeholder={t.dropoffLocation}
-                />
-              </div>
-            </div>
-
-            <div className="card mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-white font-medium">{t.estimatedFare}</h3>
-                <span className="text-primary font-bold text-xl">
-                  {selectedCountry?.currency || '$'}15 - 25
-                </span>
-              </div>
-              <p className="text-white/50 text-sm">Price may vary based on traffic and demand</p>
-            </div>
-
-            <button
-              onClick={handleRequest}
-              disabled={!pickup || !dropoff || isLoading}
-              className="btn-primary text-lg"
-              style={{padding: '16px 24px'}}
-            >
-              {isLoading ? '...' : t.requestRide}
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    // Ride Active Page
-    const RideActivePage = ({ t, setPage }) => {
-      const driver = {
-        name: 'John D.',
-        rating: 4.9,
-        plate: 'ABC 1234',
-        car: 'Toyota Camry',
-        phone: '+1234567890'
-      };
-
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.active} showBack onBack={() => setPage('home')} />
-
-          <div className="p-6 animate-fade-in">
-            <div className="card mb-6 bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center animate-pulse-slow">
-                  <Car className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-lg">{t.active}</h3>
-                  <p className="text-white/70">Driver is on the way</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="card mb-6">
-              <h3 className="text-white font-bold mb-4">{t.driverName}</h3>
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-white text-xl font-bold">{driver.name[0]}</span>
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-white font-medium">{driver.name}</h4>
-                  <div className="flex items-center gap-1 text-yellow-400">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span className="text-sm">{driver.rating}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-3 mb-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-white/60">{t.vehiclePlate}</span>
-                  <span className="text-white font-medium">{driver.plate}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-white/60">Vehicle</span>
-                  <span className="text-white font-medium">{driver.car}</span>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <button className="btn-black flex-1 flex items-center justify-center gap-2">
-                  <Phone className="w-5 h-5" />
-                  {t.callDriver}
-                </button>
-                <button
-                  onClick={() => setPage('messages')}
-                  className="btn-primary flex-1 flex items-center justify-center gap-2"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                  Message
-                </button>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="flex items-center gap-3">
-                <MapPin className="w-6 h-6 text-primary" />
-                <div>
-                  <p className="text-white/60 text-sm">Pickup</p>
-                  <p className="text-white">123 Main Street</p>
-                </div>
-              </div>
-              <div className="h-8 border-l-2 border-dashed border-primary/50 ml-3" />
-              <div className="flex items-center gap-3">
-                <MapPin className="w-6 h-6 text-primary" />
-                <div>
-                  <p className="text-white/60 text-sm">Dropoff</p>
-                  <p className="text-white">456 Destination Ave</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // Messages Page
-    const MessagesPage = ({ t, setPage }) => {
-      const [message, setMessage] = useState('');
-      const [messages, setMessages] = useState([
-        { id: 1, text: 'Hello, I am on my way!', sender: 'driver', time: '10:30 AM' },
-        { id: 2, text: 'Thank you!', sender: 'user', time: '10:31 AM' },
-      ]);
-
-      const handleSend = () => {
-        if (!message.trim()) return;
-        setMessages([...messages, {
-          id: messages.length + 1,
-          text: message,
-          sender: 'user',
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        }]);
-        setMessage('');
-      };
-
-      return (
-        <div className="min-h-screen bg-dark pb-24 flex flex-col">
-          <TopBar title={t.messages} showBack onBack={() => setPage('home')} />
-
-          <div className="flex-1 p-4 overflow-y-auto">
-            {messages.length === 0 ? (
-              <div className="text-center text-white/50 py-12">
-                {t.noMessages}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div className={`max-w-[80%] p-3 rounded-xl ${
-                      msg.sender === 'user'
-                        ? 'bg-primary text-white'
-                        : 'bg-darkGray text-white'
-                    }`}>
-                      <p>{msg.text}</p>
-                      <p className={`text-xs mt-1 ${
-                        msg.sender === 'user' ? 'text-white/60' : 'text-white/40'
-                      }`}>
-                        {msg.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <div className="p-4 bg-darkGray border-t border-lightGray">
-            <div className="flex gap-3">
-              <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                className="input-field flex-1"
-                placeholder={t.typeMessage}
-              />
-              <button onClick={handleSend} className="btn-primary px-6">
-                Send
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // Orders Page
-    const OrdersPage = ({ t, setPage }) => {
-      const [orders] = useState([
-        { id: 'DD001', date: '2024-01-15', pickup: '123 Main St', dropoff: '456 Oak Ave', fare: 25.50, status: 'completed' },
-        { id: 'DD002', date: '2024-01-14', pickup: '789 Pine Rd', dropoff: '321 Elm St', fare: 18.75, status: 'completed' },
-      ]);
-
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.orders} showBack onBack={() => setPage('home')} />
-
-          <div className="p-6 animate-fade-in">
-            {orders.length === 0 ? (
-              <div className="text-center text-white/50 py-12">
-                {t.noOrders}
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {orders.map((order) => (
-                  <div key={order.id} className="card">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-white font-bold">{t.orderNumber}{order.id}</span>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        order.status === 'completed'
-                          ? 'bg-green-500/20 text-green-400'
-                          : 'bg-red-500/20 text-red-400'
-                      }`}>
-                        {t[order.status]}
-                      </span>
-                    </div>
-
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-center gap-2 text-sm">
-                        <MapPin className="w-4 h-4 text-green-400" />
-                        <span className="text-white/70">{order.pickup}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm">
-                        <MapPin className="w-4 h-4 text-primary" />
-                        <span className="text-white/70">{order.dropoff}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-3 border-t border-lightGray">
-                      <span className="text-white/60 text-sm">{order.date}</span>
-                      <span className="text-white font-bold">${order.fare.toFixed(2)}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    };
-
-    // Safety Page
-    const SafetyPage = ({ t, setPage }) => {
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.safety} showBack onBack={() => setPage('home')} />
-
-          <div className="p-6 animate-fade-in">
-            <div className="card bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/30 mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-lg">Trip Protection Active</h3>
-                  <p className="text-white/70 text-sm">Your trip is being monitored</p>
-                </div>
-              </div>
-            </div>
-
-            <h3 className="text-white font-bold mb-4">{t.safetyFeatures}</h3>
-
-            <div className="space-y-4 mb-6">
-              <div className="card flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-white font-medium">{t.gpsTracking}</h4>
-                  <p className="text-white/50 text-sm">Real-time location sharing</p>
-                </div>
-                <Check className="w-6 h-6 text-green-400" />
-              </div>
-
-              <div className="card flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center">
-                  <Bell className="w-6 h-6 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-white font-medium">{t.emergencyButton}</h4>
-                  <p className="text-white/50 text-sm">Quick access to emergency services</p>
-                </div>
-                <Check className="w-6 h-6 text-green-400" />
-              </div>
-
-              <div className="card flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center">
-                  <Share2 className="w-6 h-6 text-primary" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="text-white font-medium">{t.shareTrip}</h4>
-                  <p className="text-white/50 text-sm">Share your trip with trusted contacts</p>
-                </div>
-                <Check className="w-6 h-6 text-green-400" />
-              </div>
-            </div>
-
-            <button
-              onClick={() => window.open('mailto:support@uber.com')}
-              className="btn-outline w-full"
-            >
-              {t.contactUberSupport}
-            </button>
-          </div>
-        </div>
-      );
-    };
-
-    // Profile Page
-    const ProfilePage = ({ t, setPage, user, setUser, selectedLanguage, setSelectedLanguage }) => {
-      const [isEditing, setIsEditing] = useState(false);
-      const [profile, setProfile] = useState({
-        name: 'User',
-        phone: '+1 234 567 890',
-        email: user?.email || 'user@example.com',
-        address: ''
+      `).join('');
+    }
+    
+    function setLanguage(code) {
+      state.selectedLanguage = code;
+      renderLanguages();
+      applyTranslations();
+      renderSidebarMenu();
+    }
+    
+    // Apply Translations
+    function applyTranslations() {
+      const t = i18n[state.selectedLanguage] || i18n.zh;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
       });
-
-      const languages = [
-        { code: 'en', name: 'English', flag: '🇺🇸' },
-        { code: 'zh', name: '中文', flag: '🇨🇳' },
-        { code: 'ja', name: '日本語', flag: '🇯🇵' },
-        { code: 'ko', name: '한국어', flag: '🇰🇷' },
-        { code: 'es', name: 'Español', flag: '🇪🇸' },
-      ];
-
-      const handleSave = () => {
-        setUser({ ...user, ...profile });
-        setIsEditing(false);
-      };
-
-      const handleLanguageChange = (langCode) => {
-        setSelectedLanguage(langCode);
-      };
-
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.profile} showBack onBack={() => setPage('home')} />
-
-          <div className="p-6 animate-fade-in">
-            <div className="card mb-6">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-white text-2xl font-bold">{profile.name[0]}</span>
-                </div>
-                <div>
-                  <h3 className="text-white font-bold text-xl">{profile.name}</h3>
-                  {user?.isVip && (
-                    <span className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full mt-1">
-                      VIP
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {isEditing ? (
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-white/70 text-sm mb-2">Name</label>
-                    <input
-                      type="text"
-                      value={profile.name}
-                      onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                      className="input-field"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white/70 text-sm mb-2">{t.phone}</label>
-                    <input
-                      type="tel"
-                      value={profile.phone}
-                      onChange={(e) => setProfile({ ...profile, phone: e.target.value })}
-                      className="input-field"
-                    />
-                  </div>
-                  <div className="flex gap-3">
-                    <button onClick={handleSave} className="btn-primary flex-1">{t.save}</button>
-                    <button onClick={() => setIsEditing(false)} className="btn-black flex-1">{t.cancel}</button>
-                  </div>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between py-2 border-b border-lightGray">
-                    <span className="text-white/60">{t.phone}</span>
-                    <span className="text-white">{profile.phone}</span>
-                  </div>
-                  <div className="flex items-center justify-between py-2 border-b border-lightGray">
-                    <span className="text-white/60">{t.email}</span>
-                    <span className="text-white">{profile.email}</span>
-                  </div>
-                  <button onClick={() => setIsEditing(true)} className="btn-outline w-full mt-4">
-                    {t.editProfile}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="card mb-6">
-              <h3 className="text-white font-bold mb-4">{t.selectLanguage}</h3>
-              <div className="space-y-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${
-                      selectedLanguage === lang.code
-                        ? 'bg-primary'
-                        : 'bg-lightGray hover:bg-lightGray/80'
-                    }`}
-                  >
-                    <span className="text-xl">{lang.flag}</span>
-                    <span className="text-white">{lang.name}</span>
-                    {selectedLanguage === lang.code && (
-                      <Check className="w-5 h-5 text-white ml-auto" />
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <button
-              onClick={() => setPage('welcome')}
-              className="w-full py-3 text-red-400 font-medium hover:bg-red-500/10 rounded-xl transition-colors"
-            >
-              {t.logout}
-            </button>
+    }
+    
+    // Render Orders
+    function renderOrders() {
+      const list = document.getElementById('ordersList');
+      const t = i18n[state.selectedLanguage] || i18n.zh;
+      
+      list.innerHTML = orders.map(order => `
+        <div class="card">
+          <div class="order-header">
+            <span class="order-id">${t.order || '訂單'} #${order.id}</span>
+            <span class="order-status ${order.status}">${t[order.status] || order.status}</span>
+          </div>
+          <div class="order-route">
+            <div><span class="order-dot start"></span><span>${order.pickup}</span></div>
+            <div><span class="order-dot end"></span><span>${order.dropoff}</span></div>
+          </div>
+          <div class="order-footer">
+            <span class="order-date">${order.date}</span>
+            <span class="order-price">$${order.fare.toFixed(2)}</span>
           </div>
         </div>
-      );
-    };
-
-    // Cancel Order Page
-    const CancelOrderPage = ({ t, setPage }) => {
-      return (
-        <div className="min-h-screen bg-dark pb-24">
-          <TopBar title={t.cancelOrder} showBack onBack={() => setPage('home')} />
-          <div className="p-6">
-            <div className="text-center text-white/50 py-12">
-              No cancelled orders
-            </div>
-          </div>
+      `).join('');
+    }
+    
+    // Render Messages
+    function renderMessages() {
+      const list = document.getElementById('messageList');
+      list.innerHTML = messages.map(msg => `
+        <div class="message ${msg.sender}" style="text-align: ${msg.sender === 'user' ? 'right' : 'left'}">
+          <div>${msg.text}</div>
+          <div class="message-time">${msg.time}</div>
         </div>
-      );
-    };
-
-    // Main App
-    const App = () => {
-      const [isLoggedIn, setIsLoggedIn] = useState(false);
-      const [user, setUser] = useState(null);
-      const [page, setPage] = useState('welcome');
-      const [sidebarOpen, setSidebarOpen] = useState(false);
-      const [showCountrySelect, setShowCountrySelect] = useState(false);
-      const [selectedCountry, setSelectedCountry] = useState(null);
-      const [selectedLanguage, setSelectedLanguage] = useState('en');
-      const [translationsData, setTranslationsData] = useState(translations.en);
-
-      const t = translationsData;
-
-      useEffect(() => {
-        setTranslationsData(translations[selectedLanguage] || translations.en);
-      }, [selectedLanguage]);
-
-      const renderPage = () => {
-        switch (page) {
-          case 'welcome':
-            return <WelcomePage t={t} setPage={setPage} />;
-          case 'login':
-            return <LoginPage t={t} setPage={setPage} setUser={setUser} setIsLoggedIn={setIsLoggedIn} setShowCountrySelect={setShowCountrySelect} />;
-          case 'register':
-            return <RegisterPage t={t} setPage={setPage} setUser={setUser} setIsLoggedIn={setIsLoggedIn} setShowCountrySelect={setShowCountrySelect} />;
-          case 'home':
-            return <HomePage t={t} setPage={setPage} user={user} selectedCountry={selectedCountry} setShowCountrySelect={setShowCountrySelect} />;
-          case 'rideRequest':
-            return <RideRequestPage t={t} selectedCountry={selectedCountry} setPage={setPage} />;
-          case 'rideActive':
-            return <RideActivePage t={t} setPage={setPage} />;
-          case 'messages':
-            return <MessagesPage t={t} setPage={setPage} />;
-          case 'orders':
-            return <OrdersPage t={t} setPage={setPage} />;
-          case 'cancelOrder':
-            return <CancelOrderPage t={t} setPage={setPage} />;
-          case 'safety':
-            return <SafetyPage t={t} setPage={setPage} />;
-          case 'subscription':
-            return <SubscriptionPage t={t} user={user} setUser={setUser} selectedCountry={selectedCountry} setPage={setPage} />;
-          case 'profile':
-            return <ProfilePage t={t} setPage={setPage} user={user} setUser={setUser} selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />;
-          case 'menu':
-            setSidebarOpen(true);
-            return <HomePage t={t} setPage={setPage} user={user} selectedCountry={selectedCountry} setShowCountrySelect={setShowCountrySelect} />;
-          case 'menuOpen':
-            setSidebarOpen(true);
-            return null;
-          default:
-            return <HomePage t={t} setPage={setPage} user={user} selectedCountry={selectedCountry} setShowCountrySelect={setShowCountrySelect} />;
-        }
-      };
-
-      return (
-        <div className="min-h-screen bg-dark">
-          <AdBanner />
-          <div className="pt-8">
-            {renderPage()}
-          </div>
-
-          <Sidebar
-            isOpen={sidebarOpen}
-            onClose={() => setSidebarOpen(false)}
-            t={t}
-            setPage={setPage}
-          />
-
-          {showCountrySelect && (
-            <CountrySelectPage
-              t={t}
-              setShowCountrySelect={setShowCountrySelect}
-              selectedCountry={selectedCountry}
-              setSelectedCountry={setSelectedCountry}
-              setPage={setPage}
-            />
-          )}
-
-          {!showCountrySelect && page !== 'welcome' && page !== 'login' && page !== 'register' && (
-            <BottomNav t={t} page={page} setPage={setPage} />
-          )}
-        </div>
-      );
-    };
-
-    ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+      `).join('');
+      list.scrollTop = list.scrollHeight;
+    }
+    
+    function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const text = input.value.trim();
+      if (!text) return;
+      
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      messages.push({ text, sender: 'user', time });
+      input.value = '';
+      renderMessages();
+    }
+    
+    // Select Vehicle
+    function selectVehicle(el, type) {
+      document.querySelectorAll('.vehicle-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      state.selectedVehicle = type;
+    }
+    
+    // Handle Login
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const btn = document.getElementById('loginBtn');
+      btn.textContent = '...';
+      btn.disabled = true;
+      
+      setTimeout(() => {
+        state.isLoggedIn = true;
+        state.user = { email, isVip: false };
+        state.hasSubscription = false;
+        document.getElementById('profileEmail').textContent = email;
+        document.getElementById('profileInitial').textContent = email[0].toUpperCase();
+        btn.textContent = i18n[state.selectedLanguage]?.sign_in || '登入';
+        btn.disabled = false;
+        goTo('country');
+      }, 1000);
+    }
+    
+    // Handle Google Login
+    function handleGoogleLogin() {
+      state.isLoggedIn = true;
+      state.user = { email: 'user@gmail.com', isVip: false };
+      state.hasSubscription = false;
+      document.getElementById('profileEmail').textContent = 'user@gmail.com';
+      document.getElementById('profileInitial').textContent = 'G';
+      goTo('country');
+    }
+    
+    // Handle Register
+    function handleRegister() {
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+      const code = document.getElementById('regCode').value.toUpperCase();
+      
+      if (password !== confirm) {
+        alert('密碼不一致');
+        return;
+      }
+      
+      const isVip = code === 'VIP888';
+      
+      state.isLoggedIn = true;
+      state.user = { email, isVip };
+      state.hasSubscription = isVip;
+      
+      if (isVip) {
+        document.getElementById('vipBadge').style.display = 'inline-block';
+      }
+      
+      document.getElementById('profileEmail').textContent = email;
+      document.getElementById('profileInitial').textContent = email[0].toUpperCase();
+      
+      goTo('country');
+    }
+    
+    // Request Ride
+    function requestRide() {
+      const pickup = document.getElementById('pickupInput').value;
+      const dropoff = document.getElementById('dropoffInput').value;
+      
+      if (!pickup || !dropoff) {
+        alert('請填寫上車和目的地');
+        return;
+      }
+      
+      goTo('rideActive');
+    }
+    
+    // Logout
+    function logout() {
+      state.isLoggedIn = false;
+      state.user = null;
+      state.hasSubscription = false;
+      state.selectedCountry = null;
+      document.getElementById('vipBadge').style.display = 'none';
+      goTo('welcome');
+    }
+    
+    // Start
+    init();
   </script>
 </body>
 </html>
