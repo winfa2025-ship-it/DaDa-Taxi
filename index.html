@@ -29,13 +29,15 @@
     .header {
       background: var(--primary);
       padding: 15px 20px;
-      padding-top: 45px;
+      padding-top: 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 300;
+      left: 0;
+      right: 0;
+      z-index: 800;
     }
     
     .header-title { font-size: 18px; font-weight: 700; color: white; }
@@ -130,7 +132,7 @@
     .nav-item span { font-size: 11px; }
     
     /* Page */
-    .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
+    .page { display: none; padding: 20px; padding-top: 120px; animation: fadeIn 0.3s; }
     .page.active { display: block; }
     
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -615,6 +617,358 @@
     
     .emergency-call-btn:active { transform: scale(0.98); }
     
+    /* WeChat Style Messaging */
+    .wechat-search {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--darkGray);
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .wechat-search svg { color: rgba(255,255,255,0.5); }
+    
+    .wechat-search input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+    
+    .wechat-search input::placeholder { color: rgba(255,255,255,0.4); }
+    
+    .wechat-chat-list { display: flex; flex-direction: column; gap: 2px; }
+    
+    .wechat-chat-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background: var(--darkGray);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .wechat-chat-item:active { background: var(--lightGray); }
+    
+    .wechat-chat-item.customer-service { background: linear-gradient(135deg, rgba(34,197,94,0.2), rgba(16,185,129,0.2)); }
+    .wechat-chat-item.emergency-chat { background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(220,38,38,0.2)); }
+    
+    .wechat-avatar-wrapper { position: relative; margin-right: 12px; }
+    
+    .wechat-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    
+    .wechat-avatar.cs-avatar { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .wechat-avatar.driver-avatar { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+    .wechat-avatar.emergency-avatar { background: linear-gradient(135deg, #ef4444, #dc2626); font-size: 28px; }
+    
+    .online-dot {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 12px;
+      height: 12px;
+      background: #22c55e;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+    }
+    
+    .wechat-chat-info { flex: 1; min-width: 0; }
+    
+    .wechat-chat-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 4px;
+    }
+    
+    .wechat-chat-preview {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .wechat-time {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-left: 10px;
+    }
+    
+    /* WeChat Chat Header */
+    .wechat-chat-header {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #075e54, #128c7e);
+      padding: 12px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 850;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    
+    .wechat-back-btn, .wechat-call-btn {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    
+    .wechat-back-btn:active, .wechat-call-btn:active { background: rgba(255,255,255,0.2); }
+    
+    .wechat-header-info { text-align: center; flex: 1; }
+    
+    .wechat-name-row { display: flex; align-items: center; justify-content: center; gap: 8px; }
+    
+    .wechat-chat-name-header { font-size: 18px; font-weight: 600; color: white; }
+    
+    .wechat-status-badge {
+      font-size: 11px;
+      background: rgba(34,197,94,0.3);
+      color: #86efac;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    
+    /* WeChat Messages Area */
+    .wechat-messages-area {
+      padding: 20px 15px;
+      padding-top: 120px;
+      padding-bottom: 180px;
+      min-height: calc(100vh - 240px);
+      background: #ece5dd;
+    }
+    
+    /* WeChat Message Bubbles */
+    .wechat-message { margin-bottom: 15px; display: flex; }
+    .wechat-message.sent { justify-content: flex-end; }
+    .wechat-message.received { justify-content: flex-start; }
+    
+    .wechat-message-content {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      position: relative;
+    }
+    
+    .wechat-message.received .wechat-message-content {
+      background: white;
+      color: #333;
+      border-top-left-radius: 0;
+    }
+    
+    .wechat-message.sent .wechat-message-content {
+      background: #95ec64;
+      color: #333;
+      border-top-right-radius: 0;
+    }
+    
+    .wechat-message-text { font-size: 16px; line-height: 1.4; word-break: break-word; }
+    
+    .wechat-message-time {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+      text-align: right;
+    }
+    
+    .wechat-message.received .wechat-message-time { color: rgba(0,0,0,0.4); }
+    
+    /* WeChat Avatar in Messages */
+    .wechat-msg-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin: 0 8px;
+      align-self: flex-end;
+    }
+    
+    .wechat-message.sent .wechat-msg-avatar { order: 1; }
+    .wechat-message.received .wechat-msg-avatar { background: #3b82f6; color: white; }
+    .wechat-message.sent .wechat-msg-avatar { background: #95ec64; color: #333; }
+    
+    /* Image Message */
+    .wechat-image-msg {
+      max-width: 200px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    
+    /* Location Message */
+    .wechat-location-msg {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      min-width: 200px;
+    }
+    
+    .wechat-location-map {
+      width: 100%;
+      height: 100px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+    }
+    
+    .wechat-location-text { font-size: 14px; color: #333; }
+    
+    /* Typing Indicator */
+    .wechat-typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: white;
+      border-radius: 8px;
+      border-top-left-radius: 0;
+      max-width: 80px;
+      margin-bottom: 15px;
+    }
+    
+    .wechat-typing-dots {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .wechat-typing-dots span {
+      width: 8px;
+      height: 8px;
+      background: #999;
+      border-radius: 50%;
+      animation: wechat-typing 1.4s infinite;
+    }
+    
+    .wechat-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .wechat-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes wechat-typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+    
+    /* WeChat Input Area */
+    .wechat-input-area {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #f5f5f5;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 950;
+      border-top: 1px solid #ddd;
+    }
+    
+    .wechat-voice-btn, .wechat-emoji-btn, .wechat-more-btn {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 50%;
+      color: #666;
+      transition: all 0.2s;
+    }
+    
+    .wechat-voice-btn:active, .wechat-emoji-btn:active, .wechat-more-btn:active {
+      background: rgba(0,0,0,0.1);
+    }
+    
+    .wechat-text-input {
+      flex: 1;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      outline: none;
+    }
+    
+    .wechat-text-input:focus { border-color: #07c160; }
+    
+    /* WeChat More Panel */
+    .wechat-more-panel {
+      background: #f5f5f5;
+      padding: 15px;
+      border-top: 1px solid #ddd;
+      position: fixed;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      z-index: 940;
+    }
+    
+    .wechat-more-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+    
+    .wechat-more-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    
+    .wechat-more-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .wechat-more-item span { font-size: 12px; color: #666; }
+    
+    /* Emergency Button in Chat */
+    .wechat-emergency-btn {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      padding: 14px;
+      border-radius: 20px;
+      border: none;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 15px;
+      width: calc(100% - 30px);
+    }
+    
     /* Ad Banner */
     .ad-banner {
       background: linear-gradient(to right, #fbbf24, #fb923c, #fbbf24);
@@ -655,7 +1009,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.6);
-      z-index: 600;
+      z-index: 990;
       display: none;
     }
     
@@ -668,10 +1022,10 @@
       bottom: 0;
       width: 280px;
       background: var(--darkGray);
-      z-index: 700;
+      z-index: 1000;
       transform: translateX(-100%);
       transition: transform 0.3s;
-      padding-top: 45px;
+      overflow-y: auto;
     }
     
     .sidebar.show { transform: translateX(0); }
@@ -1225,117 +1579,135 @@
     </div>
   </div>
   
-  <!-- Messages Page -->
+  <!-- Messages Page - WeChat Style -->
   <div class="page" id="page-messages">
     <!-- Chat List View -->
     <div id="chatListView">
-      <div class="container">
-        <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="conversations">Conversations</h2>
-        
-        <!-- Driver Chat Item -->
-        <div class="chat-item" onclick="openChat('driver')">
-          <div class="chat-avatar">J</div>
-          <div class="chat-info">
-            <div class="chat-header">
-              <span class="chat-name">John D.</span>
-              <span class="chat-time">10:30 AM</span>
+      <!-- Search Bar -->
+      <div class="wechat-search">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="Search messages..." id="chatSearchInput">
+      </div>
+      
+      <!-- Chat List -->
+      <div class="wechat-chat-list" id="wechatChatList">
+        <!-- Customer Service Chat - Always First -->
+        <div class="wechat-chat-item customer-service" onclick="openChat('support')">
+          <div class="wechat-avatar-wrapper">
+            <div class="wechat-avatar cs-avatar">
+              <svg width="28" height="28" fill="none" stroke="white" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             </div>
-            <div class="chat-preview">Hello, I am on my way! 🚕</div>
+            <span class="online-dot"></span>
           </div>
-          <div class="chat-unread">2</div>
+          <div class="wechat-chat-info">
+            <div class="wechat-chat-name">Customer Service</div>
+            <div class="wechat-chat-preview">Online · Tap to chat</div>
+          </div>
+          <div class="wechat-time">Now</div>
         </div>
         
-        <!-- Support Chat Item - Uber Style Live Chat -->
-        <div class="chat-item support-highlight" onclick="openChat('support')">
-          <div class="chat-avatar support">
-            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <!-- Driver Chat -->
+        <div class="wechat-chat-item" onclick="openChat('driver')">
+          <div class="wechat-avatar-wrapper">
+            <div class="wechat-avatar driver-avatar">J</div>
+            <span class="online-dot"></span>
           </div>
-          <div class="chat-info">
-            <div class="chat-header">
-              <span class="chat-name">Uber Support</span>
-              <span class="online-indicator">● Live Chat</span>
-            </div>
-            <div class="chat-preview">Tap to chat with Uber support agent</div>
+          <div class="wechat-chat-info">
+            <div class="wechat-chat-name">John D. 🚕</div>
+            <div class="wechat-chat-preview">I'm on my way to pick you up...</div>
           </div>
-          <div class="chat-live-badge">LIVE</div>
+          <div class="wechat-time">10:30</div>
         </div>
         
-        <!-- Emergency Chat Item -->
-        <div class="chat-item" onclick="openChat('emergency')">
-          <div class="chat-avatar emergency">🆘</div>
-          <div class="chat-info">
-            <div class="chat-header">
-              <span class="chat-name">Emergency Contact</span>
-              <span class="chat-time">Mar 15</span>
-            </div>
-            <div class="chat-preview">Emergency services are available 24/7</div>
+        <!-- Emergency Chat -->
+        <div class="wechat-chat-item emergency-chat" onclick="openChat('emergency')">
+          <div class="wechat-avatar-wrapper">
+            <div class="wechat-avatar emergency-avatar">🆘</div>
           </div>
+          <div class="wechat-chat-info">
+            <div class="wechat-chat-name">Emergency</div>
+            <div class="wechat-chat-preview">24/7 Emergency Support</div>
+          </div>
+          <div class="wechat-time"></div>
         </div>
       </div>
     </div>
     
-    <!-- Individual Chat View -->
+    <!-- Individual Chat View - WeChat Style -->
     <div id="chatView" style="display: none;">
       <!-- Chat Header -->
-      <div class="chat-header-bar">
-        <button class="back-btn" onclick="closeChat()">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      <div class="wechat-chat-header">
+        <button class="wechat-back-btn" onclick="closeChat()">
+          <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
         </button>
-        <div class="chat-header-driver" id="chatHeaderInfo">
-          <div class="chat-avatar-small" id="chatAvatar">J</div>
-          <div>
-            <div class="chat-name-small" id="chatName">John D.</div>
-            <div class="chat-status-small" id="chatStatus">● Online</div>
+        <div class="wechat-header-info" id="chatHeaderInfo">
+          <div class="wechat-name-row">
+            <span class="wechat-chat-name-header" id="chatName">John D.</span>
+            <span class="wechat-status-badge" id="chatStatusBadge">Online</span>
           </div>
         </div>
-        <button class="back-btn" onclick="callDriver()">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <button class="wechat-call-btn" onclick="callDriver()">
+          <svg width="22" height="22" fill="none" stroke="white" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </button>
       </div>
       
-      <!-- Chat Messages -->
-      <div class="chat-messages" id="chatMessages"></div>
+      <!-- Chat Messages Area -->
+      <div class="wechat-messages-area" id="chatMessages"></div>
       
-      <!-- Quick Actions -->
-      <div class="quick-actions">
-        <button class="quick-btn" onclick="insertQuickMessage('location')">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span>Location</span>
+      <!-- WeChat Style Input Area -->
+      <div class="wechat-input-area">
+        <!-- Voice Button -->
+        <button class="wechat-voice-btn" onclick="toggleVoiceMode()" id="voiceBtn">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
         </button>
-        <button class="quick-btn" onclick="insertQuickMessage(' arrived')">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          <span>I'm Here</span>
+        
+        <!-- Text Input -->
+        <input type="text" class="wechat-text-input" placeholder="Message..." id="messageInput" onkeypress="if(event.key==='Enter')sendChatMessage()">
+        
+        <!-- Emoji Button -->
+        <button class="wechat-emoji-btn" onclick="toggleEmojiPanel()">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
         </button>
-        <button class="quick-btn" onclick="insertQuickMessage(' wait')">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Wait</span>
-        </button>
-        <button class="quick-btn" onclick="insertQuickMessage(' thank you')">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          <span>Thanks</span>
+        
+        <!-- More Button (Plus) -->
+        <button class="wechat-more-btn" onclick="toggleMorePanel()">
+          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         </button>
       </div>
       
-      <!-- Message Input -->
-      <div class="chat-input-container">
-        <button class="attach-btn" onclick="toggleAttachMenu()">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-        </button>
-        <div class="attach-menu" id="attachMenu" style="display: none;">
-          <button onclick="insertQuickMessage(' 📎')">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-            <span>File</span>
-          </button>
-          <button onclick="insertQuickMessage(' 📍')">
-            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <!-- More Panel (Photo, Camera, Location) -->
+      <div class="wechat-more-panel" id="morePanel" style="display: none;">
+        <div class="wechat-more-grid">
+          <div class="wechat-more-item" onclick="takePhoto()">
+            <div class="wechat-more-icon" style="background: #4CAF50;">
+              <svg width="28" height="28" fill="none" stroke="white" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <span>Photo</span>
+          </div>
+          <div class="wechat-more-item" onclick="takePhoto()">
+            <div class="wechat-more-icon" style="background: #2196F3;">
+              <svg width="28" height="28" fill="none" stroke="white" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            </div>
+            <span>Camera</span>
+          </div>
+          <div class="wechat-more-item" onclick="sendLocation()">
+            <div class="wechat-more-icon" style="background: #FF9800;">
+              <svg width="28" height="28" fill="none" stroke="white" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
             <span>Location</span>
-          </button>
+          </div>
+          <div class="wechat-more-item" onclick="sendFile()">
+            <div class="wechat-more-icon" style="background: #9C27B0;">
+              <svg width="28" height="28" fill="none" stroke="white" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            </div>
+            <span>File</span>
+          </div>
         </div>
-        <input type="text" class="chat-input" placeholder="Type a message..." id="messageInput" onkeypress="if(event.key==='Enter')sendChatMessage()">
-        <button class="send-btn" onclick="sendChatMessage()">
-          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
       </div>
+      
+      <!-- Hidden file input for photos -->
+      <input type="file" id="photoInput" accept="image/*" capture="environment" style="display: none;" onchange="handlePhotoSelect(event)">
+      <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)">
     </div>
   </div>
   
@@ -2511,7 +2883,7 @@
       
       // Show/hide floating support button
       const floatingBtn = document.getElementById('floatingSupportBtn');
-      if (state.isLoggedIn && page !== 'messages' && page !== 'kycVerify') {
+      if (state.isLoggedIn && page !== 'messages' && page !== 'kycVerify' && page !== 'rideActive') {
         floatingBtn.style.display = 'flex';
       } else {
         floatingBtn.style.display = 'none';
@@ -2519,13 +2891,17 @@
       
       // Show/hide menu button
       const menuBtn = document.getElementById('menuBtn');
-      menuBtn.style.display = (state.isLoggedIn && mainPages.includes(page)) ? 'block' : 'none';
+      if (page === 'messages') {
+        menuBtn.style.display = 'none';
+      } else {
+        menuBtn.style.display = (state.isLoggedIn && mainPages.includes(page)) ? 'block' : 'none';
+      }
       
       // Update header title
       const titles = {
         home: 'DaDa Taxi',
         rideRequest: 'Ride Request',
-        messages: 'Messages',
+        messages: '',
         orders: 'My Orders',
         profile: 'Profile',
         safety: 'Safety',
@@ -2759,13 +3135,16 @@
       renderMessages();
     }
     
-    // Chat System
+    // WeChat Style Chat System
     let currentChat = null;
+    let isVoiceMode = false;
+    let isMorePanelOpen = false;
+    
     const chatData = {
       driver: {
         name: 'John D.',
-        avatar: 'J',
-        status: '● Online',
+        shortName: 'J',
+        status: 'Online',
         type: 'driver',
         messages: [
           { text: 'Hello! I am on my way to pick you up.', sender: 'received', time: '10:28 AM' },
@@ -2774,34 +3153,31 @@
         ]
       },
       support: {
-        name: 'Uber Support',
-        avatar: 'U',
-        status: '● Typically replies in 2 min',
+        name: 'Customer Service',
+        shortName: 'CS',
+        status: 'Online',
         type: 'support',
-        agent: 'Sarah from Uber Support',
-        agentAvatar: 'S',
         messages: [
-          { text: '👋 Hi! Welcome to Uber Support. I\'m Sarah, how can I help you today?', sender: 'received', time: '10:30 AM' }
+          { text: '👋 Hi! Welcome to DaDa Taxi Support. How can I help you today?', sender: 'received', time: '10:30 AM' }
         ]
       },
       emergency: {
-        name: 'Emergency Services',
-        avatar: '🆘',
-        status: '● 911 Available 24/7',
+        name: 'Emergency',
+        shortName: '🆘',
+        status: '24/7',
         type: 'emergency',
         messages: [
-          { text: '🚨 For emergencies, tap the button below to call 911 directly.', sender: 'received', time: 'Now' },
-          { text: 'For non-urgent safety concerns, please contact Uber Support.', sender: 'received', time: '' }
+          { text: '🚨 Emergency services available 24/7. Tap the button below to call 911.', sender: 'received', time: '' }
         ]
       }
     };
     
     const supportResponses = [
-      "I understand your concern. Let me look into that for you.",
-      "Thank you for your patience. I'm checking your trip details now.",
-      "I've reviewed your case and here's what I found...",
-      "Is there anything else I can help you with today?",
-      "I'm sorry to hear about your experience. Let me assist you."
+      "I understand. Let me check that for you.",
+      "Thank you for your patience! I'm checking now...",
+      "I've found your issue. Here's the solution...",
+      "Is there anything else I can help you with?",
+      "I'm here to assist you. What else do you need?"
     ];
     
     function openChat(type) {
@@ -2811,52 +3187,22 @@
       document.getElementById('chatListView').style.display = 'none';
       document.getElementById('chatView').style.display = 'block';
       
-      // Use agent avatar if available
-      const avatar = chat.agentAvatar || chat.avatar;
-      document.getElementById('chatAvatar').textContent = avatar;
-      document.getElementById('chatName').textContent = chat.agent || chat.name;
-      document.getElementById('chatStatus').textContent = chat.status;
+      // Update header
+      document.getElementById('chatName').textContent = chat.name;
+      document.getElementById('chatStatusBadge').textContent = chat.status;
+      
+      // Hide more panel
+      document.getElementById('morePanel').style.display = 'none';
+      isMorePanelOpen = false;
       
       renderChatMessages();
     }
     
-    function openChat(type) {
-      currentChat = type;
-      const chat = chatData[type];
-      
-      document.getElementById('chatListView').style.display = 'none';
-      document.getElementById('chatView').style.display = 'block';
-      
-      // Use agent avatar if available
-      const avatar = chat.agentAvatar || chat.avatar;
-      document.getElementById('chatAvatar').textContent = avatar;
-      document.getElementById('chatName').textContent = chat.agent || chat.name;
-      document.getElementById('chatStatus').textContent = chat.status;
-      
-      // Hide quick actions for emergency
-      const quickActions = document.querySelector('.quick-actions');
-      if (type === 'emergency') {
-        quickActions.style.display = 'none';
-      } else {
-        quickActions.style.display = 'flex';
-      }
-      
-      renderChatMessages();
-      
-      // Add emergency call button for emergency chat
-      if (type === 'emergency') {
-        setTimeout(() => {
-          const container = document.getElementById('chatMessages');
-          if (!document.getElementById('emergencyCallBtn')) {
-            container.insertAdjacentHTML('beforeend', `
-              <button class="emergency-call-btn" id="emergencyCallBtn" onclick="call911()">
-                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                Call 911 - Emergency Services
-              </button>
-            `);
-          }
-        }, 100);
-      }
+    function closeChat() {
+      currentChat = null;
+      document.getElementById('chatListView').style.display = 'block';
+      document.getElementById('chatView').style.display = 'none';
+      document.getElementById('morePanel').style.display = 'none';
     }
     
     function closeChat() {
@@ -2872,13 +3218,72 @@
       const container = document.getElementById('chatMessages');
       const chat = chatData[currentChat];
       
-      container.innerHTML = chat.messages.map(msg => `
-        <div class="chat-message ${msg.sender}">
-          <div>${msg.text}</div>
-          <div class="chat-message-time">${msg.time}</div>
-        </div>
-      `).join('');
+      let html = '';
       
+      // Add emergency button for emergency chat
+      if (currentChat === 'emergency') {
+        html += `
+          <button class="wechat-emergency-btn" onclick="call911()">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call 911 - Emergency
+          </button>
+        `;
+      }
+      
+      html += chat.messages.map(msg => {
+        const avatarText = msg.sender === 'sent' ? 'Me' : chat.shortName;
+        const avatarClass = msg.sender === 'sent' ? 'sent' : 'received';
+        
+        if (msg.type === 'image') {
+          return `
+            <div class="wechat-message ${msg.sender}">
+              <div class="wechat-msg-avatar ${avatarClass}">${avatarText}</div>
+              <div class="wechat-message-content">
+                <img src="${msg.imageData}" class="wechat-image-msg" onclick="previewImage('${msg.imageData}')">
+                <div class="wechat-message-time">${msg.time}</div>
+              </div>
+            </div>
+          `;
+        } else if (msg.type === 'location') {
+          return `
+            <div class="wechat-message ${msg.sender}">
+              <div class="wechat-msg-avatar ${avatarClass}">${avatarText}</div>
+              <div class="wechat-message-content">
+                <div class="wechat-location-msg" onclick="openLocation('${msg.lat}', '${msg.lng}')">
+                  <div class="wechat-location-map">📍 Location</div>
+                  <div class="wechat-location-text">${msg.address || 'Shared Location'}</div>
+                </div>
+                <div class="wechat-message-time">${msg.time}</div>
+              </div>
+            </div>
+          `;
+        } else if (msg.type === 'file') {
+          return `
+            <div class="wechat-message ${msg.sender}">
+              <div class="wechat-msg-avatar ${avatarClass}">${avatarText}</div>
+              <div class="wechat-message-content">
+                <div class="wechat-location-msg">
+                  <div class="wechat-location-map">📄 ${msg.fileName}</div>
+                  <div class="wechat-location-text">${msg.fileSize || 'File'}</div>
+                </div>
+                <div class="wechat-message-time">${msg.time}</div>
+              </div>
+            </div>
+          `;
+        }
+        
+        return `
+          <div class="wechat-message ${msg.sender}">
+            <div class="wechat-msg-avatar ${avatarClass}">${avatarText}</div>
+            <div class="wechat-message-content">
+              <div class="wechat-message-text">${msg.text}</div>
+              <div class="wechat-message-time">${msg.time}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      container.innerHTML = html;
       container.scrollTop = container.scrollHeight;
     }
     
@@ -2889,47 +3294,46 @@
       const text = input.value.trim();
       if (!text) return;
       
-      const now = new Date();
-      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       
       chatData[currentChat].messages.push({ text, sender: 'sent', time });
       input.value = '';
       renderChatMessages();
       
-      // Simulate replies based on chat type
+      // Hide more panel after sending
+      document.getElementById('morePanel').style.display = 'none';
+      isMorePanelOpen = false;
+      
+      // Simulate replies
       if (currentChat === 'driver') {
-        showTypingIndicator();
+        showWechatTypingIndicator();
         setTimeout(() => {
           removeTypingIndicator();
           chatData.driver.messages.push({ text: 'Got it! See you soon 👍', sender: 'received', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
           renderChatMessages();
         }, 1500);
       } else if (currentChat === 'support') {
-        showTypingIndicator('Sarah is typing');
+        showWechatTypingIndicator();
         setTimeout(() => {
           removeTypingIndicator();
           const response = supportResponses[Math.floor(Math.random() * supportResponses.length)];
           chatData.support.messages.push({ text: response, sender: 'received', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
           renderChatMessages();
         }, 2000 + Math.random() * 1000);
-      } else if (currentChat === 'emergency') {
-        showTypingIndicator();
-        setTimeout(() => {
-          removeTypingIndicator();
-          chatData.emergency.messages.push({ text: 'Please call 911 for immediate emergency assistance.', sender: 'received', time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) });
-          renderChatMessages();
-        }, 1000);
       }
     }
     
-    function showTypingIndicator(text = 'typing...') {
+    function showWechatTypingIndicator() {
       const container = document.getElementById('chatMessages');
+      const chat = chatData[currentChat];
       const typingHTML = `
-        <div class="chat-typing-indicator" id="typingIndicator">
-          <div class="typing-dots">
-            <span></span><span></span><span></span>
+        <div class="wechat-message received" id="typingIndicator">
+          <div class="wechat-msg-avatar received">${chat.shortName}</div>
+          <div class="wechat-typing-indicator">
+            <div class="wechat-typing-dots">
+              <span></span><span></span><span></span>
+            </div>
           </div>
-          <span class="typing-text">${text}</span>
         </div>
       `;
       container.insertAdjacentHTML('beforeend', typingHTML);
@@ -2941,21 +3345,127 @@
       if (indicator) indicator.remove();
     }
     
-    function insertQuickMessage(text) {
+    function toggleVoiceMode() {
+      isVoiceMode = !isVoiceMode;
+      const btn = document.getElementById('voiceBtn');
       const input = document.getElementById('messageInput');
-      input.value += text;
-      input.focus();
-      document.getElementById('attachMenu').style.display = 'none';
+      
+      if (isVoiceMode) {
+        btn.innerHTML = '<svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+        input.type = 'button';
+        input.value = 'Hold to Talk';
+        input.onpointerdown = 'startRecording()';
+        input.onpointerup = 'stopRecording()';
+      } else {
+        btn.innerHTML = '<svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>';
+        input.type = 'text';
+        input.placeholder = 'Message...';
+        input.value = '';
+        input.onkeypress = "if(event.key==='Enter')sendChatMessage()";
+      }
     }
     
-    function toggleAttachMenu() {
-      const menu = document.getElementById('attachMenu');
-      menu.style.display = menu.style.display === 'none' ? 'flex' : 'none';
+    function toggleMorePanel() {
+      isMorePanelOpen = !isMorePanelOpen;
+      document.getElementById('morePanel').style.display = isMorePanelOpen ? 'block' : 'none';
+    }
+    
+    function toggleEmojiPanel() {
+      // Simple emoji shortcut - append to input
+      const input = document.getElementById('messageInput');
+      const emojis = ['😀', '😂', '😍', '👍', '🙏', '🚕', '📍', '✅'];
+      const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+      input.value += randomEmoji;
+      input.focus();
+    }
+    
+    function takePhoto() {
+      document.getElementById('photoInput').click();
+    }
+    
+    function sendLocation() {
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      chatData[currentChat].messages.push({
+        type: 'location',
+        address: '123 Main Street, City',
+        lat: '40.7128',
+        lng: '-74.0060',
+        sender: 'sent',
+        time
+      });
+      document.getElementById('morePanel').style.display = 'none';
+      isMorePanelOpen = false;
+      renderChatMessages();
+      
+      // Simulate reply
+      setTimeout(() => {
+        chatData[currentChat].messages.push({
+          text: '📍 Location received! I\'ll navigate to this address.',
+          sender: 'received',
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        });
+        renderChatMessages();
+      }, 2000);
+    }
+    
+    function sendFile() {
+      document.getElementById('fileInput').click();
+    }
+    
+    function handlePhotoSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        chatData[currentChat].messages.push({
+          type: 'image',
+          imageData: e.target.result,
+          sender: 'sent',
+          time
+        });
+        document.getElementById('morePanel').style.display = 'none';
+        isMorePanelOpen = false;
+        renderChatMessages();
+      };
+      reader.readAsDataURL(file);
+      event.target.value = '';
+    }
+    
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      chatData[currentChat].messages.push({
+        type: 'file',
+        fileName: file.name,
+        fileSize: (file.size / 1024).toFixed(1) + ' KB',
+        sender: 'sent',
+        time
+      });
+      document.getElementById('morePanel').style.display = 'none';
+      isMorePanelOpen = false;
+      renderChatMessages();
+      event.target.value = '';
+    }
+    
+    function previewImage(src) {
+      // Create a simple image preview overlay
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;align-items:center;justify-content:center;';
+      overlay.innerHTML = `<img src="${src}" style="max-width:95%;max-height:95%;" onclick="this.parentElement.remove()">`;
+      document.body.appendChild(overlay);
+    }
+    
+    function openLocation(lat, lng) {
+      window.open(`https://www.google.com/maps?q=${lat},${lng}`, '_blank');
     }
     
     function callDriver() {
       if (currentChat === 'support') {
-        alert('Calling Uber Support...\n\nIn production, this would connect you to Uber Support.');
+        alert('Calling Customer Service...\n\nIn production, this would connect you to our support team.');
       } else if (currentChat === 'emergency') {
         call911();
       } else {
