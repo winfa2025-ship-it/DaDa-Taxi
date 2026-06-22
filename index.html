@@ -988,7 +988,7 @@
           </div>
         </div>
         
-        <button class="btn btn-outline" onclick="goTo('editProfile')" data-i18n="edit">Edit Profile</button>
+        <button class="btn btn-outline" onclick="goToEditProfile()" data-i18n="edit">Edit Profile</button>
       </div>
       
       <div class="card" style="margin-top: 20px;">
@@ -1010,6 +1010,33 @@
       </div>
       
       <button class="btn btn-outline" style="margin-top: 20px; color: #ef4444; border-color: #ef4444;" onclick="logout()" data-i18n="logout">Logout</button>
+    </div>
+  </div>
+  
+  <!-- Edit Profile Page -->
+  <div class="page" id="page-editProfile">
+    <button class="back-btn" onclick="goTo('profile')" style="margin-bottom: 20px;">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </button>
+    <div class="container">
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;">Edit Profile</h2>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);">Full Name</label>
+        <input type="text" class="input" placeholder="Enter your name" id="editName">
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);">Phone Number</label>
+        <input type="tel" class="input" placeholder="+1 234 567 890" id="editPhone">
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);">Address (Optional)</label>
+        <input type="text" class="input" placeholder="Enter your address" id="editAddress">
+      </div>
+      
+      <button class="btn btn-primary" onclick="saveProfile()">Save</button>
     </div>
   </div>
   
@@ -1918,7 +1945,7 @@
     ];
     
     // Navigation pages that show bottom nav
-    const mainPages = ['home', 'rideRequest', 'messages', 'orders', 'profile', 'safety', 'subscription', 'cancelOrder', 'rideActive', 'privacy'];
+    const mainPages = ['home', 'rideRequest', 'messages', 'orders', 'profile', 'safety', 'subscription', 'cancelOrder', 'rideActive', 'privacy', 'editProfile'];
     
     // Initialize
     function init() {
@@ -1999,7 +2026,8 @@
         { id: 'cancelOrder', icon: '❌', label: t.cancel_order || 'Cancel Order' },
         { id: 'safety', icon: '🛡️', label: t.safety || 'Safety' },
         { id: 'subscription', icon: '💳', label: t.subscription || 'Subscription' },
-        { id: 'profile', icon: '👤', label: t.profile || 'Profile' }
+        { id: 'profile', icon: '👤', label: t.profile || 'Profile' },
+        { id: 'privacy', icon: '📜', label: t.privacy_policy || 'Privacy Policy' }
       ];
       
       menu.innerHTML = items.map(item => 
@@ -2196,6 +2224,29 @@
       document.querySelectorAll('.vehicle-card').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
       state.selectedVehicle = type;
+    }
+    
+    // Go to Edit Profile
+    function goToEditProfile() {
+      document.getElementById('editName').value = state.user?.name || '';
+      document.getElementById('editPhone').value = state.user?.phone || '';
+      document.getElementById('editAddress').value = state.user?.address || '';
+      goTo('editProfile');
+    }
+    
+    // Save Profile
+    function saveProfile() {
+      const name = document.getElementById('editName').value;
+      const phone = document.getElementById('editPhone').value;
+      const address = document.getElementById('editAddress').value;
+      
+      state.user = { ...state.user, name, phone, address };
+      
+      document.getElementById('profileName').textContent = name || 'User';
+      document.getElementById('profilePhone').textContent = phone || '+1 234 567 890';
+      document.getElementById('profileInitial').textContent = (name || 'U')[0].toUpperCase();
+      
+      goTo('profile');
     }
     
     // Handle Login
