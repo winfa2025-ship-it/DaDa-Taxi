@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DaDa Taxi - 用家版</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>DaDa Taxi - User Version</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -16,7 +16,7 @@
     }
     
     body {
-      font-family: 'Noto Sans TC', -apple-system, sans-serif;
+      font-family: 'Poppins', -apple-system, sans-serif;
       background: var(--dark);
       color: white;
       min-height: 100vh;
@@ -522,11 +522,44 @@
     
     /* Search */
     .search-container { margin-bottom: 20px; }
+    
+    /* Uber-style country section */
+    .uber-region { 
+      background: var(--darkGray); 
+      border-radius: 12px; 
+      padding: 15px; 
+      margin-bottom: 10px;
+    }
+    .uber-region-header { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+      cursor: pointer;
+    }
+    .uber-region-flag { font-size: 24px; }
+    .uber-region-name { flex: 1; font-weight: 600; }
+    .uber-region-countries { 
+      display: none; 
+      padding-left: 34px;
+      padding-top: 10px;
+    }
+    .uber-region.expanded .uber-region-countries { display: block; }
+    .uber-country { 
+      padding: 10px 0; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
+      border-bottom: 1px solid var(--lightGray);
+      cursor: pointer;
+    }
+    .uber-country:last-child { border: none; }
+    .uber-country:active { transform: scale(0.98); }
+    .uber-country.selected { color: var(--primary); }
   </style>
 </head>
 <body>
   <!-- Ad Banner -->
-  <div class="ad-banner">🎉 限時優惠：輸入 DADA20 首次乘車8折！🎉</div>
+  <div class="ad-banner">🎉 Special Offer: Use code DADA20 for 20% off your first ride! 🎉</div>
   
   <!-- Header -->
   <header class="header">
@@ -570,8 +603,8 @@
     <div class="welcome-page">
       <div class="welcome-logo">🚕</div>
       <h1 class="welcome-title">DaDa <span>Taxi</span></h1>
-      <p class="welcome-sub" data-i18n="welcome_sub">您可信賴的出行夥伴</p>
-      <button class="btn btn-primary" onclick="goTo('login')" data-i18n="get_started">開始使用</button>
+      <p class="welcome-sub" data-i18n="welcome_sub">Your trusted ride partner</p>
+      <button class="btn btn-primary" onclick="goTo('login')" data-i18n="get_started">Get Started</button>
     </div>
   </div>
   
@@ -581,34 +614,34 @@
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
     <div class="container">
-      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;" data-i18n="login">登入</h2>
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;" data-i18n="login">Login</h2>
       
       <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="email">電郵</label>
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="email">Email</label>
         <input type="email" class="input" placeholder="email@example.com" id="loginEmail">
       </div>
       
       <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="password">密碼</label>
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="password">Password</label>
         <input type="password" class="input" placeholder="••••••••" id="loginPassword">
       </div>
       
-      <button class="btn btn-primary" onclick="handleLogin()" id="loginBtn" data-i18n="sign_in">登入</button>
+      <button class="btn btn-primary" onclick="handleLogin()" id="loginBtn" data-i18n="sign_in">Sign In</button>
       
       <div class="divider">
         <div class="divider-line"></div>
-        <span class="divider-text" data-i18n="or">或</span>
+        <span class="divider-text" data-i18n="or">OR</span>
         <div class="divider-line"></div>
       </div>
       
       <button class="google-btn" onclick="handleGoogleLogin()">
         <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-        <span data-i18n="continue_google">使用 Google 登入</span>
+        <span data-i18n="continue_google">Continue with Google</span>
       </button>
       
       <p style="text-align: center; margin-top: 20px; color: var(--primary);">
-        <span data-i18n="no_account">還沒有帳戶？</span>
-        <a href="#" onclick="goTo('register'); return false;" data-i18n="sign_up">註冊</a>
+        <span data-i18n="no_account">Don't have an account?</span>
+        <a href="#" onclick="goTo('register'); return false;" data-i18n="sign_up">Sign Up</a>
       </p>
     </div>
   </div>
@@ -619,48 +652,48 @@
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
     <div class="container">
-      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;" data-i18n="register">註冊</h2>
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 30px;" data-i18n="register">Register</h2>
       
       <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="email">電郵</label>
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="email">Email</label>
         <input type="email" class="input" placeholder="email@example.com" id="regEmail">
       </div>
       
       <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="password">密碼</label>
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="password">Password</label>
         <input type="password" class="input" placeholder="••••••••" id="regPassword">
       </div>
       
       <div style="margin-bottom: 15px;">
-        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="confirm_password">確認密碼</label>
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="confirm_password">Confirm Password</label>
         <input type="password" class="input" placeholder="••••••••" id="regConfirm">
       </div>
       
       <div style="margin-bottom: 20px;">
-        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="invite_code">邀請碼（可選）</label>
-        <input type="text" class="input" placeholder="VIP888" id="regCode" maxlength="10">
+        <label style="display: block; margin-bottom: 8px; color: rgba(255,255,255,0.7);" data-i18n="invite_code">Invitation Code (Optional)</label>
+        <input type="text" class="input" placeholder="Enter code" id="regCode" maxlength="10">
       </div>
       
-      <button class="btn btn-primary" onclick="handleRegister()" data-i18n="sign_up">註冊</button>
+      <button class="btn btn-primary" onclick="handleRegister()" data-i18n="sign_up">Sign Up</button>
       
       <p style="text-align: center; margin-top: 20px; color: rgba(255,255,255,0.7);">
-        <span data-i18n="has_account">已經有帳戶？</span>
-        <a href="#" onclick="goTo('login'); return false;" data-i18n="sign_in">登入</a>
+        <span data-i18n="has_account">Already have an account?</span>
+        <a href="#" onclick="goTo('login'); return false;" data-i18n="sign_in">Sign In</a>
       </p>
     </div>
   </div>
   
-  <!-- Country Select Page -->
+  <!-- Country Select Page - Uber Style -->
   <div class="page" id="page-country">
     <button class="back-btn" onclick="goTo('welcome')" style="margin-bottom: 20px;">
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
     <div class="container">
-      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;" data-i18n="select_country">選擇國家/地區</h2>
-      <p style="text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 20px;">Select your service area</p>
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;" data-i18n="select_country">Select Country/Region</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 20px;">Choose your service area</p>
       
       <div class="search-container">
-        <input type="text" class="input" placeholder="搜尋國家..." id="countrySearch" oninput="filterCountries()">
+        <input type="text" class="input" placeholder="Search country..." id="countrySearch" oninput="filterCountries()">
       </div>
       
       <div class="country-grid" id="countryList"></div>
@@ -674,10 +707,10 @@
       <div class="alert" id="subscriptionAlert" style="display: none;">
         <div class="alert-header">
           <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <span data-i18n="subscription_required">需要訂閱</span>
+          <span data-i18n="subscription_required">Subscription Required</span>
         </div>
-        <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: 14px;" data-i18n="kyc_required">需要驗證才能使用服務</p>
-        <button class="btn btn-primary" onclick="goTo('subscription')" data-i18n="subscribe_now">立即訂閱</button>
+        <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: 14px;" data-i18n="kyc_required">KYC verification required to use the service</p>
+        <button class="btn btn-primary" onclick="goTo('subscription')" data-i18n="subscribe_now">Subscribe Now</button>
       </div>
       
       <!-- Country Selector -->
@@ -688,50 +721,50 @@
             <div style="font-weight: 600;" id="selectedCountryName"></div>
             <div style="font-size: 13px; color: rgba(255,255,255,0.5);" id="selectedCountryCurrency"></div>
           </div>
-          <a href="#" onclick="goTo('country'); return false;" style="color: var(--primary); font-size: 14px;" data-i18n="change">更改</a>
+          <a href="#" onclick="goTo('country'); return false;" style="color: var(--primary); font-size: 14px;" data-i18n="change">Change</a>
         </div>
       </div>
       
-      <h2 style="margin: 20px 0 15px;" data-i18n="select_vehicle">選擇車輛類型</h2>
+      <h2 style="margin: 20px 0 15px;" data-i18n="select_vehicle">Select Vehicle Type</h2>
       
       <div class="vehicle-grid">
         <div class="vehicle-card selected" onclick="selectVehicle(this, 'sedan')">
           <div class="vehicle-icon">🚗</div>
-          <div class="vehicle-name" data-i18n="sedan">轎車</div>
-          <div class="vehicle-desc">4 座位</div>
+          <div class="vehicle-name" data-i18n="sedan">Sedan</div>
+          <div class="vehicle-desc">4 seats</div>
         </div>
         <div class="vehicle-card" onclick="selectVehicle(this, 'suv')">
           <div class="vehicle-icon">🚙</div>
           <div class="vehicle-name" data-i18n="suv">SUV</div>
-          <div class="vehicle-desc">6 座位</div>
+          <div class="vehicle-desc">6 seats</div>
         </div>
         <div class="vehicle-card" onclick="selectVehicle(this, 'truck')">
           <div class="vehicle-icon">🚚</div>
-          <div class="vehicle-name" data-i18n="truck">貨車</div>
-          <div class="vehicle-desc">載貨</div>
+          <div class="vehicle-name" data-i18n="truck">Truck</div>
+          <div class="vehicle-desc">Cargo</div>
         </div>
         <div class="vehicle-card" onclick="selectVehicle(this, 'premium')">
           <div class="vehicle-icon">✨</div>
-          <div class="vehicle-name" data-i18n="premium">豪華轎車</div>
-          <div class="vehicle-desc">奢華</div>
+          <div class="vehicle-name" data-i18n="premium">Premium</div>
+          <div class="vehicle-desc">Luxury</div>
         </div>
       </div>
       
-      <button class="btn btn-primary" onclick="goTo('rideRequest')" data-i18n="request_ride">發出請求</button>
+      <button class="btn btn-primary" onclick="goTo('rideRequest')" data-i18n="request_ride">Request Ride</button>
       
-      <h2 style="margin: 30px 0 15px;" data-i18n="safety_features">安全功能</h2>
+      <h2 style="margin: 30px 0 15px;" data-i18n="safety_features">Safety Features</h2>
       <div class="safety-grid">
         <div class="safety-item">
           <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span data-i18n="gps">GPS定位</span>
+          <span data-i18n="gps">GPS Tracking</span>
         </div>
         <div class="safety-item">
           <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          <span data-i18n="emergency">緊急按鈕</span>
+          <span data-i18n="emergency">Emergency</span>
         </div>
         <div class="safety-item">
           <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          <span data-i18n="share">分享行程</span>
+          <span data-i18n="share">Share Trip</span>
         </div>
       </div>
     </div>
@@ -743,29 +776,29 @@
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
     <div class="container">
-      <h2 style="text-align: center; font-size: 24px; margin-bottom: 20px;" data-i18n="ride_request">叫車</h2>
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 20px;" data-i18n="ride_request">Ride Request</h2>
       
       <div class="card">
         <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 15px;">
           <div style="width: 12px; height: 12px; border-radius: 50%; background: #22c55e;"></div>
-          <input type="text" class="input" placeholder="上車地點" id="pickupInput">
+          <input type="text" class="input" placeholder="Pickup location" id="pickupInput">
         </div>
         <div style="height: 1px; background: var(--lightGray); margin-left: 5px; margin-bottom: 15px;"></div>
         <div style="display: flex; align-items: center; gap: 15px;">
           <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--primary);"></div>
-          <input type="text" class="input" placeholder="目的地" id="dropoffInput">
+          <input type="text" class="input" placeholder="Drop-off location" id="dropoffInput">
         </div>
       </div>
       
       <div class="card">
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <span style="font-weight: 500;" data-i18n="estimated_fare">預計車費</span>
+          <span style="font-weight: 500;" data-i18n="estimated_fare">Estimated Fare</span>
           <span style="font-size: 24px; font-weight: 700; color: var(--primary);" id="fareEstimate">$15-25</span>
         </div>
-        <p style="color: rgba(255,255,255,0.5); font-size: 13px;">價格可能因路況而異</p>
+        <p style="color: rgba(255,255,255,0.5); font-size: 13px;">Price may vary based on traffic and demand</p>
       </div>
       
-      <button class="btn btn-primary" onclick="requestRide()" style="padding: 18px;" data-i18n="confirm_ride">確認叫車</button>
+      <button class="btn btn-primary" onclick="requestRide()" style="padding: 18px;" data-i18n="confirm_ride">Confirm Ride</button>
     </div>
   </div>
   
@@ -775,8 +808,8 @@
       <div class="ride-status">
         <div class="ride-status-icon">🚕</div>
         <div>
-          <h3 style="font-size: 18px; margin-bottom: 5px;" data-i18n="ride_active">行程進行中</h3>
-          <p style="opacity: 0.8; font-size: 14px;">司機正在趕來</p>
+          <h3 style="font-size: 18px; margin-bottom: 5px;" data-i18n="ride_active">Ride Active</h3>
+          <p style="opacity: 0.8; font-size: 14px;">Driver is on the way</p>
         </div>
       </div>
       
@@ -790,11 +823,11 @@
         
         <div class="driver-info">
           <div>
-            <span style="color: rgba(255,255,255,0.6);" data-i18n="plate">車牌</span>
+            <span style="color: rgba(255,255,255,0.6);" data-i18n="plate">Vehicle Plate</span>
             <span style="font-weight: 500;">ABC 1234</span>
           </div>
           <div>
-            <span style="color: rgba(255,255,255,0.6);">車輛</span>
+            <span style="color: rgba(255,255,255,0.6);">Vehicle</span>
             <span style="font-weight: 500;">Toyota Camry</span>
           </div>
         </div>
@@ -802,11 +835,11 @@
         <div class="btn-row">
           <button class="btn btn-black">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span data-i18n="call_driver">致電司機</span>
+            <span data-i18n="call_driver">Call Driver</span>
           </button>
           <button class="btn btn-primary" onclick="goTo('messages')">
             <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-            <span>訊息</span>
+            <span>Message</span>
           </button>
         </div>
       </div>
@@ -816,12 +849,12 @@
           <div class="route-line"></div>
           <div class="route-item">
             <div class="route-dot route-start"></div>
-            <div class="route-label">上車</div>
+            <div class="route-label">Pickup</div>
             <div class="route-value">123 Main Street</div>
           </div>
           <div class="route-item">
             <div class="route-dot route-end"></div>
-            <div class="route-label">目的地</div>
+            <div class="route-label">Drop-off</div>
             <div class="route-value">456 Destination Ave</div>
           </div>
         </div>
@@ -833,15 +866,15 @@
   <div class="page" id="page-messages">
     <div class="message-list container" id="messageList" style="padding-bottom: 150px;"></div>
     <div class="message-input-container">
-      <input type="text" class="input" placeholder="輸入訊息..." id="messageInput" onkeypress="if(event.key==='Enter')sendMessage()">
-      <button class="btn btn-primary" onclick="sendMessage()" style="flex: 0 0 auto; padding: 15px 20px;">發送</button>
+      <input type="text" class="input" placeholder="Type a message..." id="messageInput" onkeypress="if(event.key==='Enter')sendMessage()">
+      <button class="btn btn-primary" onclick="sendMessage()" style="flex: 0 0 auto; padding: 15px 20px;">Send</button>
     </div>
   </div>
   
   <!-- Orders Page -->
   <div class="page" id="page-orders">
     <div class="container">
-      <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="my_orders">我的訂單</h2>
+      <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="my_orders">My Orders</h2>
       <div id="ordersList"></div>
     </div>
   </div>
@@ -849,8 +882,8 @@
   <!-- Cancel Order Page -->
   <div class="page" id="page-cancelOrder">
     <div class="container">
-      <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="canceled_orders">已取消訂單</h2>
-      <p style="text-align: center; color: rgba(255,255,255,0.5); padding: 50px 0;">暫無已取消的訂單</p>
+      <h2 style="font-size: 20px; margin-bottom: 20px;" data-i18n="canceled_orders">Cancelled Orders</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); padding: 50px 0;">No cancelled orders</p>
     </div>
   </div>
   
@@ -863,21 +896,21 @@
             <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <div>
-            <h3 style="font-size: 18px; margin-bottom: 5px;">行程保護已啟用</h3>
-            <p style="opacity: 0.8; font-size: 14px;">您的行程正在被監控</p>
+            <h3 style="font-size: 18px; margin-bottom: 5px;">Trip Protection Active</h3>
+            <p style="opacity: 0.8; font-size: 14px;">Your trip is being monitored</p>
           </div>
         </div>
       </div>
       
-      <h2 style="font-size: 18px; margin-bottom: 15px;" data-i18n="safety_features">安全功能</h2>
+      <h2 style="font-size: 18px; margin-bottom: 15px;" data-i18n="safety_features">Safety Features</h2>
       
       <div class="card" style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
         <div style="width: 50px; height: 50px; background: rgba(255,107,0,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
           <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         </div>
         <div style="flex: 1;">
-          <h4 style="margin-bottom: 3px;" data-i18n="gps">GPS定位</h4>
-          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">即時位置分享</p>
+          <h4 style="margin-bottom: 3px;" data-i18n="gps">GPS Tracking</h4>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Real-time location sharing</p>
         </div>
         <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
@@ -887,8 +920,8 @@
           <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         </div>
         <div style="flex: 1;">
-          <h4 style="margin-bottom: 3px;" data-i18n="emergency">緊急按鈕</h4>
-          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">快速聯絡緊急服務</p>
+          <h4 style="margin-bottom: 3px;" data-i18n="emergency">Emergency Button</h4>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Quick access to emergency services</p>
         </div>
         <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
@@ -898,37 +931,37 @@
           <svg width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         </div>
         <div style="flex: 1;">
-          <h4 style="margin-bottom: 3px;" data-i18n="share">分享行程</h4>
-          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">與可信賴的聯絡人分享</p>
+          <h4 style="margin-bottom: 3px;" data-i18n="share">Share Trip</h4>
+          <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Share with trusted contacts</p>
         </div>
         <svg width="24" height="24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       
-      <button class="btn btn-outline" onclick="window.location='mailto:support@uber.com'" data-i18n="contact_uber">聯絡 Uber 客服</button>
+      <button class="btn btn-outline" onclick="window.location='mailto:support@uber.com'" data-i18n="contact_uber">Contact Uber Support</button>
     </div>
   </div>
   
   <!-- Subscription Page -->
   <div class="page" id="page-subscription">
     <div class="container">
-      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;" data-i18n="choose_plan">選擇計劃</h2>
-      <p style="text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 25px;" data-i18n="subscription_required">需要訂閱才能使用服務</p>
+      <h2 style="text-align: center; font-size: 24px; margin-bottom: 10px;" data-i18n="choose_plan">Choose Your Plan</h2>
+      <p style="text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 25px;" data-i18n="subscription_required">Subscription required to use the service</p>
       
       <div id="subscriptionPlans"></div>
       
       <div class="card" style="margin-top: 25px;">
-        <h3 style="margin-bottom: 15px;" data-i18n="features">功能</h3>
+        <h3 style="margin-bottom: 15px;" data-i18n="features">Features</h3>
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
           <svg width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="unlimited">無限次乘車</span>
+          <span data-i18n="unlimited">Unlimited Rides</span>
         </div>
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
           <svg width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="priority">優先客服</span>
+          <span data-i18n="priority">Priority Support</span>
         </div>
         <div style="display: flex; align-items: center; gap: 10px;">
           <svg width="18" height="18" fill="none" stroke="var(--primary)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span data-i18n="exclusive">獨家優惠</span>
+          <span data-i18n="exclusive">Exclusive Promotions</span>
         </div>
       </div>
     </div>
@@ -946,37 +979,37 @@
         
         <div class="profile-info">
           <div class="profile-row">
-            <span style="color: rgba(255,255,255,0.6);" data-i18n="phone">電話</span>
+            <span style="color: rgba(255,255,255,0.6);" data-i18n="phone">Phone</span>
             <span id="profilePhone">+1 234 567 890</span>
           </div>
           <div class="profile-row">
-            <span style="color: rgba(255,255,255,0.6);" data-i18n="email">電郵</span>
+            <span style="color: rgba(255,255,255,0.6);" data-i18n="email">Email</span>
             <span id="profileEmail">user@example.com</span>
           </div>
         </div>
         
-        <button class="btn btn-outline" onclick="goTo('editProfile')" data-i18n="edit">編輯</button>
+        <button class="btn btn-outline" onclick="goTo('editProfile')" data-i18n="edit">Edit Profile</button>
       </div>
       
       <div class="card" style="margin-top: 20px;">
-        <h3 style="margin-bottom: 15px;" data-i18n="kyc">KYC驗證</h3>
+        <h3 style="margin-bottom: 15px;" data-i18n="kyc">KYC Verification</h3>
         <div style="display: flex; align-items: center; gap: 15px;">
           <div style="width: 50px; height: 50px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
             <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
           <div style="flex: 1;">
-            <h4 style="margin-bottom: 3px;" data-i18n="verified">已驗證</h4>
-            <p style="font-size: 13px; color: rgba(255,255,255,0.5);">您的身份已驗證</p>
+            <h4 style="margin-bottom: 3px;" data-i18n="verified">Verified</h4>
+            <p style="font-size: 13px; color: rgba(255,255,255,0.5);">Your identity is verified</p>
           </div>
         </div>
       </div>
       
       <div class="card" style="margin-top: 20px;">
-        <h3 style="margin-bottom: 15px;" data-i18n="language">語言</h3>
+        <h3 style="margin-bottom: 15px;" data-i18n="language">Language</h3>
         <div class="lang-list" id="langList"></div>
       </div>
       
-      <button class="btn btn-outline" style="margin-top: 20px; color: #ef4444; border-color: #ef4444;" onclick="logout()" data-i18n="logout">登出</button>
+      <button class="btn btn-outline" style="margin-top: 20px; color: #ef4444; border-color: #ef4444;" onclick="logout()" data-i18n="logout">Logout</button>
     </div>
   </div>
   
@@ -986,15 +1019,15 @@
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
     </button>
     <div class="container">
-      <h2 style="font-size: 24px; margin-bottom: 20px;">隱私政策</h2>
+      <h2 style="font-size: 24px; margin-bottom: 20px;">Privacy Policy</h2>
       <div class="card">
-        <p style="margin-bottom: 15px; line-height: 1.8;">感謝您使用 DaDa Taxi。我們致力於保護您的個人隱私。</p>
-        <h3 style="margin-bottom: 10px;">1. 資料收集</h3>
-        <p style="margin-bottom: 15px; color: rgba(255,255,255,0.7);">我們收集您直接提供的信息，例如創建帳戶、預訂行程或聯絡客服時的信息。這包括您的姓名、電郵地址、電話號碼、支付信息和位置數據。</p>
-        <h3 style="margin-bottom: 10px;">2. 資料使用</h3>
-        <p style="margin-bottom: 15px; color: rgba(255,255,255,0.7);">我們使用收集的信息來提供、維護和改進服務，處理交易，發送技術通知和支援消息，並回覆您的評論和問題。</p>
-        <h3 style="margin-bottom: 10px;">3. 資料共享</h3>
-        <p style="color: rgba(255,255,255,0.7);">我們可能會與司機和其他用戶分享必要的信息以提供服務。我們也可能與附屬機構、服務提供商以及法律要求時分享信息。</p>
+        <p style="margin-bottom: 15px; line-height: 1.8;">Thank you for using DaDa Taxi. We are committed to protecting your privacy.</p>
+        <h3 style="margin-bottom: 10px;">1. Information We Collect</h3>
+        <p style="margin-bottom: 15px; color: rgba(255,255,255,0.7);">We collect information you provide directly to us, such as when you create an account, request a ride, or contact us for support. This includes your name, email address, phone number, payment information, and location data.</p>
+        <h3 style="margin-bottom: 10px;">2. How We Use Your Information</h3>
+        <p style="margin-bottom: 15px; color: rgba(255,255,255,0.7);">We use the information we collect to provide, maintain, and improve our services, process transactions, send you technical notices and support messages, and respond to your comments and questions.</p>
+        <h3 style="margin-bottom: 10px;">3. Information Sharing</h3>
+        <p style="color: rgba(255,255,255,0.7);">We may share your information with drivers and other users as necessary to provide our services. We may also share information with our affiliates, service providers, and when required by law.</p>
       </div>
     </div>
   </div>
@@ -1003,23 +1036,23 @@
   <nav class="bottom-nav" id="bottomNav">
     <div class="nav-item active" onclick="goTo('home')">
       <svg fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      <span data-i18n="home">主頁</span>
+      <span data-i18n="home">Home</span>
     </div>
     <div class="nav-item" onclick="goTo('rideRequest')">
       <svg fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      <span data-i18n="ride">叫車</span>
+      <span data-i18n="ride">Ride</span>
     </div>
     <div class="nav-item" onclick="goTo('messages')">
       <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-      <span data-i18n="msg">訊息</span>
+      <span data-i18n="msg">Messages</span>
     </div>
     <div class="nav-item" onclick="goTo('orders')">
       <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      <span data-i18n="orders">訂單</span>
+      <span data-i18n="orders">Orders</span>
     </div>
     <div class="nav-item" onclick="goTo('profile')">
       <svg fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span data-i18n="my">我的</span>
+      <span data-i18n="my">Profile</span>
     </div>
   </nav>
 
@@ -1031,12 +1064,87 @@
       hasSubscription: false,
       selectedCountry: null,
       selectedVehicle: 'sedan',
-      selectedLanguage: 'zh',
+      selectedLanguage: 'en',
       currentPage: 'welcome'
     };
     
     // Translations
     const i18n = {
+      en: {
+        welcome_sub: 'Your trusted ride partner',
+        get_started: 'Get Started',
+        login: 'Login',
+        email: 'Email',
+        password: 'Password',
+        confirm_password: 'Confirm Password',
+        invite_code: 'Invitation Code (Optional)',
+        sign_in: 'Sign In',
+        sign_up: 'Sign Up',
+        or: 'OR',
+        continue_google: 'Continue with Google',
+        no_account: "Don't have an account?",
+        has_account: 'Already have an account?',
+        register: 'Register',
+        select_country: 'Select Country/Region',
+        home: 'Home',
+        ride: 'Ride',
+        msg: 'Messages',
+        orders: 'Orders',
+        my: 'Profile',
+        select_vehicle: 'Select Vehicle Type',
+        sedan: 'Sedan',
+        suv: 'SUV',
+        truck: 'Truck',
+        premium: 'Premium',
+        request_ride: 'Request Ride',
+        safety_features: 'Safety Features',
+        gps: 'GPS Tracking',
+        emergency: 'Emergency',
+        share: 'Share Trip',
+        subscription_required: 'Subscription Required',
+        kyc_required: 'KYC verification required',
+        subscribe_now: 'Subscribe Now',
+        change: 'Change',
+        ride_request: 'Ride Request',
+        pickup: 'Pickup',
+        dropoff: 'Drop-off',
+        estimated_fare: 'Estimated Fare',
+        confirm_ride: 'Confirm Ride',
+        ride_active: 'Ride Active',
+        plate: 'Vehicle Plate',
+        call_driver: 'Call Driver',
+        my_orders: 'My Orders',
+        canceled_orders: 'Cancelled Orders',
+        contact_uber: 'Contact Uber Support',
+        choose_plan: 'Choose Your Plan',
+        features: 'Features',
+        unlimited: 'Unlimited Rides',
+        priority: 'Priority Support',
+        exclusive: 'Exclusive Promotions',
+        monthly: 'Monthly',
+        quarterly: '3 Months',
+        semiannual: '6 Months',
+        annual: 'Annual',
+        phone: 'Phone',
+        kyc: 'KYC Verification',
+        verified: 'Verified',
+        language: 'Language',
+        logout: 'Logout',
+        edit: 'Edit Profile',
+        contact_uber_support: 'Contact Uber Support',
+        privacy_policy: 'Privacy Policy',
+        cancel_order: 'Cancel Order',
+        safety: 'Safety',
+        subscription: 'Subscription',
+        profile: 'Profile',
+        completed: 'Completed',
+        cancelled: 'Cancelled',
+        type_message: 'Type a message...',
+        send: 'Send',
+        vip_free: 'VIP Free Access',
+        active_subscription: 'Active Subscription',
+        per_month: '/month'
+      },
       zh: {
         welcome_sub: '您可信賴的出行夥伴',
         get_started: '開始使用',
@@ -1097,9 +1205,9 @@
         verified: '已驗證',
         language: '語言',
         logout: '登出',
-        edit: '編輯',
+        edit: '編輯資料',
         contact_uber_support: '聯絡 Uber 客服',
-        privacy_policy: '隱�私政策',
+        privacy_policy: '隱私政策',
         cancel_order: '取消訂單',
         safety: '安全',
         subscription: '訂閱',
@@ -1112,106 +1220,668 @@
         active_subscription: '已訂閱',
         per_month: '/月'
       },
-      en: {
-        welcome_sub: 'Your trusted ride partner',
-        get_started: 'Get Started',
-        login: 'Login',
-        email: 'Email',
-        password: 'Password',
-        confirm_password: 'Confirm Password',
-        invite_code: 'Invitation Code (Optional)',
-        sign_in: 'Sign In',
-        sign_up: 'Sign Up',
-        or: 'OR',
-        continue_google: 'Continue with Google',
-        no_account: "Don't have an account?",
-        has_account: 'Already have an account?',
-        register: 'Register',
-        select_country: 'Select Country/Region',
-        home: 'Home',
-        ride: 'Ride',
-        msg: 'Messages',
-        orders: 'Orders',
-        my: 'Profile',
-        select_vehicle: 'Select Vehicle',
-        sedan: 'Sedan',
+      ja: {
+        welcome_sub: 'あなたの信頼できるライドパートナー',
+        get_started: '始める',
+        login: 'ログイン',
+        email: 'メールアドレス',
+        password: 'パスワード',
+        confirm_password: 'パスワード確認',
+        invite_code: '招待コード（任意）',
+        sign_in: 'ログイン',
+        sign_up: '新規登録',
+        or: 'または',
+        continue_google: 'Googleで続ける',
+        no_account: 'アカウントをお持ちでない方',
+        has_account: 'アカウントをお持ちの方',
+        register: '登録',
+        select_country: '国/地域を選択',
+        home: 'ホーム',
+        ride: '配車',
+        msg: 'メッセージ',
+        orders: '注文',
+        my: 'マイページ',
+        select_vehicle: '車両タイプ',
+        sedan: 'セダン',
         suv: 'SUV',
-        truck: 'Truck',
+        truck: 'トラック',
+        premium: 'プレミアム',
+        request_ride: '依頼する',
+        safety_features: '安全機能',
+        gps: 'GPS追跡',
+        emergency: '緊急ボタン',
+        share: 'トリップを共有',
+        subscription_required: 'サブスクが必要です',
+        kyc_required: 'KYC認証が必要です',
+        subscribe_now: '今すぐ購読',
+        change: '変更',
+        ride_request: '配車依頼',
+        pickup: '乗車地点',
+        dropoff: '降車地点',
+        estimated_fare: '見積もり料金',
+        confirm_ride: '確認',
+        ride_active: '乗車中',
+        plate: '車両番号',
+        call_driver: '運転手に電話',
+        my_orders: '注文履歴',
+        canceled_orders: 'キャンセル',
+        contact_uber: 'Uberサポートに連絡',
+        choose_plan: 'プランを選択',
+        features: '機能',
+        unlimited: '乗り放題',
+        priority: '優先サポート',
+        exclusive: '限定キャンペーン',
+        monthly: '月額',
+        quarterly: '3ヶ月',
+        semiannual: '6ヶ月',
+        annual: '年間',
+        phone: '電話番号',
+        language: '言語',
+        logout: 'ログアウト',
+        edit: 'プロフィール編集',
+        kyc: 'KYC認証',
+        verified: '認証済み',
+        contact_uber_support: 'Uberサポート',
+        privacy_policy: 'プライバシーポリシー',
+        cancel_order: 'キャンセル',
+        safety: '安全',
+        subscription: 'サブスク',
+        profile: 'プロフィール',
+        completed: '完了',
+        cancelled: 'キャンセル',
+        type_message: 'メッセージを入力...',
+        send: '送信',
+        vip_free: 'VIP無料アクセス',
+        active_subscription: 'サブスク中',
+        per_month: '/月'
+      },
+      ko: {
+        welcome_sub: '믿을 수 있는 라이드 파트너',
+        get_started: '시작하기',
+        login: '로그인',
+        email: '이메일',
+        password: '비밀번호',
+        confirm_password: '비밀번호 확인',
+        invite_code: '초대 코드 (선택)',
+        sign_in: '로그인',
+        sign_up: '회원가입',
+        or: '또는',
+        continue_google: 'Google로 계속',
+        no_account: '계정이 없으신가요?',
+        has_account: '이미 계정이 있으신가요?',
+        register: '회원가입',
+        select_country: '국가/지역 선택',
+        home: '홈',
+        ride: '택시',
+        msg: '메시지',
+        orders: '내 주문',
+        my: '내 정보',
+        select_vehicle: '차량 유형',
+        sedan: '세단',
+        suv: 'SUV',
+        truck: '트럭',
+        premium: '프리미엄',
+        request_ride: '요청하기',
+        safety_features: '안전 기능',
+        gps: 'GPS 추적',
+        emergency: '긴급 버튼',
+        share: '여행 공유',
+        subscription_required: '구독 필요',
+        kyc_required: 'KYC 인증 필요',
+        subscribe_now: '지금 구독',
+        change: '변경',
+        ride_request: '택시 요청',
+        pickup: '승차 위치',
+        dropoff: '하차 위치',
+        estimated_fare: '예상 요금',
+        confirm_ride: '확인',
+        ride_active: '탑승 중',
+        plate: '번호판',
+        call_driver: '기사에게 전화',
+        my_orders: '주문 내역',
+        canceled_orders: '취소',
+        contact_uber: 'Uber 지원에 연락',
+        choose_plan: '플랜 선택',
+        features: '기능',
+        unlimited: '무제한 탑승',
+        priority: '우선 지원',
+        exclusive: '독점 혜택',
+        monthly: '월간',
+        quarterly: '3개월',
+        semiannual: '6개월',
+        annual: '연간',
+        phone: '전화번호',
+        language: '언어',
+        logout: '로그아웃',
+        edit: '프로필 편집',
+        kyc: 'KYC 인증',
+        verified: '인증됨',
+        contact_uber_support: 'Uber 지원',
+        privacy_policy: '개인정보 처리방침',
+        cancel_order: '주문 취소',
+        safety: '안전',
+        subscription: '구독',
+        profile: '프로필',
+        completed: '완료',
+        cancelled: '취소',
+        type_message: '메시지 입력...',
+        send: '전송',
+        vip_free: 'VIP 무료 이용',
+        active_subscription: '활성 구독',
+        per_month: '/월'
+      },
+      es: {
+        welcome_sub: 'Tu socio de viaje de confianza',
+        get_started: 'Comenzar',
+        login: 'Iniciar sesión',
+        email: 'Correo electrónico',
+        password: 'Contraseña',
+        confirm_password: 'Confirmar contraseña',
+        invite_code: 'Código de invitación (Opcional)',
+        sign_in: 'Iniciar sesión',
+        sign_up: 'Registrarse',
+        or: 'O',
+        continue_google: 'Continuar con Google',
+        no_account: '¿No tienes cuenta?',
+        has_account: '¿Ya tienes cuenta?',
+        register: 'Registrarse',
+        select_country: 'Seleccionar país/región',
+        home: 'Inicio',
+        ride: 'Viaje',
+        msg: 'Mensajes',
+        orders: 'Mis pedidos',
+        my: 'Mi perfil',
+        select_vehicle: 'Seleccionar vehículo',
+        sedan: 'Sedán',
+        suv: 'SUV',
+        truck: 'Camión',
         premium: 'Premium',
-        request_ride: 'Request Ride',
-        safety_features: 'Safety Features',
-        gps: 'GPS Tracking',
-        emergency: 'Emergency',
-        share: 'Share Trip',
-        subscription_required: 'Subscription Required',
-        kyc_required: 'KYC verification required',
-        subscribe_now: 'Subscribe Now',
-        change: 'Change',
-        ride_request: 'Ride Request',
-        pickup: 'Pickup',
-        dropoff: 'Dropoff',
-        estimated_fare: 'Estimated Fare',
-        confirm_ride: 'Confirm Ride',
-        ride_active: 'Ride Active',
-        plate: 'Plate',
-        call_driver: 'Call Driver',
-        my_orders: 'My Orders',
-        canceled_orders: 'Cancelled Orders',
-        contact_uber: 'Contact Uber Support',
-        choose_plan: 'Choose Plan',
-        features: 'Features',
-        unlimited: 'Unlimited Rides',
-        priority: 'Priority Support',
-        exclusive: 'Exclusive Deals',
-        monthly: 'Monthly',
-        quarterly: '3 Months',
-        semiannual: '6 Months',
-        annual: 'Annual',
-        phone: 'Phone',
-        kyc: 'KYC Verification',
-        verified: 'Verified',
-        language: 'Language',
-        logout: 'Logout',
-        edit: 'Edit',
-        contact_uber_support: 'Contact Uber Support',
-        privacy_policy: 'Privacy Policy',
-        cancel_order: 'Cancel Order',
-        safety: 'Safety',
-        subscription: 'Subscription',
-        profile: 'Profile',
-        completed: 'Completed',
-        cancelled: 'Cancelled',
-        type_message: 'Type a message...',
-        send: 'Send',
-        vip_free: 'VIP Free Access',
-        active_subscription: 'Active Subscription',
-        per_month: '/month'
+        request_ride: 'Solicitar viaje',
+        safety_features: 'Funciones de seguridad',
+        gps: 'Rastreo GPS',
+        emergency: 'Emergencia',
+        share: 'Compartir viaje',
+        subscription_required: 'Suscripción requerida',
+        kyc_required: 'Verificación KYC requerida',
+        subscribe_now: 'Suscribirse ahora',
+        change: 'Cambiar',
+        ride_request: 'Solicitar viaje',
+        pickup: 'Ubicación de recogida',
+        dropoff: 'Ubicación de destino',
+        estimated_fare: 'Tarifa estimada',
+        confirm_ride: 'Confirmar',
+        ride_active: 'Viaje activo',
+        plate: 'Placa del vehículo',
+        call_driver: 'Llamar al conductor',
+        my_orders: 'Mis pedidos',
+        canceled_orders: 'Cancelados',
+        contact_uber: 'Contactar Uber',
+        choose_plan: 'Elegir plan',
+        features: 'Características',
+        unlimited: 'Viajes ilimitados',
+        priority: 'Soporte prioritario',
+        exclusive: 'Promociones exclusivas',
+        monthly: 'Mensual',
+        quarterly: '3 Meses',
+        semiannual: '6 Meses',
+        annual: 'Anual',
+        phone: 'Teléfono',
+        language: 'Idioma',
+        logout: 'Cerrar sesión',
+        edit: 'Editar perfil',
+        kyc: 'Verificación KYC',
+        verified: 'Verificado',
+        contact_uber_support: 'Soporte Uber',
+        privacy_policy: 'Política de privacidad',
+        cancel_order: 'Cancelar pedido',
+        safety: 'Seguridad',
+        subscription: 'Suscripción',
+        profile: 'Mi perfil',
+        completed: 'Completado',
+        cancelled: 'Cancelado',
+        type_message: 'Escribe un mensaje...',
+        send: 'Enviar',
+        vip_free: 'Acceso VIP gratis',
+        active_subscription: 'Suscripción activa',
+        per_month: '/mes'
+      },
+      fr: {
+        welcome_sub: 'Votre partenaire de confiance',
+        get_started: 'Commencer',
+        login: 'Connexion',
+        email: 'E-mail',
+        password: 'Mot de passe',
+        confirm_password: 'Confirmer le mot de passe',
+        invite_code: 'Code d\'invitation (Optionnel)',
+        sign_in: 'Se connecter',
+        sign_up: 'S\'inscrire',
+        or: 'OU',
+        continue_google: 'Continuer avec Google',
+        no_account: 'Pas de compte?',
+        has_account: 'Déjà un compte?',
+        register: 'S\'inscrire',
+        select_country: 'Sélectionner le pays',
+        home: 'Accueil',
+        ride: 'Course',
+        msg: 'Messages',
+        orders: 'Mes commandes',
+        my: 'Profil',
+        select_vehicle: 'Sélectionner véhicule',
+        sedan: 'Berline',
+        suv: 'SUV',
+        truck: 'Camionnette',
+        premium: 'Premium',
+        request_ride: 'Demander une course',
+        safety_features: 'Fonctionnalités de sécurité',
+        gps: 'Suivi GPS',
+        emergency: 'Urgence',
+        share: 'Partager le trajet',
+        subscription_required: 'Abonnement requis',
+        kyc_required: 'Vérification KYC requise',
+        subscribe_now: 'S\'abonner',
+        change: 'Changer',
+        ride_request: 'Demande de course',
+        pickup: 'Point de ramassage',
+        dropoff: 'Destination',
+        estimated_fare: 'Tarif estimé',
+        confirm_ride: 'Confirmer',
+        ride_active: 'Course en cours',
+        plate: 'Plaque',
+        call_driver: 'Appeler le chauffeur',
+        my_orders: 'Mes commandes',
+        canceled_orders: 'Annulés',
+        contact_uber: 'Contacter Uber',
+        choose_plan: 'Choisir un plan',
+        features: 'Fonctionnalités',
+        unlimited: 'Courses illimitées',
+        priority: 'Support prioritaire',
+        exclusive: 'Promotions exclusives',
+        monthly: 'Mensuel',
+        quarterly: '3 Mois',
+        semiannual: '6 Mois',
+        annual: 'Annuel',
+        phone: 'Téléphone',
+        language: 'Langue',
+        logout: 'Déconnexion',
+        edit: 'Modifier le profil',
+        kyc: 'Vérification KYC',
+        verified: 'Vérifié',
+        contact_uber_support: 'Support Uber',
+        privacy_policy: 'Politique de confidentialité',
+        cancel_order: 'Annuler la commande',
+        safety: 'Sécurité',
+        subscription: 'Abonnement',
+        profile: 'Profil',
+        completed: 'Terminé',
+        cancelled: 'Annulé',
+        type_message: 'Tapez un message...',
+        send: 'Envoyer',
+        vip_free: 'Accès VIP gratuit',
+        active_subscription: 'Abonnement actif',
+        per_month: '/mois'
+      },
+      de: {
+        welcome_sub: 'Ihr vertrauenswürdiger Fahrtpartner',
+        get_started: 'Loslegen',
+        login: 'Anmelden',
+        email: 'E-Mail',
+        password: 'Passwort',
+        confirm_password: 'Passwort bestätigen',
+        invite_code: 'Einladungscode (Optional)',
+        sign_in: 'Anmelden',
+        sign_up: 'Registrieren',
+        or: 'ODER',
+        continue_google: 'Mit Google fortfahren',
+        no_account: 'Kein Konto?',
+        has_account: 'Bereits ein Konto?',
+        register: 'Registrieren',
+        select_country: 'Land/Region auswählen',
+        home: 'Startseite',
+        ride: 'Fahrt',
+        msg: 'Nachrichten',
+        orders: 'Meine Bestellungen',
+        my: 'Profil',
+        select_vehicle: 'Fahrzeug auswählen',
+        sedan: 'Limousine',
+        suv: 'SUV',
+        truck: 'Transporter',
+        premium: 'Premium',
+        request_ride: 'Fahrt anfordern',
+        safety_features: 'Sicherheitsfunktionen',
+        gps: 'GPS-Tracking',
+        emergency: 'Notfall',
+        share: 'Fahrt teilen',
+        subscription_required: 'Abonnement erforderlich',
+        kyc_required: 'KYC-Verifizierung erforderlich',
+        subscribe_now: 'Jetzt abonnieren',
+        change: 'Ändern',
+        ride_request: 'Fahrt anfordern',
+        pickup: 'Abholort',
+        dropoff: 'Zielort',
+        estimated_fare: 'Geschätzter Preis',
+        confirm_ride: 'Bestätigen',
+        ride_active: 'Fahrt aktiv',
+        plate: 'Kennzeichen',
+        call_driver: 'Fahrer anrufen',
+        my_orders: 'Meine Bestellungen',
+        canceled_orders: 'Storniert',
+        contact_uber: 'Uber kontaktieren',
+        choose_plan: 'Plan wählen',
+        features: 'Funktionen',
+        unlimited: 'Unbegrenzte Fahrten',
+        priority: 'Prioritäts-Support',
+        exclusive: 'Exklusive Angebote',
+        monthly: 'Monatlich',
+        quarterly: '3 Monate',
+        semiannual: '6 Monate',
+        annual: 'Jährlich',
+        phone: 'Telefon',
+        language: 'Sprache',
+        logout: 'Abmelden',
+        edit: 'Profil bearbeiten',
+        kyc: 'KYC-Verifizierung',
+        verified: 'Verifiziert',
+        contact_uber_support: 'Uber-Support',
+        privacy_policy: 'Datenschutzrichtlinie',
+        cancel_order: 'Bestellung stornieren',
+        safety: 'Sicherheit',
+        subscription: 'Abonnement',
+        profile: 'Profil',
+        completed: 'Abgeschlossen',
+        cancelled: 'Storniert',
+        type_message: 'Nachricht eingeben...',
+        send: 'Senden',
+        vip_free: 'VIP Kostenloser Zugang',
+        active_subscription: 'Aktives Abonnement',
+        per_month: '/Monat'
+      },
+      pt: {
+        welcome_sub: 'Seu parceiro de viagem confiável',
+        get_started: 'Começar',
+        login: 'Entrar',
+        email: 'E-mail',
+        password: 'Senha',
+        confirm_password: 'Confirmar senha',
+        invite_code: 'Código de convite (Opcional)',
+        sign_in: 'Entrar',
+        sign_up: 'Cadastrar',
+        or: 'OU',
+        continue_google: 'Continuar com Google',
+        no_account: 'Não tem conta?',
+        has_account: 'Já tem conta?',
+        register: 'Cadastrar',
+        select_country: 'Selecionar país/região',
+        home: 'Início',
+        ride: 'Viagem',
+        msg: 'Mensagens',
+        orders: 'Meus pedidos',
+        my: 'Perfil',
+        select_vehicle: 'Selecionar veículo',
+        sedan: 'Sedã',
+        suv: 'SUV',
+        truck: 'Caminhonete',
+        premium: 'Premium',
+        request_ride: 'Solicitar viagem',
+        safety_features: 'Recursos de segurança',
+        gps: 'Rastreamento GPS',
+        emergency: 'Emergência',
+        share: 'Compartilhar viagem',
+        subscription_required: 'Assinatura necessária',
+        kyc_required: 'Verificação KYC necessária',
+        subscribe_now: 'Assinar agora',
+        change: 'Alterar',
+        ride_request: 'Solicitar viagem',
+        pickup: 'Local de embarque',
+        dropoff: 'Local de destino',
+        estimated_fare: 'Tarifa estimada',
+        confirm_ride: 'Confirmar',
+        ride_active: 'Viagem ativa',
+        plate: 'Placa',
+        call_driver: 'Ligar para motorista',
+        my_orders: 'Meus pedidos',
+        canceled_orders: 'Cancelados',
+        contact_uber: 'Contatar Uber',
+        choose_plan: 'Escolher plano',
+        features: 'Recursos',
+        unlimited: 'Viagens ilimitadas',
+        priority: 'Suporte prioritário',
+        exclusive: 'Promoções exclusivas',
+        monthly: 'Mensal',
+        quarterly: '3 Meses',
+        semiannual: '6 Meses',
+        annual: 'Anual',
+        phone: 'Telefone',
+        language: 'Idioma',
+        logout: 'Sair',
+        edit: 'Editar perfil',
+        kyc: 'Verificação KYC',
+        verified: 'Verificado',
+        contact_uber_support: 'Suporte Uber',
+        privacy_policy: 'Política de privacidade',
+        cancel_order: 'Cancelar pedido',
+        safety: 'Segurança',
+        subscription: 'Assinatura',
+        profile: 'Perfil',
+        completed: 'Concluído',
+        cancelled: 'Cancelado',
+        type_message: 'Digite uma mensagem...',
+        send: 'Enviar',
+        vip_free: 'Acesso VIP grátis',
+        active_subscription: 'Assinatura ativa',
+        per_month: '/mês'
+      },
+      ar: {
+        welcome_sub: 'شريكك الموثوق في الركوب',
+        get_started: 'ابدأ الآن',
+        login: 'تسجيل الدخول',
+        email: 'البريد الإلكتروني',
+        password: 'كلمة المرور',
+        confirm_password: 'تأكيد كلمة المرور',
+        invite_code: 'رمز الدعوة (اختياري)',
+        sign_in: 'تسجيل الدخول',
+        sign_up: 'التسجيل',
+        or: 'أو',
+        continue_google: 'المتابعة مع Google',
+        no_account: 'ليس لديك حساب؟',
+        has_account: 'لديك حساب بالفعل؟',
+        register: 'التسجيل',
+        select_country: 'اختر الدولة/المنطقة',
+        home: 'الرئيسية',
+        ride: 'الرحلة',
+        msg: 'الرسائل',
+        orders: 'طلباتي',
+        my: 'حسابي',
+        select_vehicle: 'اختر نوع السيارة',
+        sedan: 'سيدان',
+        suv: 'دفع رباعي',
+        truck: 'شاحنة',
+        premium: 'فاخرة',
+        request_ride: 'طلب رحلة',
+        safety_features: 'ميزات السلامة',
+        gps: 'تتبع GPS',
+        emergency: 'طوارئ',
+        share: 'مشاركة الرحلة',
+        subscription_required: 'الاشتراك مطلوب',
+        kyc_required: 'التحقق من KYC مطلوب',
+        subscribe_now: 'اشترك الآن',
+        change: 'تغيير',
+        ride_request: 'طلب رحلة',
+        pickup: 'نقطة الانطلاق',
+        dropoff: 'الوجهة',
+        estimated_fare: 'السعر المتوقع',
+        confirm_ride: 'تأكيد',
+        ride_active: 'الرحلة جارية',
+        plate: 'رقم اللوحة',
+        call_driver: 'اتصل بالسائق',
+        my_orders: 'طلباتي',
+        canceled_orders: 'ملغاة',
+        contact_uber: 'تواصل مع Uber',
+        choose_plan: 'اختر الباقة',
+        features: 'الميزات',
+        unlimited: 'رحلات غير محدودة',
+        priority: 'دعم أولوية',
+        exclusive: 'عروض حصرية',
+        monthly: 'شهري',
+        quarterly: '3 أشهر',
+        semiannual: '6 أشهر',
+        annual: 'سنوي',
+        phone: 'الهاتف',
+        language: 'اللغة',
+        logout: 'تسجيل الخروج',
+        edit: 'تعديل الملف',
+        kyc: 'تحقق KYC',
+        verified: 'تم التحقق',
+        contact_uber_support: 'دعم Uber',
+        privacy_policy: 'سياسة الخصوصية',
+        cancel_order: 'إلغاء الطلب',
+        safety: 'السلامة',
+        subscription: 'الاشتراك',
+        profile: 'الملف الشخصي',
+        completed: 'مكتمل',
+        cancelled: 'ملغى',
+        type_message: 'اكتب رسالة...',
+        send: 'إرسال',
+        vip_free: 'وصول VIP مجاني',
+        active_subscription: 'اشتراك نشط',
+        per_month: '/شهر'
+      },
+      hi: {
+        welcome_sub: 'आपका भरोसेमंद सफर साथी',
+        get_started: 'शुरू करें',
+        login: 'लॉगिन',
+        email: 'ईमेल',
+        password: 'पासवर्ड',
+        confirm_password: 'पासवर्ड की पुष्टि करें',
+        invite_code: 'आमंत्रण कोड (वैकल्पिक)',
+        sign_in: 'लॉगिन',
+        sign_up: 'साइन अप',
+        or: 'या',
+        continue_google: 'Google से जारी रखें',
+        no_account: 'खाता नहीं है?',
+        has_account: 'पहले से खाता है?',
+        register: 'साइन अप',
+        select_country: 'देश/क्षेत्र चुनें',
+        home: 'होम',
+        ride: 'राइड',
+        msg: 'संदेश',
+        orders: 'मेरे ऑर्डर',
+        my: 'प्रोफाइल',
+        select_vehicle: 'वाहन चुनें',
+        sedan: 'सेडान',
+        suv: 'एसयूवी',
+        truck: 'ट्रक',
+        premium: 'प्रीमियम',
+        request_ride: 'राइड का अनुरोध करें',
+        safety_features: 'सुरक्षा सुविधाएं',
+        gps: 'GPS ट्रैकिंग',
+        emergency: 'आपातकालीन',
+        share: 'यात्रा साझा करें',
+        subscription_required: 'सदस्यता आवश्यक',
+        kyc_required: 'KYC सत्यापन आवश्यक',
+        subscribe_now: 'अभी सदस्यता लें',
+        change: 'बदलें',
+        ride_request: 'राइड का अनुरोध',
+        pickup: 'पिकअप स्थान',
+        dropoff: 'गंतव्य',
+        estimated_fare: 'अनुमानित किराया',
+        confirm_ride: 'पुष्टि करें',
+        ride_active: 'राइड सक्रिय',
+        plate: 'वाहन नंबर',
+        call_driver: 'ड्राइवर को कॉल करें',
+        my_orders: 'मेरे ऑर्डर',
+        canceled_orders: 'रद्द किए गए',
+        contact_uber: 'Uber से संपर्क करें',
+        choose_plan: 'प्लान चुनें',
+        features: 'सुविधाएं',
+        unlimited: 'असीमित राइड',
+        priority: 'प्राथमिकता समर्थन',
+        exclusive: 'विशेष ऑफर',
+        monthly: 'मासिक',
+        quarterly: '3 महीने',
+        semiannual: '6 महीने',
+        annual: 'वार्षिक',
+        phone: 'फोन',
+        language: 'भाषा',
+        logout: 'लॉग आउट',
+        edit: 'प्रोफाइल संपादित करें',
+        kyc: 'KYC सत्यापन',
+        verified: 'सत्यापित',
+        contact_uber_support: 'Uber सहायता',
+        privacy_policy: 'गोपनीयता नीति',
+        cancel_order: 'ऑर्डर रद्द करें',
+        safety: 'सुरक्षा',
+        subscription: 'सदस्यता',
+        profile: 'प्रोफाइल',
+        completed: 'पूर्ण',
+        cancelled: 'रद्द',
+        type_message: 'संदेश लिखें...',
+        send: 'भेजें',
+        vip_free: 'VIP मुफ्त पहुंच',
+        active_subscription: 'सक्रिय सदस्यता',
+        per_month: '/महीना'
       }
     };
     
-    // Countries
-    const countries = [
-      { code: 'US', name: 'United States', flag: '🇺🇸', currency: 'USD' },
-      { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', currency: 'GBP' },
-      { code: 'CA', name: 'Canada', flag: '🇨🇦', currency: 'CAD' },
-      { code: 'AU', name: 'Australia', flag: '🇦🇺', currency: 'AUD' },
-      { code: 'DE', name: 'Germany', flag: '🇩🇪', currency: 'EUR' },
-      { code: 'FR', name: 'France', flag: '🇫🇷', currency: 'EUR' },
-      { code: 'JP', name: 'Japan', flag: '🇯🇵', currency: 'JPY' },
-      { code: 'KR', name: 'South Korea', flag: '🇰🇷', currency: 'KRW' },
-      { code: 'HK', name: 'Hong Kong', flag: '🇭🇰', currency: 'HKD' },
-      { code: 'TW', name: 'Taiwan', flag: '🇹🇼', currency: 'TWD' },
-      { code: 'SG', name: 'Singapore', flag: '🇸🇬', currency: 'SGD' },
-      { code: 'TH', name: 'Thailand', flag: '🇹🇭', currency: 'THB' },
-      { code: 'MY', name: 'Malaysia', flag: '🇲🇾', currency: 'MYR' },
-      { code: 'IN', name: 'India', flag: '🇮🇳', currency: 'INR' },
-      { code: 'BR', name: 'Brazil', flag: '🇧🇷', currency: 'BRL' },
-      { code: 'MX', name: 'Mexico', flag: '🇲🇽', currency: 'MXN' },
-      { code: 'AE', name: 'UAE', flag: '🇦🇪', currency: 'AED' },
-      { code: 'NL', name: 'Netherlands', flag: '🇳🇱', currency: 'EUR' },
-      { code: 'ES', name: 'Spain', flag: '🇪🇸', currency: 'EUR' },
-      { code: 'ZA', name: 'South Africa', flag: '🇿🇦', currency: 'ZAR' }
-    ];
+    // Countries grouped by Uber regions
+    const countriesByRegion = {
+      'North America': [
+        { code: 'US', name: 'United States', flag: '🇺🇸', currency: 'USD' },
+        { code: 'CA', name: 'Canada', flag: '🇨🇦', currency: 'CAD' },
+        { code: 'MX', name: 'Mexico', flag: '🇲🇽', currency: 'MXN' }
+      ],
+      'Europe': [
+        { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', currency: 'GBP' },
+        { code: 'DE', name: 'Germany', flag: '🇩🇪', currency: 'EUR' },
+        { code: 'FR', name: 'France', flag: '🇫🇷', currency: 'EUR' },
+        { code: 'ES', name: 'Spain', flag: '🇪🇸', currency: 'EUR' },
+        { code: 'IT', name: 'Italy', flag: '🇮🇹', currency: 'EUR' },
+        { code: 'NL', name: 'Netherlands', flag: '🇳🇱', currency: 'EUR' },
+        { code: 'PT', name: 'Portugal', flag: '🇵🇹', currency: 'EUR' },
+        { code: 'BE', name: 'Belgium', flag: '🇧🇪', currency: 'EUR' },
+        { code: 'PL', name: 'Poland', flag: '🇵🇱', currency: 'PLN' },
+        { code: 'SE', name: 'Sweden', flag: '🇸🇪', currency: 'SEK' },
+        { code: 'NO', name: 'Norway', flag: '🇳🇴', currency: 'NOK' },
+        { code: 'DK', name: 'Denmark', flag: '🇩🇰', currency: 'DKK' },
+        { code: 'FI', name: 'Finland', flag: '🇫🇮', currency: 'EUR' },
+        { code: 'AT', name: 'Austria', flag: '🇦🇹', currency: 'EUR' },
+        { code: 'CH', name: 'Switzerland', flag: '🇨🇭', currency: 'CHF' },
+        { code: 'IE', name: 'Ireland', flag: '🇮🇪', currency: 'EUR' }
+      ],
+      'Asia Pacific': [
+        { code: 'JP', name: 'Japan', flag: '🇯🇵', currency: 'JPY' },
+        { code: 'KR', name: 'South Korea', flag: '🇰🇷', currency: 'KRW' },
+        { code: 'AU', name: 'Australia', flag: '🇦🇺', currency: 'AUD' },
+        { code: 'NZ', name: 'New Zealand', flag: '🇳🇿', currency: 'NZD' },
+        { code: 'SG', name: 'Singapore', flag: '🇸🇬', currency: 'SGD' },
+        { code: 'HK', name: 'Hong Kong', flag: '🇭🇰', currency: 'HKD' },
+        { code: 'TW', name: 'Taiwan', flag: '🇹🇼', currency: 'TWD' },
+        { code: 'TH', name: 'Thailand', flag: '🇹🇭', currency: 'THB' },
+        { code: 'MY', name: 'Malaysia', flag: '🇲🇾', currency: 'MYR' },
+        { code: 'PH', name: 'Philippines', flag: '🇵🇭', currency: 'PHP' },
+        { code: 'ID', name: 'Indonesia', flag: '🇮🇩', currency: 'IDR' },
+        { code: 'VN', name: 'Vietnam', flag: '🇻🇳', currency: 'VND' },
+        { code: 'IN', name: 'India', flag: '🇮🇳', currency: 'INR' }
+      ],
+      'Latin America': [
+        { code: 'BR', name: 'Brazil', flag: '🇧🇷', currency: 'BRL' },
+        { code: 'AR', name: 'Argentina', flag: '🇦🇷', currency: 'ARS' },
+        { code: 'CL', name: 'Chile', flag: '🇨🇱', currency: 'CLP' },
+        { code: 'CO', name: 'Colombia', flag: '🇨🇴', currency: 'COP' },
+        { code: 'PE', name: 'Peru', flag: '🇵🇪', currency: 'PEN' },
+        { code: 'EC', name: 'Ecuador', flag: '🇪🇨', currency: 'USD' }
+      ],
+      'Middle East & Africa': [
+        { code: 'AE', name: 'UAE', flag: '🇦🇪', currency: 'AED' },
+        { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦', currency: 'SAR' },
+        { code: 'EG', name: 'Egypt', flag: '🇪🇬', currency: 'EGP' },
+        { code: 'ZA', name: 'South Africa', flag: '🇿🇦', currency: 'ZAR' },
+        { code: 'NG', name: 'Nigeria', flag: '🇳🇬', currency: 'NGN' },
+        { code: 'KE', name: 'Kenya', flag: '🇰🇪', currency: 'KES' }
+      ]
+    };
+    
+    // Flat list for search
+    const allCountries = Object.values(countriesByRegion).flat();
     
     // Subscription Plans
     const plans = [
@@ -1223,11 +1893,16 @@
     
     // Languages
     const languages = [
-      { code: 'zh', name: '中文', flag: '🇨🇳' },
       { code: 'en', name: 'English', flag: '🇺🇸' },
+      { code: 'zh', name: '中文', flag: '🇨🇳' },
       { code: 'ja', name: '日本語', flag: '🇯🇵' },
       { code: 'ko', name: '한국어', flag: '🇰🇷' },
-      { code: 'es', name: 'Español', flag: '🇪🇸' }
+      { code: 'es', name: 'Español', flag: '🇪🇸' },
+      { code: 'fr', name: 'Français', flag: '🇫🇷' },
+      { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+      { code: 'pt', name: 'Português', flag: '🇧🇷' },
+      { code: 'ar', name: 'العربية', flag: '🇸🇦' },
+      { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' }
     ];
     
     // Messages
@@ -1282,18 +1957,18 @@
       // Update header title
       const titles = {
         home: 'DaDa Taxi',
-        rideRequest: '叫車',
-        messages: '訊息',
-        orders: '我的訂單',
-        profile: '個人資料',
-        safety: '安全',
-        subscription: '訂閱',
-        cancelOrder: '取消訂單',
-        rideActive: '行程中',
-        privacy: '隱私政策',
-        country: '選擇地區',
-        login: '登入',
-        register: '註冊'
+        rideRequest: 'Ride Request',
+        messages: 'Messages',
+        orders: 'My Orders',
+        profile: 'Profile',
+        safety: 'Safety',
+        subscription: 'Subscription',
+        cancelOrder: 'Cancel Order',
+        rideActive: 'Ride Active',
+        privacy: 'Privacy Policy',
+        country: 'Country',
+        login: 'Login',
+        register: 'Register'
       };
       document.getElementById('pageTitle').textContent = titles[page] || 'DaDa Taxi';
       
@@ -1315,15 +1990,16 @@
     // Render Sidebar Menu
     function renderSidebarMenu() {
       const menu = document.getElementById('sidebarMenu');
+      const t = i18n[state.selectedLanguage] || i18n.en;
       const items = [
-        { id: 'home', icon: '🏠', label: i18n[state.selectedLanguage]?.home || '主頁' },
-        { id: 'rideRequest', icon: '🚕', label: i18n[state.selectedLanguage]?.ride || '叫車' },
-        { id: 'messages', icon: '💬', label: i18n[state.selectedLanguage]?.msg || '訊息' },
-        { id: 'orders', icon: '📋', label: i18n[state.selectedLanguage]?.orders || '訂單' },
-        { id: 'cancelOrder', icon: '❌', label: i18n[state.selectedLanguage]?.cancel_order || '取消訂單' },
-        { id: 'safety', icon: '🛡️', label: i18n[state.selectedLanguage]?.safety || '安全' },
-        { id: 'subscription', icon: '💳', label: i18n[state.selectedLanguage]?.subscription || '訂閱' },
-        { id: 'profile', icon: '👤', label: i18n[state.selectedLanguage]?.profile || '個人資料' }
+        { id: 'home', icon: '🏠', label: t.home || 'Home' },
+        { id: 'rideRequest', icon: '🚕', label: t.ride || 'Ride' },
+        { id: 'messages', icon: '💬', label: t.msg || 'Messages' },
+        { id: 'orders', icon: '📋', label: t.orders || 'Orders' },
+        { id: 'cancelOrder', icon: '❌', label: t.cancel_order || 'Cancel Order' },
+        { id: 'safety', icon: '🛡️', label: t.safety || 'Safety' },
+        { id: 'subscription', icon: '💳', label: t.subscription || 'Subscription' },
+        { id: 'profile', icon: '👤', label: t.profile || 'Profile' }
       ];
       
       menu.innerHTML = items.map(item => 
@@ -1335,27 +2011,58 @@
         <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--lightGray);">
           <div class="sidebar-item" onclick="logout()" style="color: #ef4444;">
             <span style="font-size: 20px;">🚪</span>
-            <span>${i18n[state.selectedLanguage]?.logout || '登出'}</span>
+            <span>${t.logout || 'Logout'}</span>
           </div>
         </div>
       `;
     }
     
-    // Render Countries
+    // Render Countries by Uber Regions
     function renderCountries() {
       const list = document.getElementById('countryList');
-      list.innerHTML = countries.map(c => `
-        <div class="country-item ${state.selectedCountry?.code === c.code ? 'selected' : ''}" onclick="selectCountry('${c.code}')">
-          <span class="country-flag">${c.flag}</span>
-          <span class="country-name">${c.name}</span>
-          <span style="color: rgba(255,255,255,0.5); font-size: 13px;">${c.currency}</span>
-        </div>
-      `).join('');
+      let html = '';
+      
+      for (const [region, countries] of Object.entries(countriesByRegion)) {
+        html += `
+          <div class="uber-region" onclick="toggleRegion(this)">
+            <div class="uber-region-header">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"/></svg>
+              <span class="uber-region-name">${region}</span>
+              <span style="color: rgba(255,255,255,0.5); font-size: 12px;">${countries.length} countries</span>
+            </div>
+            <div class="uber-region-countries">
+              ${countries.map(c => `
+                <div class="uber-country ${state.selectedCountry?.code === c.code ? 'selected' : ''}" onclick="event.stopPropagation(); selectCountry('${c.code}')">
+                  <span class="country-flag">${c.flag}</span>
+                  <span class="country-name" style="flex: 1;">${c.name}</span>
+                  <span style="color: rgba(255,255,255,0.5); font-size: 13px;">${c.currency}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      
+      list.innerHTML = html;
+    }
+    
+    function toggleRegion(el) {
+      el.classList.toggle('expanded');
     }
     
     function filterCountries() {
       const search = document.getElementById('countrySearch').value.toLowerCase();
-      const filtered = countries.filter(c => c.name.toLowerCase().includes(search));
+      
+      if (!search) {
+        renderCountries();
+        return;
+      }
+      
+      const filtered = allCountries.filter(c => 
+        c.name.toLowerCase().includes(search) || 
+        c.code.toLowerCase().includes(search)
+      );
+      
       const list = document.getElementById('countryList');
       list.innerHTML = filtered.map(c => `
         <div class="country-item ${state.selectedCountry?.code === c.code ? 'selected' : ''}" onclick="selectCountry('${c.code}')">
@@ -1367,7 +2074,7 @@
     }
     
     function selectCountry(code) {
-      state.selectedCountry = countries.find(c => c.code === code);
+      state.selectedCountry = allCountries.find(c => c.code === code);
       document.getElementById('selectedCountryFlag').textContent = state.selectedCountry.flag;
       document.getElementById('selectedCountryName').textContent = state.selectedCountry.name;
       document.getElementById('selectedCountryCurrency').textContent = state.selectedCountry.currency;
@@ -1378,7 +2085,7 @@
     // Render Plans
     function renderPlans() {
       const container = document.getElementById('subscriptionPlans');
-      const t = i18n[state.selectedLanguage] || i18n.zh;
+      const t = i18n[state.selectedLanguage] || i18n.en;
       
       if (state.hasSubscription || state.user?.isVip) {
         container.innerHTML = `
@@ -1386,18 +2093,18 @@
             <div class="subscription-active-icon">
               <svg width="24" height="24" fill="none" stroke="white" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
             </div>
-            <h3>${t.vip_free || 'VIP 免費使用'}</h3>
-            <p>${t.active_subscription || '已訂閱'}</p>
+            <h3>${t.vip_free || 'VIP Free Access'}</h3>
+            <p>${t.active_subscription || 'Active Subscription'}</p>
           </div>
-          <button class="btn btn-black" onclick="goTo('home')">${t.home || '主頁'}</button>
+          <button class="btn btn-black" onclick="goTo('home')">${t.home || 'Home'}</button>
         `;
       } else {
         container.innerHTML = plans.map(plan => `
           <div class="plan-card">
             ${plan.badge ? `<div class="plan-badge">${plan.badge}</div>` : ''}
             <div class="plan-price">$${plan.price}</div>
-            <div class="plan-period">${t[plan.label]} ${t.per_month}</div>
-            <button class="btn btn-primary" onclick="subscribe('${plan.priceId}')">${t.subscribe_now || '立即訂閱'}</button>
+            <div class="plan-period">${t[plan.label] || plan.label} ${t.per_month}</div>
+            <button class="btn btn-primary" onclick="subscribe('${plan.priceId}')">${t.subscribe_now || 'Subscribe Now'}</button>
           </div>
         `).join('');
       }
@@ -1424,11 +2131,12 @@
       renderLanguages();
       applyTranslations();
       renderSidebarMenu();
+      renderPlans();
     }
     
     // Apply Translations
     function applyTranslations() {
-      const t = i18n[state.selectedLanguage] || i18n.zh;
+      const t = i18n[state.selectedLanguage] || i18n.en;
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (t[key]) el.textContent = t[key];
@@ -1438,12 +2146,12 @@
     // Render Orders
     function renderOrders() {
       const list = document.getElementById('ordersList');
-      const t = i18n[state.selectedLanguage] || i18n.zh;
+      const t = i18n[state.selectedLanguage] || i18n.en;
       
       list.innerHTML = orders.map(order => `
         <div class="card">
           <div class="order-header">
-            <span class="order-id">${t.order || '訂單'} #${order.id}</span>
+            <span class="order-id">Order #${order.id}</span>
             <span class="order-status ${order.status}">${t[order.status] || order.status}</span>
           </div>
           <div class="order-route">
@@ -1503,7 +2211,7 @@
         state.hasSubscription = false;
         document.getElementById('profileEmail').textContent = email;
         document.getElementById('profileInitial').textContent = email[0].toUpperCase();
-        btn.textContent = i18n[state.selectedLanguage]?.sign_in || '登入';
+        btn.textContent = i18n[state.selectedLanguage]?.sign_in || 'Sign In';
         btn.disabled = false;
         goTo('country');
       }, 1000);
@@ -1527,7 +2235,7 @@
       const code = document.getElementById('regCode').value.toUpperCase();
       
       if (password !== confirm) {
-        alert('密碼不一致');
+        alert('Passwords do not match');
         return;
       }
       
@@ -1553,7 +2261,7 @@
       const dropoff = document.getElementById('dropoffInput').value;
       
       if (!pickup || !dropoff) {
-        alert('請填寫上車和目的地');
+        alert('Please fill in pickup and dropoff locations');
         return;
       }
       
